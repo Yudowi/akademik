@@ -1,0 +1,1970 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Akademik HSUQI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blue-900:#0C447C; --blue-700:#185FA5; --blue-500:#378ADD; --blue-100:#B5D4F4; --blue-50:#E6F1FB;
+    --ink:#122033; --muted:#5A6b7b; --hint:#8a97a5;
+    --bg:#EEF3F9; --card:#FFFFFF; --line:#E3EAF2;
+    --amber-bg:#FAEEDA; --amber-tx:#854F0B; --amber-solid:#EF9F27;
+    --green-bg:#E1F5EE; --green-tx:#0F6E56; --green-solid:#37c26f;
+    --red-bg:#FCEBEB; --red-tx:#A32D2D; --red-solid:#E24B4A;
+    --blue-bg:#E6F1FB; --blue-tx:#185FA5; --blue-solid:#378ADD;
+    --gray-bg:#EEF1F5; --gray-tx:#7a8898; --gray-solid:#c7cfd8;
+    --wa:#25D366; --wa-dark:#128C7E;
+    --chip-bg:#EEF1F5; --chip-tx:#7a8898;
+    --shadow:0 6px 22px rgba(18,40,80,.10);
+    --nav-h:64px; --side-w:248px; --top-h:64px;
+  }
+  html[data-theme="dark"]{
+    --blue-50:#15263A; --blue-100:#1E3A57;
+    --ink:#E7EEF6; --muted:#9FB0C2; --hint:#6E8093;
+    --bg:#0E1621; --card:#16212E; --line:#273544;
+    --amber-bg:#3A2E17; --amber-tx:#E7B667;
+    --green-bg:#123027; --green-tx:#5FD3A5;
+    --red-bg:#3A1E1E; --red-tx:#F0908E;
+    --blue-bg:#15263A; --blue-tx:#69A8EA;
+    --gray-bg:#1E2A38; --gray-tx:#8FA0B2;
+    --chip-bg:#1E2A38; --chip-tx:#9FB0C2;
+    --shadow:0 6px 22px rgba(0,0,0,.35);
+  }
+  html[data-theme="dark"] .card, html[data-theme="dark"] .rowitem, html[data-theme="dark"] .slot{background:var(--card)}
+  html[data-theme="dark"] body{background:var(--bg)}
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html,body{height:100%}
+  body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.5;-webkit-font-smoothing:antialiased}
+  button,input,textarea,select{font-family:inherit}
+  a{color:inherit;text-decoration:none}
+  ::-webkit-scrollbar{width:9px;height:9px}
+  ::-webkit-scrollbar-thumb{background:#cdd7e3;border-radius:10px}
+  ::-webkit-scrollbar-track{background:transparent}
+
+  /* ============ LOGIN ============ */
+  .login-wrap{position:fixed;inset:0;background:linear-gradient(150deg,#0C447C 0%,#185FA5 60%,#378ADD 130%);display:flex;align-items:center;justify-content:center;padding:22px;z-index:100;overflow-y:auto}
+  .login-cardwrap{width:100%;max-width:400px;margin:auto}
+  .login-brand{text-align:center;color:#fff;margin-bottom:22px}
+  .login-brand .logo{width:72px;height:72px;border-radius:20px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:36px}
+  .login-brand h1{font-size:25px;font-weight:800;letter-spacing:.2px}
+  .login-brand p{font-size:13px;opacity:.85;margin-top:4px}
+  .login-card{background:#fff;border-radius:22px;padding:26px 22px;box-shadow:0 18px 55px rgba(0,0,0,.3)}
+  .login-card h2{font-size:17px;font-weight:700}
+  .login-card .lsub{font-size:12.5px;color:var(--muted);margin:4px 0 18px}
+  .role-tabs{display:flex;gap:8px;margin-bottom:18px}
+  .role-tab{flex:1;border:1.5px solid var(--line);background:var(--card);border-radius:12px;padding:13px 6px;text-align:center;cursor:pointer;transition:.18s}
+  .role-tab .nm{font-size:12.5px;font-weight:700;color:var(--muted);letter-spacing:.1px}
+  .role-tab.on{border-color:var(--blue-700);background:var(--blue-50);box-shadow:0 3px 10px rgba(24,95,165,.12)}
+  .role-tab.on .nm{color:var(--blue-700)}
+  .login-brand .logo{width:66px;height:66px;border-radius:19px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;margin:0 auto 15px}
+  .login-err{background:var(--red-bg);border:1px solid #F3C7C7;color:var(--red-tx);font-size:12.5px;padding:10px 12px;border-radius:10px;margin-bottom:14px;display:none}
+  .login-err.show{display:block}
+  .login-demo{margin-top:15px;border-top:1px solid var(--line);padding-top:14px}
+  .login-demo .dh{font-size:11.5px;color:var(--hint);text-align:center;margin-bottom:10px}
+  .demo-chip{display:flex;align-items:center;gap:10px;width:100%;background:var(--blue-50);border:1px solid var(--blue-100);border-radius:12px;padding:10px 12px;margin-bottom:8px;cursor:pointer;text-align:left}
+  .demo-chip:active{transform:scale(.99)}
+  .demo-chip .av{width:36px;height:36px;border-radius:50%;background:var(--blue-700);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0}
+  .demo-chip .r{font-size:12.5px;font-weight:700;color:var(--ink)}
+  .demo-chip .e{font-size:11px;color:var(--muted)}
+  .login-foot{text-align:center;color:#fff;opacity:.8;font-size:11.5px;margin-top:16px}
+
+  /* ============ APP SHELL (RESPONSIVE) ============ */
+  .app{display:none;min-height:100vh}
+  .app.show{display:block}
+
+  /* Top bar */
+  .topbar{position:fixed;top:0;left:0;right:0;height:var(--top-h);background:var(--blue-700);color:#fff;display:flex;align-items:center;gap:12px;padding:0 16px;z-index:50}
+  .topbar .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:16px}
+  .topbar .brand .mark{width:32px;height:32px;border-radius:9px;background:rgba(255,255,255,.16);display:flex;align-items:center;justify-content:center;font-size:17px}
+  .topbar .ttl{min-width:0}
+  .topbar .ttl h1{font-size:16px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .topbar .ttl .s{font-size:11.5px;opacity:.85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .topbar .spacer{flex:1}
+  .role-badge{font-size:10px;font-weight:800;background:rgba(255,255,255,.2);padding:4px 9px;border-radius:20px;letter-spacing:.4px}
+  .icon-btn{background:rgba(255,255,255,.16);border:none;color:#fff;width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;flex-shrink:0}
+  .icon-btn:active{transform:scale(.95)}
+  .notif-dot{position:absolute;top:7px;right:8px;min-width:15px;height:15px;padding:0 3px;border-radius:8px;background:var(--red-solid);color:#fff;font-size:9px;font-weight:800;display:flex;align-items:center;justify-content:center;border:2px solid var(--blue-700)}
+  .avatar{width:38px;height:38px;border-radius:50%;background:var(--blue-900);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;cursor:pointer;flex-shrink:0}
+
+  /* Sidebar (desktop) */
+  .sidebar{position:fixed;top:var(--top-h);left:0;bottom:0;width:var(--side-w);background:var(--card);border-right:1px solid var(--line);padding:14px 12px;overflow-y:auto;z-index:40;display:none}
+  .side-link{display:flex;align-items:center;gap:12px;padding:11px 13px;border-radius:12px;font-size:14px;font-weight:600;color:var(--muted);cursor:pointer;margin-bottom:3px}
+  .side-link .ico{color:var(--hint);display:flex}
+  .side-link:hover{background:var(--blue-50)}
+  .side-link.on{background:var(--blue-700);color:#fff}
+  .side-link.on .ico{color:#fff}
+  .side-sec{font-size:10.5px;font-weight:800;letter-spacing:.6px;color:var(--hint);text-transform:uppercase;padding:14px 13px 6px}
+
+  /* Content */
+  .content{padding:calc(var(--top-h) + 16px) 16px calc(var(--nav-h) + 24px);max-width:640px;margin:0 auto}
+
+  /* Bottom nav (mobile) - TRULY FIXED */
+  .bottomnav{position:fixed;left:0;right:0;bottom:0;height:calc(var(--nav-h) + env(safe-area-inset-bottom,0px));padding-bottom:env(safe-area-inset-bottom,0px);background:var(--card);border-top:1px solid var(--line);display:flex;z-index:60;box-shadow:0 -2px 14px rgba(18,40,80,.06)}
+  .bottomnav button{flex:1;background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--hint);font-size:10px;font-weight:700;padding:0}
+  .bottomnav button .ico{display:flex}
+  .bottomnav button.on{color:var(--blue-700)}
+
+  /* DESKTOP LAYOUT */
+  @media(min-width:900px){
+    :root{--top-h:66px}
+    .sidebar{display:block}
+    .bottomnav{display:none}
+    .content{margin-left:var(--side-w);max-width:920px;padding:calc(var(--top-h) + 22px) 30px 40px;margin-right:auto}
+    .topbar .brand{width:calc(var(--side-w) - 28px)}
+    .fab{display:none!important}
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+    .desk-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+  }
+  @media(max-width:899px){
+    .brand-full{display:none}
+    .desk-only{display:none!important}
+  }
+  @media(min-width:900px){ .mob-only{display:none!important} }
+
+  /* ============ COMPONENTS ============ */
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:15px 16px;box-shadow:var(--shadow)}
+  .card+.card{margin-top:12px}
+  .sec-title{font-size:14px;font-weight:700;margin:18px 2px 11px;display:flex;align-items:center;justify-content:between}
+  .sec-title .more{margin-left:auto;font-size:12.5px;color:var(--blue-700);font-weight:600;cursor:pointer}
+  .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(min-width:900px){.stat-grid{grid-template-columns:repeat(4,1fr)}}
+  .stat{border-radius:15px;padding:15px;border:1px solid var(--line);background:var(--card);cursor:pointer}
+  .stat .n{font-size:26px;font-weight:800;line-height:1}
+  .stat .l{font-size:12px;color:var(--muted);margin-top:7px;font-weight:600}
+  .alert-x{position:absolute;top:6px;right:6px;width:22px;height:22px;border-radius:50%;border:none;background:transparent;color:var(--hint);cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
+  .alert-x:hover{background:var(--gray-bg);color:var(--red-tx)}
+  .alert-card{touch-action:pan-y}
+  .grad-blue{background:linear-gradient(135deg,#0C447C 0%,#185FA5 55%,#378ADD 115%)!important;box-shadow:0 12px 30px rgba(12,68,124,.32)}
+  .grad-hero{background:linear-gradient(135deg,#0C447C 0%,#185FA5 60%,#3A8FE0 120%)!important;box-shadow:0 12px 30px rgba(12,68,124,.30)}
+  .topbar{background:linear-gradient(100deg,#0C447C 0%,#185FA5 100%)}
+  .stat.hero .l{color:rgba(255,255,255,.9)}
+
+  .pill{font-size:11px;padding:2px 9px;border-radius:20px;font-weight:700;display:inline-block}
+  .pill.subj{color:var(--blue-700);background:var(--blue-50)}
+  .pill.lvl{color:var(--chip-tx);background:var(--chip-bg)}
+  .badge{font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;display:inline-block}
+  .badge.todo{background:var(--amber-bg);color:var(--amber-tx)}
+  .badge.done{background:var(--green-bg);color:var(--green-tx)}
+  .badge.late{background:var(--red-bg);color:var(--red-tx)}
+  .badge.gray{background:var(--chip-bg);color:var(--chip-tx)}
+  .badge.info{background:var(--blue-50);color:var(--blue-700)}
+
+  .chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;margin-bottom:12px;scrollbar-width:none}
+  .chips::-webkit-scrollbar{display:none}
+  .chip{white-space:nowrap;font-size:12.5px;font-weight:600;padding:8px 15px;border-radius:22px;border:1px solid var(--line);background:var(--card);color:var(--muted);cursor:pointer;flex-shrink:0}
+  .chip.on{background:var(--blue-700);color:#fff;border-color:var(--blue-700)}
+
+  .seg{display:flex;background:var(--chip-bg);border-radius:12px;padding:4px;margin-bottom:14px;overflow-x:auto;scrollbar-width:none}
+  .seg::-webkit-scrollbar{display:none}
+  .seg button{flex:1;white-space:nowrap;border:none;background:none;font-size:12.5px;font-weight:700;color:var(--muted);padding:9px 12px;border-radius:9px;cursor:pointer}
+  .seg button.on{background:var(--card);color:var(--blue-700);box-shadow:0 1px 3px rgba(0,0,0,.09)}
+
+  .field{margin-bottom:14px}
+  .field label{display:block;font-size:12.5px;font-weight:700;color:var(--ink);margin-bottom:6px}
+  .field input,.field textarea,.field select{width:100%;font-size:13.5px;padding:11px 13px;border:1px solid var(--line);border-radius:11px;background:var(--card);color:var(--ink);outline:none}
+  .field input:focus,.field textarea:focus,.field select:focus{border-color:var(--blue-500)}
+  .field textarea{min-height:70px;resize:vertical}
+
+  .btn{width:100%;border:none;padding:13px;border-radius:12px;font-size:14.5px;font-weight:700;cursor:pointer;background:var(--blue-700);color:#fff}
+  .btn:active{transform:scale(.99)}
+  .btn.ghost{background:transparent;color:var(--blue-700);border:1px solid var(--blue-100)}
+  .btn.green{background:var(--green-tx)}
+  .btn.red{background:var(--red-tx)}
+  .btn.wa{background:var(--wa)}
+  .btn.sm{width:auto;padding:9px 14px;font-size:13px;border-radius:10px;display:inline-flex;align-items:center;gap:7px}
+  .btn.amber{background:var(--amber-solid)}
+
+  .hint{display:flex;gap:9px;align-items:flex-start;font-size:12px;color:var(--muted);background:var(--blue-50);border-radius:11px;padding:11px 12px;margin-bottom:14px;line-height:1.5}
+  .hint .ic{color:var(--blue-700);flex-shrink:0;margin-top:1px;display:flex}
+  .hint.amber{background:var(--amber-bg);color:var(--amber-tx)}
+  .hint.amber .ic{color:var(--amber-tx)}
+
+  .locked{text-align:center;padding:40px 20px;background:var(--red-bg);border:1px solid #F3C7C7;border-radius:16px;color:var(--red-tx)}
+  .locked .em{font-size:38px;margin-bottom:10px}
+  .locked .t{font-size:15px;font-weight:800}
+  .locked .d{font-size:12.5px;margin-top:6px;opacity:.9}
+  .empty{text-align:center;color:var(--hint);font-size:13px;padding:30px 10px}
+
+  .rowitem{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:13px;padding:11px 13px;margin-bottom:9px}
+  .rowitem .av{width:42px;height:42px;border-radius:50%;background:var(--blue-50);color:var(--blue-700);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0}
+  .rowitem .grow{flex:1;min-width:0}
+  .rowitem .nm{font-size:14px;font-weight:600}
+  .rowitem .sub{font-size:12px;color:var(--muted);margin-top:1px}
+  .mini-btn{width:38px;height:38px;border-radius:11px;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+  .mini-btn.wa{background:var(--wa);color:#fff}
+  .mini-btn.chat{background:var(--blue-50);color:var(--blue-700)}
+
+  .bar{height:9px;border-radius:6px;background:var(--line);overflow:hidden}
+  .bar>span{display:block;height:100%;border-radius:6px;background:var(--blue-700)}
+
+  /* FAB */
+  .fab{position:fixed;right:16px;bottom:calc(var(--nav-h) + 18px);width:56px;height:56px;border-radius:50%;background:var(--blue-700);color:#fff;border:none;box-shadow:0 8px 22px rgba(24,95,165,.5);cursor:pointer;z-index:55;display:flex;align-items:center;justify-content:center;transition:transform .2s}
+  .fab.open{transform:rotate(45deg)}
+  .fab-menu{position:fixed;right:18px;bottom:calc(var(--nav-h) + 84px);z-index:56;display:none;flex-direction:column;align-items:flex-end;gap:12px}
+  .fab-menu.show{display:flex}
+  .fab-menu .item{display:flex;align-items:center;gap:10px;cursor:pointer}
+  .fab-menu .item .lbl{background:var(--ink);color:#fff;font-size:12px;font-weight:700;padding:6px 11px;border-radius:8px}
+  .fab-menu .item .cir{width:46px;height:46px;border-radius:50%;background:var(--card);color:var(--blue-700);display:flex;align-items:center;justify-content:center;box-shadow:0 3px 12px rgba(0,0,0,.2)}
+
+  /* Overlay + sheets/menus */
+  .overlay{position:fixed;inset:0;background:rgba(10,20,40,.4);z-index:70;display:none}
+  .overlay.show{display:block}
+  .menu{position:fixed;top:58px;right:14px;width:262px;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 16px 40px rgba(0,0,0,.24);z-index:80;overflow:hidden;display:none}
+  .menu.show{display:block}
+  .menu .head{display:flex;gap:11px;align-items:center;padding:15px 14px;border-bottom:1px solid var(--line)}
+  .menu .head .av{width:42px;height:42px;border-radius:50%;background:var(--blue-700);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700}
+  .menu .item{display:flex;align-items:center;gap:12px;padding:13px 15px;font-size:13.5px;font-weight:600;cursor:pointer}
+  .menu .item .ico{color:var(--blue-700);display:flex}
+  .menu .item:hover{background:var(--blue-50)}
+  .menu .item.danger{color:var(--red-tx)}
+  .menu .item.danger .ico{color:var(--red-tx)}
+  .menu .item .ch{margin-left:auto;color:var(--hint)}
+
+  /* Modal */
+  .modal{position:fixed;inset:0;z-index:90;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(10,20,40,.45)}
+  .modal.show{display:flex}
+  .modal .box{background:var(--card);border-radius:18px;width:100%;max-width:420px;max-height:86vh;overflow-y:auto;padding:18px}
+  .modal .box .mh{display:flex;align-items:center;margin-bottom:14px}
+  .modal .box .mh .t{font-size:16px;font-weight:700}
+  .modal .box .mh .x{margin-left:auto;background:var(--chip-bg);border:none;width:32px;height:32px;border-radius:9px;cursor:pointer;color:var(--muted);display:flex;align-items:center;justify-content:center}
+
+  /* Toast */
+  .toast{position:fixed;bottom:calc(var(--nav-h) + 30px);left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:12px 20px;border-radius:26px;font-size:13px;font-weight:600;z-index:120;opacity:0;pointer-events:none;transition:.3s;max-width:90%;text-align:center}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  @media(min-width:900px){.toast{bottom:30px}}
+
+  /* Notifications */
+  .notif-item{display:flex;gap:12px;padding:13px;border-radius:13px;border:1px solid var(--line);background:var(--card);margin-bottom:9px}
+  .notif-item.unread{background:var(--blue-50);border-color:var(--blue-100)}
+  .notif-item .nic{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .notif-item .nt{font-size:13.5px;font-weight:700}
+  .notif-item .nd{font-size:12px;color:var(--muted);margin-top:2px;line-height:1.45}
+  .notif-item .nm{font-size:10.5px;color:var(--hint);margin-top:5px}
+  .notif-actions{display:flex;gap:8px;margin-top:9px;flex-wrap:wrap}
+
+  /* Chat */
+  .chat-ava{position:relative;flex-shrink:0}
+  .chat-ava .a{width:48px;height:48px;border-radius:50%;background:var(--blue-700);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px}
+  .chat-ava .a.grp{background:var(--blue-900)}
+  .chat-ava .a.bc{background:var(--amber-solid)}
+  .chat-ava .dot{position:absolute;bottom:1px;right:1px;width:12px;height:12px;border-radius:50%;border:2px solid #fff}
+  .chat-ava .dot.on{background:var(--green-solid)}.chat-ava .dot.off{background:#c7cfd8}
+  .chat-li{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:13px;padding:11px 13px;margin-bottom:8px;cursor:pointer}
+  .chat-li:active{transform:scale(.995)}
+  .chat-li .nm{font-size:14px;font-weight:700;display:flex;align-items:center;gap:6px}
+  .chat-li .last{font-size:12px;color:var(--hint);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .chat-li .meta{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+  .chat-li .tm{font-size:10.5px;color:var(--hint)}
+  .chat-unread{min-width:19px;height:19px;border-radius:10px;background:var(--blue-700);color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;padding:0 5px}
+
+  .thread{display:flex;flex-direction:column;height:calc(100vh - var(--top-h) - var(--nav-h) - 20px)}
+  @media(min-width:900px){.thread{height:calc(100vh - var(--top-h) - 70px)}}
+  .thread-head{display:flex;align-items:center;gap:11px;background:var(--card);border:1px solid var(--line);border-radius:13px;padding:10px 12px;margin-bottom:12px;flex-shrink:0}
+  .thread-head .a{width:42px;height:42px;border-radius:50%;background:var(--blue-700);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
+  .thread-head .a.grp{background:var(--blue-900)}
+  .thread-head .a.bc{background:var(--amber-solid)}
+  .thread-msgs{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:8px;padding:4px}
+  .cmsg{max-width:80%;padding:9px 12px;border-radius:15px;font-size:13px;line-height:1.45;position:relative}
+  .cmsg .who{font-size:11px;font-weight:800;color:var(--blue-700);margin-bottom:2px}
+  .cmsg .tm{font-size:9.5px;opacity:.7;margin-top:3px;text-align:right}
+  .cmsg.me{align-self:flex-end;background:var(--blue-700);color:#fff;border-bottom-right-radius:5px}
+  .cmsg.them{align-self:flex-start;background:var(--card);border:1px solid var(--line);color:var(--ink);border-bottom-left-radius:5px}
+  .cmsg.sys{align-self:center;background:var(--chip-bg);color:var(--chip-tx);font-size:11px;font-weight:600;border-radius:20px;padding:5px 12px}
+  .thread-input{display:flex;gap:8px;padding-top:10px;flex-shrink:0}
+  .thread-input input{flex:1;font-size:13.5px;padding:12px 15px;border:1px solid var(--line);border-radius:24px;background:var(--card);outline:none}
+  .thread-input input:focus{border-color:var(--blue-500)}
+  .thread-input button{width:46px;height:46px;border-radius:50%;background:var(--blue-700);color:#fff;border:none;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+  .bc-note{text-align:center;font-size:11.5px;color:var(--amber-tx);background:var(--amber-bg);border-radius:10px;padding:8px 12px;margin-top:8px}
+
+  /* schedule/attendance slot */
+  .slot{display:flex;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:13px;padding:12px 13px;margin-bottom:9px}
+  .slot.late{border-color:var(--red-solid);background:#FFF6F6}
+  .slot .time{font-size:12.5px;font-weight:800;color:var(--blue-700);min-width:52px;padding-top:1px}
+  .slot .divider{width:2px;background:var(--blue-100);border-radius:2px}
+  .slot .body{flex:1;min-width:0}
+  .slot .subj{font-size:14px;font-weight:700}
+  .slot .meta{font-size:12px;color:var(--muted);margin-top:2px}
+  .slot .tags{margin-top:7px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+
+  /* member list (create group) */
+  .mem{display:flex;align-items:center;gap:10px;padding:9px 4px;border-bottom:1px solid var(--line);cursor:pointer}
+  .mem .av{width:34px;height:34px;border-radius:50%;background:var(--blue-50);color:var(--blue-700);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px}
+  .mem .chk{margin-left:auto;width:22px;height:22px;border-radius:7px;border:2px solid var(--line);display:flex;align-items:center;justify-content:center}
+  .mem.sel .chk{background:var(--blue-700);border-color:var(--blue-700);color:#fff}
+
+  /* calendar */
+  .cal{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+  .cal .dow{text-align:center;font-size:10px;font-weight:800;color:var(--hint);padding:4px 0}
+  .cal .cell{min-height:38px;border-radius:9px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:12.5px;font-weight:600;cursor:pointer;border:1px solid transparent}
+  .cal .cell.today{border-color:var(--blue-500)}
+  .cal .cell.sel{background:var(--blue-700);color:#fff}
+  .cal .cell .ev{width:5px;height:5px;border-radius:50%;margin-top:3px}
+</style>
+</head>
+<body>
+
+<!-- ============ LOGIN ============ -->
+<div class="login-wrap" id="loginWrap">
+  <div class="login-cardwrap">
+    <div class="login-brand">
+      <div class="logo"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4L2 9l10 5 10-5-10-5z"/><path d="M6 11.2V16c0 1.4 2.7 2.6 6 2.6s6-1.2 6-2.6v-4.8"/><path d="M22 9v4.5"/></svg></div>
+      <h1>Akademik HSUQI</h1>
+      <p>Sistem Manajemen Akademik</p>
+    </div>
+    <div class="login-card">
+      <h2>Masuk ke akun Anda</h2>
+      <div class="lsub">Pilih peran & masukkan email untuk melanjutkan.</div>
+      <div class="role-tabs" id="roleTabs">
+        <div class="role-tab on" data-role="owner" onclick="pickRole(this)"><div class="nm">Owner</div></div>
+        <div class="role-tab" data-role="koor" onclick="pickRole(this)"><div class="nm">Koordinator</div></div>
+        <div class="role-tab" data-role="guru" onclick="pickRole(this)"><div class="nm">Guru</div></div>
+      </div>
+      <div class="login-err" id="loginErr"></div>
+      <div class="field"><label>Email</label><input id="loginEmail" type="email" placeholder="email@gmail.com" autocomplete="username"></div>
+      <div class="field"><label>Kata sandi</label><input id="loginPass" type="password" placeholder="••••••••" autocomplete="current-password"></div>
+      <button class="btn" onclick="doLogin()">Masuk</button>
+      <div class="login-demo">
+        <div class="dh">Akun demo · ketuk untuk isi otomatis</div>
+        <button class="demo-chip" onclick="fillDemo('owner')"><span class="av">OW</span><span><div class="r">Owner / Pemilik</div><div class="e">ownerhsuqi@gmail.com</div></span></button>
+        <button class="demo-chip" onclick="fillDemo('koor')"><span class="av">KO</span><span><div class="r">Koordinator Akademik</div><div class="e">koorakademik@gmail.com</div></span></button>
+        <button class="demo-chip" onclick="fillDemo('guru')"><span class="av">GU</span><span><div class="r">Guru Pengajar (Matematika)</div><div class="e">guruhsuqi@gmail.com</div></span></button>
+      </div>
+    </div>
+    <div class="login-foot">© 2026 Yayasan HSUQI · Versi 3.0</div>
+  </div>
+</div>
+
+<!-- ============ APP ============ -->
+<div class="app" id="app">
+  <div class="topbar">
+    <div class="brand brand-full"><span class="mark"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4L2 9l10 5 10-5-10-5z"/><path d="M6 11.2V16c0 1.4 2.7 2.6 6 2.6s6-1.2 6-2.6v-4.8"/></svg></span><span>HSUQI</span></div>
+    <button class="icon-btn mob-only" id="backBtn" onclick="goBack()" style="display:none"></button>
+    <div class="ttl"><h1 id="barTitle">Beranda</h1><div class="s" id="barSub">Akademik HSUQI</div></div>
+    <div class="spacer"></div>
+    <span class="role-badge" id="roleBadge">OWNER</span>
+    <button class="icon-btn" id="searchBtn" onclick="go('search')"><span id="searchIcon"></span></button>
+    <button class="icon-btn" id="notifBtn" onclick="go('notifikasi')"><span id="notifIcon"></span><span class="notif-dot" id="notifDot" style="display:none">0</span></button>
+    <div class="avatar" id="appAvatar" onclick="toggleMenu()">PJ</div>
+  </div>
+
+  <aside class="sidebar" id="sidebar"></aside>
+
+  <main class="content" id="content"></main>
+
+  <!-- FAB -->
+  <div class="fab-menu" id="fabMenu"></div>
+  <button class="fab" id="fab" onclick="fabClick()"></button>
+
+  <!-- Bottom nav -->
+  <nav class="bottomnav" id="bottomnav"></nav>
+</div>
+
+<!-- overlay/menu/modal/toast -->
+<div class="overlay" id="overlay" onclick="closeAllPop()"></div>
+<div class="menu" id="menu"></div>
+<div class="modal" id="modal"><div class="box" id="modalBox"></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ================= ICON SET ================= */
+const IC = {
+  todo:'<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8.5 12l2.2 2.2 4.5-4.6"/>',
+  doc2:'<path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5"/><path d="M9 12h6M9 16h4"/>',
+  soal:'<circle cx="12" cy="12" r="9"/><path d="M9.5 9.2a2.5 2.5 0 114 2c-.9.7-1.5 1.1-1.5 2.1"/><path d="M12 17h.01"/>',
+  obs:'<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/><path d="M12 5V3M19 8l1.5-1.5"/>',
+  star:'<path d="M12 3l2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 16.9 6.9 19l1-5.8L3.7 9.1l5.8-.8z"/>',
+  pin:'<path d="M12 21s-7-6.3-7-11a7 7 0 0114 0c0 4.7-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>',
+  flag:'<path d="M5 21V4M5 4h11l-2 3 2 3H5"/>',
+  folder:'<path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>',
+  upload:'<path d="M12 16V5M8 9l4-4 4 4"/><path d="M5 19h14"/>',
+  download:'<path d="M12 5v11M8 12l4 4 4-4"/><path d="M5 19h14"/>',
+  copy:'<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 012-2h8"/>',
+  activity:'<path d="M3 12h4l2 6 4-13 2 7h6"/>',
+  grid:'<rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/>',
+  sparkle:'<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/>',
+  dots:'<circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/>',
+  trash:'<path d="M4 7h16M9 7V5a1 1 0 011-1h4a1 1 0 011 1v2M6 7l1 13h10l1-13"/>',
+  home:'<path d="M3 11l9-8 9 8"/><path d="M5 10v10h5v-6h4v6h5V10"/>',
+  refleksi:'<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/>',
+  check:'<circle cx="12" cy="12" r="9"/><path d="M8.3 12.4l2.5 2.5 4.7-5.2"/>',
+  calendar:'<rect x="4" y="5" width="16" height="16" rx="2"/><path d="M4 9h16M8 3v4M16 3v4"/>',
+  chart:'<path d="M3 20h18"/><path d="M6 20V11M12 20V5M18 20v-7"/>',
+  users:'<circle cx="9" cy="8" r="3.2"/><path d="M3.5 20c0-3.2 2.5-5.5 5.5-5.5s5.5 2.3 5.5 5.5"/><path d="M16 5.4a3 3 0 010 5.6"/><path d="M17.5 14.6c2.2.5 4 2.4 4 5.4"/>',
+  school:'<path d="M3 21h18"/><path d="M5 21V8l7-4 7 4v13"/><path d="M10 21v-5h4v5"/>',
+  bell:'<path d="M6 9a6 6 0 0112 0c0 4.5 2 5.5 2 5.5H4S6 13.5 6 9"/><path d="M10 20a2 2 0 004 0"/>',
+  document:'<path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h5"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>',
+  search:'<circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/>',
+  back:'<path d="M15 6l-6 6 6 6"/>',
+  close:'<path d="M6 6l12 12M18 6L6 18"/>',
+  user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/>',
+  gear:'<circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v2.5M12 19v2.5M4.6 4.6l1.8 1.8M17.6 17.6l1.8 1.8M2.5 12H5M19 12h2.5M4.6 19.4l1.8-1.8M17.6 6.4l1.8-1.8"/>',
+  chevron:'<path d="M9 6l6 6-6 6"/>',
+  info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>',
+  video:'<rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3"/>',
+  grade:'<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1"/><path d="M8.5 13l2 2 4-4"/>',
+  logout:'<path d="M15 4h3a2 2 0 012 2v12a2 2 0 01-2 2h-3"/><path d="M10 12h9M16 8l4 4-4 4"/>',
+  lock:'<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/>',
+  chat:'<path d="M4 5h16a1 1 0 011 1v10a1 1 0 01-1 1H9l-4 4V6a1 1 0 011-1"/><path d="M8 10h8M8 13h5"/>',
+  sync:'<path d="M4 12a8 8 0 0113.9-5.4L20 8"/><path d="M20 4v4h-4"/><path d="M20 12a8 8 0 01-13.9 5.4L4 16"/><path d="M4 20v-4h4"/>',
+  send:'<path d="M4 12l16-7-7 16-2.5-6.5z"/>',
+  wa:'<path d="M12 3a9 9 0 00-7.7 13.6L3 21l4.5-1.2A9 9 0 1012 3z"/><path d="M8.5 8.5c0 4 3 7 6.5 7 .8 0 1.3-.6 1.3-1.2 0-.3-.2-.6-.5-.8l-1.4-.7c-.3-.1-.6 0-.8.2l-.4.5c-1-.4-1.9-1.3-2.3-2.3l.5-.4c.2-.2.3-.5.2-.8l-.7-1.4c-.2-.3-.5-.5-.8-.5-.6 0-1.3.5-1.3 1.3z"/>',
+  clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  broadcast:'<path d="M4 9v6h4l6 4V5L8 9H4z"/><path d="M17 8a5 5 0 010 8"/>',
+  eye:'<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/>',
+  megaphone:'<path d="M3 11v2a1 1 0 001 1h2l4 4V6L6 10H4a1 1 0 00-1 1z"/><path d="M14 8a4 4 0 010 8"/>',
+  bgroup:'<circle cx="8" cy="9" r="2.5"/><circle cx="16" cy="9" r="2.5"/><path d="M3 19c0-2.5 2.2-4 5-4s5 1.5 5 4"/><path d="M13 19c0-2 1.5-3.5 4-3.5s4 1.5 4 3.5"/>',
+};
+function icon(n,s){ s=s||22; return '<svg viewBox="0 0 24 24" width="'+s+'" height="'+s+'" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+(IC[n]||'')+'</svg>'; }
+
+/* ================= CONST ================= */
+const TODAY='7 Juli', TODAYISO='2026-07-07', TODAY_DAY='Senin';
+const NOW_MIN = 8*60+7; // waktu "sekarang" simulasi: 08:07 (untuk demo keterlambatan)
+const BULAN=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+const HARI=['Ahad','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+const DAYS=['Senin','Selasa','Rabu','Kamis','Jumat'];
+const SUBJECTS=['Matematika','Bahasa Indonesia','Bahasa Inggris','IPA','IPS','PAI','PJOK'];
+const MAX_SANTRI=12;
+const esc=s=>(s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const initials=n=>(n||'').replace(/^(Ustadz|Ustadzah|Dr\.|Ust\.)\s*/,'').split(' ').filter(Boolean).slice(0,2).map(w=>w[0]).join('').toUpperCase();
+const av2=n=>(n||'').replace(/^(Ustadz|Ustadzah|Dr\.|Ust\.)\s*/,'').trim().slice(0,2).toUpperCase();
+const pick=(a,i)=>a[((i%a.length)+a.length)%a.length];
+function timeToMin(t){const[h,m]=t.split('.').map(Number);return h*60+m;}
+function fmtDate(iso){const d=new Date(iso+'T00:00:00');return HARI[d.getDay()]+', '+d.getDate()+' '+BULAN[d.getMonth()]+' '+d.getFullYear();}
+
+/* ================= ACCOUNTS ================= */
+const ACCOUNTS={
+  owner:{email:'ownerhsuqi@gmail.com',pass:'owner123',name:'Owner HSUQI',jab:'Owner / Pemilik',avatar:'OW',wa:'6281200000001'},
+  koor:{email:'koorakademik@gmail.com',pass:'koor123',name:'Koordinator Akademik',jab:'Koordinator Akademik',avatar:'KO',wa:'6281200000002'},
+  guru:{email:'guruhsuqi@gmail.com',pass:'guru123',name:'Ustadz Ahmad Fauzi',jab:'Guru Matematika',avatar:'AF',wa:'6281200000003',subj:'Matematika'},
+};
+
+/* ================= DATA GEN ================= */
+const FN=['Ahmad','Muhammad','Abdullah','Umar','Yusuf','Bilal','Hamzah','Zaid','Ali','Ibrahim','Khalid','Salman','Anas','Ridwan','Fauzan','Hakim','Ilham','Rafi','Aziz','Faris'];
+const FNF=['Aisyah','Fatimah','Khadijah','Maryam','Zainab','Hafshah','Nabila','Salsabila','Hanifah','Aqila','Rahmawati','Anita','Nadia','Husna','Latifah','Amira','Syifa','Alya','Karimah','Zahra'];
+const LN=['Putra','Ramadhan','Hakim','Ibrahim','Nur','Hidayat','Maulana','Saputra','Wijaya','Pratama','Aulia','Firdaus','Habibi','Anwar','Fauzi'];
+const LEVELS=[['SD','Kelas 1',24],['SD','Kelas 2',24],['SD','Kelas 3',22],['SD','Kelas 4',22],['SD','Kelas 5',20],['SD','Kelas 6',18],['SMP','Kelas 7',24],['SMP','Kelas 8',22],['SMP','Kelas 9',20],['SMA','Kelas 10',26],['SMA','Kelas 11',24],['SMA','Kelas 12',22]];
+function splitSec(n){const s=Math.ceil(n/MAX_SANTRI);const b=Math.floor(n/s);const r=n-b*s;const o=[];for(let i=0;i<s;i++)o.push(b+(i<r?1:0));return o;}
+
+let ST = null; // global state
+function buildState(){
+  // classes
+  const classes=[]; let cid=1;
+  LEVELS.forEach(L=>{ splitSec(L[2]).forEach((cnt,idx)=>{ classes.push({id:cid++, jenjang:L[0], kelas:L[1]+String.fromCharCode(65+idx), cap:MAX_SANTRI, santri:cnt}); }); });
+  // teachers (guru mapel). Guru demo = index 0 (Ahmad Fauzi, Matematika)
+  const teachers=[];
+  teachers.push({id:1, name:'Ustadz Ahmad Fauzi', subj:'Matematika', jenjang:'SMP', wali:'Kelas 7A', wa:'6281200000003', email:'guruhsuqi@gmail.com', tugas:'Wali Kelas', gender:'L'});
+  let tid=2;
+  for(let i=0;i<39;i++){ const fem=i%2===0; const nm=(fem?'Ustadzah ':'Ustadz ')+(fem?pick(FNF,i):pick(FN,i+3))+' '+pick(LN,i*2+1);
+    teachers.push({id:tid++, name:nm, subj:pick(SUBJECTS,i+1), jenjang:['SD','SMP','SMA'][i%3], wali:i%4===0?pick(classes,i).kelas:'', wa:'628126'+String(100000+i).slice(-6), email:'guru'+(i+1)+'@hsuqi.sch.id', tugas:i%4===0?'Wali Kelas':'Guru Mapel', gender:fem?'P':'L'}); }
+  // schedule today (per kelas, per slot). Koor yang menyusun.
+  const TIMES=[['07.30','08.15'],['08.15','09.00'],['09.30','10.15'],['10.15','11.00'],['13.00','13.45']];
+  const schedule=[]; let sid=1;
+  // buat jadwal utk beberapa kelas hari ini
+  classes.slice(0,8).forEach((c,ci)=>{
+    for(let s=0;s<3;s++){ const t=teachers[(ci*3+s)%teachers.length]; const tm=TIMES[s];
+      schedule.push({id:sid++, day:TODAY_DAY, start:tm[0], end:tm[1], subj:t.subj, jenjang:c.jenjang, kelas:c.kelas, guruId:t.id, guru:t.name}); } });
+  // pastikan guru demo (id 1) punya 2 slot hari ini: 1 sudah lewat (telat), 1 akan datang
+  schedule.push({id:sid++, day:TODAY_DAY, start:'07.30', end:'08.15', subj:'Matematika', jenjang:'SMP', kelas:'Kelas 7A', guruId:1, guru:teachers[0].name});
+  schedule.push({id:sid++, day:TODAY_DAY, start:'09.30', end:'10.15', subj:'Matematika', jenjang:'SMP', kelas:'Kelas 8A', guruId:1, guru:teachers[0].name});
+  // attendance state per schedule id: {status:'pending'|'confirmed', at:'08.02'}
+  const attend={};
+  // beberapa sudah konfirmasi utk contoh
+  schedule.forEach((s,i)=>{ if(i%3===0 && timeToMin(s.start)<=NOW_MIN) attend[s.id]={status:'confirmed', at:s.start}; });
+
+  // refleksi
+  const HASIL=['Materi tersampaikan baik, siswa aktif.','Diskusi lancar, partisipasi meningkat.','Latihan soal dikerjakan, pemahaman merata.','Praktik sesuai rencana.','Review materi, siswa lebih paham.'];
+  const KEND=['Tidak ada kendala berarti.','Beberapa siswa telat kumpul tugas.','2-3 siswa perlu pendampingan.','Tidak ada.'];
+  const refleksi=[]; let rid=1;
+  teachers.forEach((t,i)=>{ if(i%4!==3){ refleksi.push({id:rid++, guruId:t.id, who:t.name, subj:t.subj, jenjang:t.jenjang, kelas:pick(classes,i).kelas, date:TODAY, status:i%5===0?'todo':'done', hasil:pick(HASIL,i), kendala:pick(KEND,i), catatan:'-'}); } });
+
+  // chat channels & groups
+  const koorName=ACCOUNTS.koor.name;
+  const channels=[];
+  // grup mapel (koor + guru mapel tsb)
+  SUBJECTS.forEach((sj,i)=>{ const members=teachers.filter(t=>t.subj===sj).map(t=>t.id);
+    channels.push({id:'mapel_'+i, type:'group', cat:'akademik', name:'Grup '+sj, sub:'Koordinator + guru '+sj, members:members, koorOnly:false,
+      msgs:[{from:'koor',who:koorName,t:'Assalamualaikum ustadz/ustadzah '+sj+'. Mohon siapkan RPP pekan depan ya 🙏',tm:'08:00'}]}); });
+  // grup besar broadcast semua guru akademik
+  channels.push({id:'bc_akademik', type:'broadcast', cat:'akademik', name:'📢 Info Guru Akademik', sub:'Broadcast dari Koordinator', members:teachers.map(t=>t.id), koorOnly:true,
+    msgs:[{from:'koor',who:koorName,t:'Reminder: setoran refleksi harian paling lambat pukul 16.00. Jazakumullah khairan.',tm:'07:15'}]});
+  // grup manajemen & staff
+  channels.push({id:'grp_manajemen', type:'group', cat:'manajemen', name:'Manajemen & Staff HSUQI', sub:'Owner, Kepala, Koordinator, Media', members:[], koorOnly:false,
+    msgs:[{from:'owner',who:ACCOUNTS.owner.name,t:'Mohon laporan bulanan disiapkan pekan ini.',tm:'09:00'}]});
+  // grup semua guru
+  channels.push({id:'grp_semua_guru', type:'group', cat:'guru', name:'Semua Guru HSUQI', sub:'Seluruh guru HSUQI', members:teachers.map(t=>t.id), koorOnly:false,
+    msgs:[{from:'koor',who:koorName,t:'Selamat pagi semua. Semangat mengajar! 💪',tm:'06:45'}]});
+  // direct chats (koor <-> guru demo, owner)
+  const directs=[
+    {id:'dm_koor', type:'dm', cat:'manajemen', name:koorName, sub:'Koordinator Akademik', online:true, wa:ACCOUNTS.koor.wa, msgs:[{from:'them',who:koorName,t:'Ustadz, jadwal hari ini sudah sesuai ya?',tm:'07:20'}]},
+    {id:'dm_owner', type:'dm', cat:'manajemen', name:ACCOUNTS.owner.name, sub:'Owner', online:false, wa:ACCOUNTS.owner.wa, msgs:[]},
+  ];
+
+  // rapor submissions: guru mengisi, koor review
+  // ===== SANTRI per kelas =====
+  const santri=[]; let stid=1;
+  classes.forEach(c=>{ for(let i=0;i<c.santri;i++){ const fem=(c.id+i)%2===0;
+    santri.push({id:stid++, name:(fem?pick(FNF,c.id+i):pick(FN,c.id*2+i))+' '+pick(LN,c.id+i*3), gender:fem?'P':'L', classId:c.id, kelas:c.kelas, jenjang:c.jenjang, nis:'HSUQI-'+String(1000+stid)}); } });
+  // ===== RAPOR per santri (student-centered) =====
+  const SEM='Ganjil 2025/2026';
+  const MAPEL_RAPOR=['Matematika','Bahasa Indonesia','Bahasa Inggris','IPA','PAI'];
+  function mkSections(seed,filled){
+    const nilai=MAPEL_RAPOR.map((m,i)=>({mapel:m, kkm:75, nilai: filled? 75+((seed*7+i*13)%22) : null}));
+    return { nilai, sikap: filled?['Baik','Sangat Baik','Cukup'][(seed)%3]:'', absensi:{hadir: filled?(84+seed%10):0, sakit:filled?(seed%3):0, izin:filled?((seed+1)%2):0, alpa:filled?(seed%2):0}, prestasi: filled&&seed%4===0?'Juara 2 Tahfizh tingkat kelas':'', catatan: filled?'Menunjukkan perkembangan yang baik, aktif di kelas.':'', komentar: filled?'Pertahankan semangat belajar. Barakallahu fiik.':'' };
+  }
+  const rapor=[]; let rpid=1;
+  const waliMap={}; teachers.forEach(t=>{ if(t.wali && !waliMap[t.wali]) waliMap[t.wali]={id:t.id,name:t.name}; });
+  // pastikan Kelas 7A (guru demo) ada
+  waliMap['Kelas 7A']={id:1,name:teachers[0].name};
+  const STAT=['draft','submitted','revision','accepted'];
+  Object.keys(waliMap).slice(0,7).forEach((kelasName,ki)=>{ const w=waliMap[kelasName];
+    santri.filter(s=>s.kelas===kelasName).forEach((s,si)=>{ const st=STAT[(si+ki)%STAT.length]; const filled=st!=='draft';
+      rapor.push({id:rpid++, santriId:s.id, santri:s.name, gender:s.gender, kelas:s.kelas, jenjang:s.jenjang, semester:SEM, guruId:w.id, guruWali:w.name, status:st, note: st==='revision'?'Lengkapi nilai IPA & catatan sikap.':'', sections:mkSections(si+ki, filled)}); }); });
+
+  // notifications (per current session role diisi saat login)
+  const notifs=[];
+
+  // observasi kelas (koor mengobservasi guru)
+  const observasi=[
+    {id:1, guruId:1, guru:teachers[0].name, subj:'Matematika', kelas:'Kelas 7A', date:'5 Juli', skor:88, catatan:'Pengelolaan kelas baik, interaksi aktif.', rekomendasi:'Tambah variasi media visual.', tindak:'done'},
+    {id:2, guruId:3, guru:teachers[2].name, subj:teachers[2].subj, kelas:pick(classes,4).kelas, date:'3 Juli', skor:76, catatan:'Manajemen waktu perlu diperbaiki.', rekomendasi:'Susun rencana per 15 menit.', tindak:'todo'},
+  ];
+  // document center
+  const documents=[
+    {id:1, name:'Modul Matematika Kelas 7', cat:'Modul', by:teachers[0].name, date:'2 Juli', size:'2.4 MB'},
+    {id:2, name:'Silabus Semester 1 2025/2026', cat:'Silabus', by:koorName, date:'28 Jun', size:'640 KB'},
+    {id:3, name:'Template Refleksi Harian', cat:'Template', by:koorName, date:'20 Jun', size:'120 KB'},
+    {id:4, name:'Bank Soal UTS Ganjil', cat:'Soal', by:koorName, date:'15 Jun', size:'1.1 MB'},
+    {id:5, name:'Panduan Kurikulum HSUQI', cat:'Panduan', by:ACCOUNTS.owner.name, date:'10 Jun', size:'3.8 MB'},
+    {id:6, name:'Perangkat Ajar IPA', cat:'Perangkat Ajar', by:teachers[6]?teachers[6].name:koorName, date:'8 Jun', size:'1.9 MB'},
+  ];
+  // bank soal (banyak, tersebar jenjang/kelas/mapel)
+  const bankSoal=[]; let bsid=1;
+  const QTPL={
+    'Matematika':['Tentukan hasil dari operasi berikut …','Selesaikan persamaan linear …','Hitung luas bangun datar …'],
+    'Bahasa Indonesia':['Tentukan ide pokok paragraf …','Analisis unsur intrinsik cerpen …','Buatlah kalimat majemuk …'],
+    'Bahasa Inggris':['Choose the correct tense …','Translate the sentence …','Arrange the words into a sentence …'],
+    'IPA':['Jelaskan proses fotosintesis …','Sebutkan bagian sel dan fungsinya …','Analisis rantai makanan …'],
+    'IPS':['Jelaskan faktor pendorong interaksi sosial …','Sebutkan kerajaan Islam di Nusantara …'],
+    'PAI':['Sebutkan rukun iman …','Jelaskan tata cara wudhu …','Tuliskan dalil tentang berbakti kepada orang tua …'],
+    'PJOK':['Jelaskan teknik dasar passing …','Sebutkan manfaat pemanasan …']
+  };
+  const TIPE=['Pilihan Ganda','Isian Singkat','Esai']; const LVL=['Mudah','Sedang','Sulit'];
+  LEVELS.forEach((L,li)=>{ SUBJECTS.forEach((sj,si)=>{ const tpl=QTPL[sj]||['Soal '+sj]; for(let k=0;k<2;k++){
+    bankSoal.push({id:bsid++, q:pick(tpl,k+si), subj:sj, jenjang:L[0], kelas:L[1], sem:(li+k)%2?'Genap':'Ganjil', tipe:pick(TIPE,li+k+si), level:pick(LVL,k+si)});
+  } }); });
+  // to-do koordinator
+  const todos=[
+    {id:1, t:'Review 3 rapor Matematika', prio:'Tinggi', deadline:'8 Juli', done:false, checklist:[['Kelas 7A',true],['Kelas 8A',false],['Kelas 9A',false]]},
+    {id:2, t:'Jadwalkan observasi guru baru', prio:'Sedang', deadline:'11 Juli', done:false, checklist:[['Tentukan waktu',false],['Siapkan instrumen',false]]},
+    {id:3, t:'Susun jadwal ujian semester', prio:'Tinggi', deadline:'15 Juli', done:false, checklist:[]},
+    {id:4, t:'Update silabus Bahasa Inggris', prio:'Rendah', deadline:'20 Juli', done:true, checklist:[]},
+  ];
+  // pengumuman
+  const announcements=[
+    {id:1, title:'Rapat Evaluasi Bulanan', body:'Seluruh koordinator & perwakilan guru hadir Kamis, 9 Juli pukul 13.00 via Meet.', by:ACCOUNTS.owner.name, date:'Hari ini', pin:true},
+    {id:2, title:'Batas Setoran Rapor', body:'Rapor semester paling lambat masuk 20 Juli. Mohon dilengkapi tepat waktu.', by:koorName, date:'Kemarin', pin:false},
+  ];
+  // activity timeline (log terpusat)
+  const activity=[
+    {id:1, ic:'check', color:'green', text:teachers[0].name+' konfirmasi hadir · Matematika 07.30', when:'08.02'},
+    {id:2, ic:'grade', color:'blue', text:teachers[0].name+' mengirim rapor Kelas 7A untuk direview', when:'07.50'},
+    {id:3, ic:'refleksi', color:'blue', text:'3 guru mengisi refleksi harian', when:'07.30'},
+    {id:4, ic:'obs', color:'amber', text:'Observasi '+teachers[2].name+' selesai (skor 76)', when:'kemarin'},
+    {id:5, ic:'users', color:'blue', text:'Koordinator menambahkan 1 guru baru', when:'kemarin'},
+  ];
+
+  return {classes, teachers, schedule, attend, refleksi, channels, directs, rapor, santri, SEM, notifs, observasi, documents, bankSoal, todos, announcements, activity, TIMES, ridSeq:rid, cidSeq:cid, sidSeq:sid, raporSeq:rpid, notifSeq:1, chanSeq:100, obsSeq:3, docSeq:7, soalSeq:bsid, todoSeq:5, annSeq:3, actSeq:6};
+}
+
+/* ================= SESSION ================= */
+let ROLE=null, ME=null; // ME = current user object (from ACCOUNTS + guru teacher link)
+let SCREEN='dashboard', NAV=[], CHAT_CAT='semua', OPEN_CHAT=null, groupSel=[];
+const can = {
+  edit: ()=>ROLE!=='guru',
+  koor: ()=>ROLE==='koor',
+  staff: ()=>ROLE!=='guru',
+  sync: ()=>ROLE==='koor',
+  manageUser: ()=>ROLE==='owner',
+  fillRapor: ()=>ROLE==='guru',
+  reviewRapor: ()=>ROLE==='koor',
+  monitor: ()=>ROLE!=='guru',
+  createGroup: ()=>ROLE!=='guru',
+  broadcast: ()=>ROLE!=='guru',
+};
+function myTeacher(){ return ST.teachers.find(t=>t.email===ME.email) || ST.teachers[0]; }
+function logAct(ic,color,text){ ST.activity.unshift({id:ST.actSeq++, ic, color, text, when:'baru saja'}); }
+function pushNotif(type,ic,color,title,desc,when){ ST.notifs.unshift({id:ST.notifSeq++,type,ic,color,title,desc,when:when||'baru saja',read:false,done:false}); updateNotifDot&&updateNotifDot(); }
+function pushNotifRole(role,type,ic,color,title,desc,target){
+  ST.roleNotifs=ST.roleNotifs||{owner:[],koor:[],guru:[]};
+  const n={id:'p'+(ST.notifSeq++),type,ic,color,title,desc,when:'baru saja',read:false,done:false,target};
+  ST.roleNotifs[role].push(n);
+  if(role===ROLE){ ST.notifs.unshift(n); updateNotifDot&&updateNotifDot(); }
+}
+/* ---- Avatar syar'i per gender (tanpa wajah) ---- */
+function avatarSVG(gender,size){ size=size||44; const P=gender==='P';
+  const bg=P?'#F5ECF7':'#E6F1FB', c=P?'#9B5FB0':'#185FA5', c2=P?'#B983C9':'#4E93D6', sk='#EBD9C6';
+  let inner;
+  if(P){ // khimar + niqab, tanpa mata
+    inner='<path d="M22 8c-7.2 0-11 5-11 12 0 3 .6 5.4 1.4 7.2H31.6C32.4 25.4 33 23 33 20c0-7-3.8-12-11-12z" fill="'+c+'"/>'
+      +'<ellipse cx="22" cy="20" rx="6.4" ry="7" fill="'+sk+'"/>'
+      +'<path d="M11 21c0-1 .3-1 .8-1H32.2c.5 0 .8 0 .8 1 0 6-5 10-11 10s-11-4-11-10z" fill="'+c2+'"/>'
+      +'<path d="M9 44c1.2-8 6.6-11 13-11s11.8 3 13 11z" fill="'+c+'"/>';
+  } else { // imamah/peci + thobe, tanpa wajah
+    inner='<path d="M9 44c1-8 6.4-12 13-12s12 4 13 12z" fill="'+c+'"/>'
+      +'<circle cx="22" cy="20" r="8" fill="'+sk+'"/>'
+      +'<path d="M13.5 16.5c1-4.5 4.4-7.5 8.5-7.5s7.5 3 8.5 7.5c-2.6-1.4-5.4-2-8.5-2s-5.9.6-8.5 2z" fill="'+c+'"/>'
+      +'<rect x="13" y="15" width="18" height="3.4" rx="1.7" fill="'+c2+'"/>';
+  }
+  return '<div style="width:'+size+'px;height:'+size+'px;border-radius:50%;overflow:hidden;flex-shrink:0;background:'+bg+'"><svg width="'+size+'" height="'+size+'" viewBox="0 0 44 44">'+inner+'</svg></div>';
+}
+
+/* ================= LOGIN ================= */
+let selRole='owner';
+function pickRole(el){ document.querySelectorAll('.role-tab').forEach(t=>t.classList.remove('on')); el.classList.add('on'); selRole=el.dataset.role; }
+function fillDemo(r){ selRole=r; document.querySelectorAll('.role-tab').forEach(t=>t.classList.toggle('on',t.dataset.role===r)); document.getElementById('loginEmail').value=ACCOUNTS[r].email; document.getElementById('loginPass').value=ACCOUNTS[r].pass; document.getElementById('loginErr').classList.remove('show'); }
+function doLogin(){
+  const email=document.getElementById('loginEmail').value.trim().toLowerCase();
+  const pass=document.getElementById('loginPass').value; const err=document.getElementById('loginErr');
+  let key=null; for(const k in ACCOUNTS){ if(ACCOUNTS[k].email===email) key=k; }
+  if(!key){ err.textContent='Email tidak dikenali. Gunakan akun demo di bawah.'; err.classList.add('show'); return; }
+  if(pass && pass!==ACCOUNTS[key].pass){ err.textContent='Kata sandi salah. (Demo: '+ACCOUNTS[key].pass+')'; err.classList.add('show'); return; }
+  err.classList.remove('show'); startApp(key);
+}
+function startApp(key){
+  ROLE=key; ME=Object.assign({}, ACCOUNTS[key]);
+  if(!ST) ST=buildState();
+  seedNotifs();
+  document.getElementById('roleBadge').textContent=key.toUpperCase();
+  document.getElementById('appAvatar').textContent=ME.avatar;
+  document.getElementById('loginWrap').style.display='none';
+  document.getElementById('app').classList.add('show');
+  document.getElementById('notifIcon').innerHTML=icon('bell',20);
+  var si=document.getElementById('searchIcon'); if(si) si.innerHTML=icon('search',20);
+  buildNav(); buildSidebar(); NAV=[]; go('dashboard');
+  showToast('Masuk sebagai '+ME.jab+' ✓');
+}
+function logout(){ closeAllPop(); document.getElementById('app').classList.remove('show'); document.getElementById('loginWrap').style.display='flex'; document.getElementById('loginPass').value=''; }
+
+/* ================= NAV / SIDEBAR ================= */
+const NAV_ITEMS=[['dashboard','home','Beranda'],['refleksi','refleksi','Refleksi'],['kehadiran','check','Kehadiran'],['jadwal','calendar','Jadwal'],['chat','chat','Chat']];
+function buildNav(){
+  document.getElementById('bottomnav').innerHTML = NAV_ITEMS.map(([sc,ic,l])=>
+    '<button data-sc="'+sc+'" onclick="go(\''+sc+'\')"><span class="ico">'+icon(ic,22)+'</span>'+l+'</button>').join('');
+}
+function sideGroups(){
+  const g=[['Utama',[['dashboard','grid','Beranda'],['kehadiran','check','Kehadiran'],['jadwal','calendar','Jadwal'],['refleksi','refleksi','Refleksi'],['chat','chat','Chat & Grup']]]];
+  const akademik=[['rapor','grade','Rapor'],['data','chart','Data & Rekap'],['komposisi','school','Komposisi Kelas']];
+  if(can.monitor()) akademik.unshift(['monitor','eye','Pemantauan Kelas']);
+  g.push(['Akademik',akademik]);
+  const kerja=[['kalender','calendar','Kalender Akademik'],['dokumen','folder','Document Center'],['banksoal','soal','Bank Soal'],['aktivitas','activity','Aktivitas']];
+  if(can.koor()) kerja.unshift(['todo','todo','To-Do (Proker)']);
+  g.push(['Ruang Kerja',kerja]);
+  const lain=[['guru','users','Data Guru'],['pengumuman','pin','Pengumuman'],['pengingat','bell','Pengingat'],['rapat','video','Rapat (Meet)'],['laporan','document','Laporan'],['notifikasi','bell','Notifikasi']];
+  if(can.sync()) lain.push(['datasync','sync','Sinkronisasi Data']);
+  g.push(['Lainnya',lain]);
+  g.push(['Akun',[['profil','user','Profil'],['akun','gear','Pengaturan']]]);
+  return g;
+}
+function buildSidebar(){
+  let h='';
+  sideGroups().forEach(([sec,items])=>{ h+='<div class="side-sec">'+sec+'</div>';
+    items.forEach(([sc,ic,l])=>{ h+='<div class="side-link" data-sc="'+sc+'" onclick="go(\''+sc+'\')"><span class="ico">'+icon(ic,20)+'</span>'+l+'</div>'; }); });
+  document.getElementById('sidebar').innerHTML=h;
+}
+function syncNavActive(){
+  document.querySelectorAll('.bottomnav button').forEach(b=>b.classList.toggle('on', b.dataset.sc===SCREEN));
+  document.querySelectorAll('.side-link').forEach(b=>b.classList.toggle('on', b.dataset.sc===SCREEN));
+}
+
+/* ================= ROUTER ================= */
+const TITLES={
+  dashboard:['Beranda',()=>'Assalamu\'alaikum, '+ME.name],
+  refleksi:['Refleksi Harian','Pantau refleksi per mapel'],
+  refleksiMapel:['Refleksi Mapel',()=>curMapel],
+  detail:['Detail Refleksi','Telaah & tindak lanjut'],
+  tambahRefleksi:['Tambah Refleksi','Catat refleksi hari ini'],
+  kehadiran:['Kehadiran',()=>ROLE==='guru'?'Konfirmasi kehadiran mengajar':'Pantau kehadiran guru'],
+  monitor:['Pemantauan Kelas','Realtime kehadiran per kelas'],
+  jadwal:['Jadwal Pelajaran','Jadwal per kelas & kaldik'],
+  data:['Data & Rekap','Ringkasan akademik'],
+  komposisi:['Komposisi Kelas','Jumlah santri per kelas'],
+  guru:['Data Guru','Kontak & chat guru'],
+  pengingat:['Pengingat','Agenda & kelas penuh'],
+  rapat:['Rapat','Google Meet'],
+  laporan:['Laporan','Rangkuman otomatis'],
+  rapor:['Rapor Santri',()=>ROLE==='guru'?'Isi rapor per santri':'Review rapor per santri'],
+  chat:['Chat & Grup','Saluran & pesan'],
+  chatThread:['Chat',()=>OPEN_CHAT?OPEN_CHAT.name:''],
+  buatGrup:['Buat Grup','Pilih anggota grup'],
+  datasync:['Sinkronisasi Data','Impor Excel/CSV'],
+  notifikasi:['Notifikasi','Pemberitahuan Anda'],
+  profil:['Profil','Kelola profil'],
+  akun:['Pengaturan','Akun & keamanan'],
+  guruPerf:['Performa Guru',()=>curPerf?curPerf.name:''],
+  kalender:['Kalender Akademik','Agenda & tenggat penting'],
+  dokumen:['Document Center','Pusat berkas akademik'],
+  banksoal:['Bank Soal','Kelola & cari soal'],
+  todo:['To-Do','Daftar pekerjaan koordinator'],
+  pengumuman:['Pengumuman','Info penting lembaga'],
+  aktivitas:['Aktivitas','Linimasa seluruh kegiatan'],
+  search:['Pencarian','Cari apa saja di HSUQI'],
+  kelasIsi:['Isi Rapor',()=>curKelasIsi||''],
+  raporSantri:['Rapor Santri',()=>{const r=ST&&ST.rapor&&ST.rapor.find(x=>x.id===curRapor);return r?r.santri:'';}],
+};
+let curMapel='', curDetail=null, curRaporClass=null;
+function go(sc){
+  if(sc!==SCREEN){ NAV.push(SCREEN); }
+  SCREEN=sc; closeAllPop();
+  const t=TITLES[sc]||['',''];
+  document.getElementById('barTitle').textContent=(typeof t[0]==='function'?t[0]():t[0]);
+  document.getElementById('barSub').textContent=(typeof t[1]==='function'?t[1]():t[1]);
+  document.getElementById('backBtn').style.display = NAV.length?'flex':'none';
+  document.getElementById('backBtn').innerHTML=icon('back',20);
+  // FAB visibility
+  // Tombol menu mengambang (mobile) — berisi semua fitur di luar bottom-nav
+  document.getElementById('fab').style.display='flex';
+  document.getElementById('fab').innerHTML=icon('grid',24);
+  render(); syncNavActive();
+  const c=document.getElementById('content'); if(c) c.scrollTop=0;
+}
+function goBack(){ if(NAV.length){ const p=NAV.pop(); SCREEN=null; go(p); NAV.pop(); } }
+
+/* ================= MENU / OVERLAY / TOAST / MODAL ================= */
+function toggleMenu(){ const m=document.getElementById('menu'); const open=m.classList.contains('show'); closeAllPop(); if(!open){ renderMenu(); m.classList.add('show'); document.getElementById('overlay').classList.add('show'); } }
+function renderMenu(){
+  let items=[['profil','user','Profil'],['dashboard','home','Beranda'],['chat','chat','Chat & Grup'],['notifikasi','bell','Notifikasi']];
+  if(can.sync()) items.push(['datasync','sync','Sinkronisasi Data']);
+  items.push(['akun','gear','Pengaturan']);
+  let h='<div class="head"><div class="av">'+ME.avatar+'</div><div><div style="font-size:14px;font-weight:700">'+esc(ME.name)+'</div><div style="font-size:11.5px;color:var(--muted)">'+esc(ME.jab)+'</div></div></div>';
+  items.forEach(([sc,ic,l])=>{ h+='<div class="item" onclick="go(\''+sc+'\')"><span class="ico">'+icon(ic,20)+'</span>'+l+'<span class="ch">'+icon('chevron',18)+'</span></div>'; });
+  h+='<div class="item danger" onclick="logout()"><span class="ico">'+icon('logout',20)+'</span>Keluar</div>';
+  document.getElementById('menu').innerHTML=h;
+}
+function closeAllPop(){ document.getElementById('menu').classList.remove('show'); document.getElementById('overlay').classList.remove('show'); closeFab(); }
+let toastT=null;
+function showToast(m){ const t=document.getElementById('toast'); t.textContent=m; t.classList.add('show'); clearTimeout(toastT); toastT=setTimeout(()=>t.classList.remove('show'),2100); }
+function openModal(title,body){ document.getElementById('modalBox').innerHTML='<div class="mh"><span class="t">'+esc(title)+'</span><button class="x" onclick="closeModal()">'+icon('close',18)+'</button></div>'+body; document.getElementById('modal').classList.add('show'); }
+function closeModal(){ document.getElementById('modal').classList.remove('show'); }
+
+/* ================= FAB ================= */
+function fabClick(){ openMobileMenu(); }
+function openMobileMenu(){
+  let h='';
+  sideGroups().forEach(([sec,items])=>{ h+='<div style="font-size:11px;font-weight:800;color:var(--hint);text-transform:uppercase;letter-spacing:.5px;margin:12px 2px 8px">'+esc(sec)+'</div>';
+    h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">';
+    items.forEach(([sc,ic,l])=>{ const on=SCREEN===sc; h+='<div class="card" style="padding:12px;display:flex;align-items:center;gap:9px;cursor:pointer'+(on?';border-color:var(--blue-500);background:var(--blue-50)':'')+'" onclick="closeModal();go(\''+sc+'\')"><span style="color:var(--blue-tx)">'+icon(ic,18)+'</span><span style="font-size:12.5px;font-weight:700">'+esc(l)+'</span></div>'; });
+    h+='</div>'; });
+  openModal('Menu Lengkap', h);
+}
+function toggleFab(){ openMobileMenu(); }
+function closeFab(){ document.getElementById('fabMenu').classList.remove('show'); document.getElementById('fab').classList.remove('open'); }
+function fabDo(){ closeFab(); }
+</script>
+<script>
+/* ================= NOTIFICATIONS ================= */
+function seedNotifs(){
+  if(ST._seededFor===ROLE) return; ST._seededFor=ROLE; ST.notifs=[];
+  const add=(type,ic,color,title,desc,when,target)=>ST.notifs.push({id:ST.notifSeq++,type,ic,color,title,desc,when,read:false,done:false,target});
+  if(ROLE==='guru'){
+    add('rapor','grade','green','Rapor disetujui ✓','Rapor salah satu santri Kelas 7A telah disetujui Koordinator.','2 jam lalu',{sc:'rapor'});
+    add('jadwal','clock','red','Kehadiran belum dikonfirmasi','Ada jadwal yang belum Anda konfirmasi hari ini.','baru saja',{sc:'kehadiran'});
+    add('chat','broadcast','blue','Broadcast Koordinator','Reminder: setoran refleksi harian paling lambat 16.00.','07:15',{sc:'chat'});
+  } else {
+    refreshFullClassNotif(true);
+    add('late','clock','red','Guru terlambat konfirmasi','Ada guru belum konfirmasi kehadiran >5 menit dari jadwal.','baru saja',{sc:'monitor'});
+    add('rapor','grade','blue','Rapor menunggu review','Ustadz Ahmad Fauzi mengirim rapor santri Kelas 7A.','1 jam lalu',{sc:'rapor'});
+  }
+  // gabungkan notif antar-role (hasil aksi role lain)
+  (ST.roleNotifs&&ST.roleNotifs[ROLE]||[]).forEach(n=>ST.notifs.unshift(n));
+}
+function refreshFullClassNotif(silent){
+  if(ROLE==='guru') return;
+  // hapus notif kelas-penuh lama
+  ST.notifs = ST.notifs.filter(n=>n.type!=='kelaspenuh');
+  const full=ST.classes.filter(c=>c.santri>=c.cap);
+  full.forEach(c=>{ ST.notifs.unshift({id:ST.notifSeq++,type:'kelaspenuh',ic:'school',color:'amber',title:'Kelas penuh: '+c.kelas,desc:c.kelas+' ('+c.jenjang+') sudah '+c.santri+'/'+c.cap+' santri. Segera buat kelas baru untuk jenjang ini.',when:'info',read:false,done:false}); });
+  if(!silent){ updateNotifDot(); if(SCREEN==='notifikasi') render(); }
+}
+function unreadCount(){ return ST.notifs.filter(n=>!n.read && !n.done).length; }
+function updateNotifDot(){ const d=document.getElementById('notifDot'); const n=unreadCount(); if(n>0){ d.style.display='flex'; d.textContent=n>9?'9+':n; } else d.style.display='none'; }
+function notifRead(id){ const n=ST.notifs.find(x=>x.id==id); if(n) n.read=true; updateNotifDot(); render(); }
+function notifDone(id){ const n=ST.notifs.find(x=>x.id==id); if(n){ n.done=true; n.read=true; } updateNotifDot(); render(); showToast('Ditandai selesai ✓'); }
+function notifAllRead(){ ST.notifs.forEach(n=>n.read=true); updateNotifDot(); render(); showToast('Semua ditandai dibaca'); }
+function clearDone(){ ST.notifs=ST.notifs.filter(n=>!n.done); updateNotifDot(); render(); showToast('Notifikasi selesai dibersihkan ✓'); }
+
+/* ================= RENDER ROUTER ================= */
+function render(){
+  updateNotifDot();
+  const map={
+    dashboard:scDashboard, refleksi:scRefleksi, refleksiMapel:scRefleksiMapel, detail:scDetail, tambahRefleksi:scTambahRefleksi,
+    kehadiran:scKehadiran, monitor:scMonitor, jadwal:scJadwal, data:scData, komposisi:scKomposisi, guru:scGuru,
+    pengingat:scPengingat, rapat:scRapat, laporan:scLaporan, rapor:scRapor, chat:scChat, chatThread:scChatThread,
+    buatGrup:scBuatGrup, datasync:scDataSync, notifikasi:scNotifikasi, profil:scProfil, akun:scAkun,
+    guruPerf:scGuruPerf, kalender:scKalender, dokumen:scDokumen, banksoal:scBankSoal,
+    todo:scTodo, pengumuman:scPengumuman, aktivitas:scAktivitas, search:scSearch,
+    kelasIsi:scKelasIsi, raporSantri:scRaporSantri,
+  };
+  const fn=map[SCREEN]||scDashboard;
+  document.getElementById('content').innerHTML=fn();
+  if(SCREEN==='chatThread'){ const m=document.querySelector('.thread-msgs'); if(m) m.scrollTop=m.scrollHeight; }
+}
+
+/* helpers for building HTML */
+function h_chips(list, active, fn){ return '<div class="chips">'+list.map(([v,l])=>'<div class="chip'+(active===v?' on':'')+'" onclick="'+fn+'(\''+v+'\')">'+l+'</div>').join('')+'</div>'; }
+function h_hint(txt,ic,cls){ return '<div class="hint '+(cls||'')+'"><span class="ic">'+icon(ic||'info',16)+'</span><div>'+txt+'</div></div>'; }
+function h_sec(t,more,moreFn){ return '<div class="sec-title">'+t+(more?'<span class="more" onclick="'+moreFn+'">'+more+'</span>':'')+'</div>'; }
+</script>
+<script>
+/* ================= FILTER STATE ================= */
+let F={ ref:'all', kj:'all', kf:'all', mon:'all', gj:'all', dseg:'jenjang', cj:'all', rp:'all', dsDay:TODAY_DAY, sj:'all' };
+function setF(k,v){ F[k]=v; render(); }
+function setRef(v){F.ref=v;render();} function setKj(v){F.kj=v;render();} function setKf(v){F.kf=v;render();}
+function setMon(v){F.mon=v;render();} function setGj(v){F.gj=v;render();} function setCj(v){F.cj=v;render();}
+function setRp(v){F.rp=v;render();} function setDsDay(v){F.dsDay=v;render();} function setSj(v){F.sj=v;render();}
+function setDseg(v){F.dseg=v;render();}
+
+/* ================= DASHBOARD ================= */
+function todaySlots(){ return ST.schedule.filter(s=>s.day===TODAY_DAY); }
+function slotStatus(s){
+  const a=ST.attend[s.id];
+  if(a&&a.status==='confirmed') return {k:'confirmed',at:a.at};
+  if(NOW_MIN > timeToMin(s.start)+5) return {k:'late'};
+  if(NOW_MIN >= timeToMin(s.start)) return {k:'ongoing'};
+  return {k:'upcoming'};
+}
+function scDashboard(){
+  if(ROLE==='owner') return dashOwner();
+  if(ROLE==='guru') return dashGuru();
+  return dashKoor();
+}
+/* --- shared widgets --- */
+function statCard(n,l,color,go2,hero){ return '<div class="stat'+(hero?' hero':'')+'"'+(go2?' onclick="go(\''+go2+'\')" style="cursor:pointer"':'')+'><div class="n"'+(color&&!hero?' style="color:'+color+'"':'')+'>'+n+'</div><div class="l">'+l+'</div></div>'; }
+function quickActions(list){
+  let h=h_sec('Aksi cepat');
+  h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">';
+  list.forEach(([ic,l,fn])=>{ h+='<div class="card" style="cursor:pointer;display:flex;align-items:center;gap:11px;padding:14px" onclick="'+fn+'"><span style="width:36px;height:36px;border-radius:10px;background:var(--blue-50);color:var(--blue-700);display:flex;align-items:center;justify-content:center;flex-shrink:0">'+icon(ic,19)+'</span><span style="font-size:13px;font-weight:700">'+l+'</span></div>'; });
+  h+='</div>'; return h;
+}
+function actTimeline(n){
+  const items=ST.activity.slice(0,n||5);
+  let h='<div class="card" style="padding:6px 14px">';
+  if(!items.length) h+='<div class="empty">Belum ada aktivitas.</div>';
+  items.forEach((a,i)=>{ h+='<div style="display:flex;gap:11px;align-items:flex-start;padding:11px 0'+(i<items.length-1?';border-bottom:1px solid var(--line)':'')+'">'
+    +'<span style="width:32px;height:32px;border-radius:9px;background:var(--'+a.color+'-bg);color:var(--'+a.color+'-tx);display:flex;align-items:center;justify-content:center;flex-shrink:0">'+icon(a.ic,16)+'</span>'
+    +'<div style="flex:1;min-width:0"><div style="font-size:12.8px;line-height:1.4">'+esc(a.text)+'</div><div style="font-size:10.5px;color:var(--hint);margin-top:2px">'+esc(a.when)+'</div></div></div>'; });
+  h+='</div>'; return h;
+}
+function annPreview(){
+  const pinned=ST.announcements.filter(a=>a.pin).concat(ST.announcements.filter(a=>!a.pin)).slice(0,2);
+  if(!pinned.length) return '';
+  let h=h_sec('Pengumuman','Semua','go(\'pengumuman\')');
+  pinned.forEach(a=>{ h+='<div class="card" style="border-left:3px solid var(--blue-500)"><div style="display:flex;align-items:center;gap:7px"><span style="color:var(--blue-700)">'+icon('pin',15)+'</span><b style="font-size:13.5px">'+esc(a.title)+'</b><span class="badge gray" style="margin-left:auto">'+esc(a.date)+'</span></div><div style="font-size:12.5px;color:var(--muted);margin-top:6px;line-height:1.5">'+esc(a.body)+'</div></div>'; });
+  return h;
+}
+function progressCard(label,val,total,color){ const pct=total?Math.round(val/total*100):0; return '<div class="card"><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:8px"><b>'+label+'</b><span style="color:var(--muted)">'+val+'/'+total+' ('+pct+'%)</span></div><div class="bar"><span style="width:'+pct+'%;background:'+(color||'var(--blue-700)')+'"></span></div></div>'; }
+
+/* --- OWNER: monitoring --- */
+function dashOwner(){
+  const slots=todaySlots(); const conf=slots.filter(s=>slotStatus(s).k==='confirmed').length;
+  const totalSantri=ST.classes.reduce((a,c)=>a+c.santri,0);
+  const raporAcc=ST.rapor.filter(r=>r.status==='accepted').length;
+  const obsDone=ST.observasi.filter(o=>o.tindak==='done').length;
+  const refToday=ST.refleksi.filter(r=>r.date===TODAY).length;
+  let h=annPreview();
+  h+=h_sec('Kondisi lembaga');
+  h+='<div class="stat-grid">'
+    +statCard(totalSantri,'Total santri',null,'komposisi',true)
+    +statCard(ST.teachers.length,'Guru aktif','var(--blue-900)','guru')
+    +statCard(ST.classes.length,'Kelas berjalan','var(--blue-700)','komposisi')
+    +statCard(conf+'/'+slots.length,'Hadir hari ini','var(--green-tx)','kehadiran')
+    +'</div>';
+  h+=h_sec('Progress akademik');
+  h+=progressCard('Rapor diterima',raporAcc,ST.rapor.length,'var(--green-solid)');
+  h+=progressCard('Observasi selesai',obsDone,ST.observasi.length,'var(--blue-500)');
+  h+=progressCard('Refleksi terisi hari ini',refToday,ST.teachers.length,'var(--amber-solid)');
+  h+=quickActions([['eye','Pemantauan Kelas','go(\'monitor\')'],['grade','Progress Rapor','go(\'rapor\')'],['calendar','Agenda & Kalender','go(\'kalender\')'],['megaphone','Buat Pengumuman','formPengumuman()'],['video','Agenda Rapat','formMeeting()'],['activity','Aktivitas','go(\'aktivitas\')']]);
+  h+=h_sec('Aktivitas terbaru','Semua','go(\'aktivitas\')');
+  h+=actTimeline(5);
+  return h;
+}
+
+/* --- KOORDINATOR: command center --- */
+function dashKoor(){
+  const slots=todaySlots();
+  const conf=slots.filter(s=>slotStatus(s).k==='confirmed').length;
+  const late=slots.filter(s=>slotStatus(s).k==='late').length;
+  const ongoing=slots.filter(s=>slotStatus(s).k==='ongoing').length;
+  const refToday=ST.refleksi.filter(r=>r.date===TODAY);
+  const refMissing=ST.teachers.length-new Set(refToday.map(r=>r.guruId)).size;
+  const raporPending=ST.rapor.filter(r=>r.status==='submitted').length;
+  const fullClass=ST.classes.filter(c=>c.santri>=c.cap).length;
+  const obsWeek=ST.observasi.length;
+  let h='<div class="card hero-cc grad-hero" style="color:#fff;border:none">'
+    +'<div style="font-size:12px;opacity:.85;font-weight:600">Academic Command Center · '+fmtDate(TODAYISO)+'</div>'
+    +'<div style="font-size:19px;font-weight:800;margin-top:3px">Kondisi akademik hari ini</div>'
+    +'<div style="display:flex;gap:18px;margin-top:14px;flex-wrap:wrap">'
+    +'<div><div style="font-size:24px;font-weight:800">'+slots.length+'</div><div style="font-size:11px;opacity:.85">Kelas</div></div>'
+    +'<div><div style="font-size:24px;font-weight:800">'+ongoing+'</div><div style="font-size:11px;opacity:.85">Berlangsung</div></div>'
+    +'<div><div style="font-size:24px;font-weight:800;color:#BFF3DB">'+conf+'</div><div style="font-size:11px;opacity:.85">Hadir</div></div>'
+    +'<div><div style="font-size:24px;font-weight:800;color:#FFD3D0">'+late+'</div><div style="font-size:11px;opacity:.85">Telat</div></div>'
+    +'</div></div>';
+  // alerts (perlu perhatian) — bisa di-dismiss (usap kanan / tombol x)
+  h+=h_sec('Perlu perhatian');
+  let alerts=[];
+  if(late>0) alerts.push(['al_late','clock','red',late+' guru telat konfirmasi (>5 mnt)','Hubungi via WhatsApp','go(\'monitor\')']);
+  if(refMissing>0) alerts.push(['al_refl','refleksi','amber',refMissing+' guru belum isi refleksi','Lihat refleksi','go(\'refleksi\')']);
+  if(raporPending>0) alerts.push(['al_rapor','grade','blue',raporPending+' rapor menunggu review','Review sekarang','go(\'rapor\')']);
+  if(fullClass>0) alerts.push(['al_full','school','amber',fullClass+' kelas penuh — perlu kelas baru','Kelola kelas','go(\'komposisi\')']);
+  alerts=alerts.filter(a=>!dismissedAlerts.has(a[0]));
+  if(!alerts.length) h+='<div class="card" style="display:flex;gap:10px;align-items:center;color:var(--green-tx)"><span>'+icon('check',20)+'</span><span style="font-size:13px;font-weight:600">Semua kondisi aman. Kerja bagus!</span></div>';
+  alerts.forEach(([aid,ic,c,txt,btn,fn])=>{ h+='<div class="card alert-card" data-aid="'+aid+'" ontouchstart="alertTS(event)" ontouchmove="alertTM(event,this)" ontouchend="alertTE(event,this,\''+aid+'\')" style="border-color:var(--'+c+'-solid);display:flex;align-items:center;gap:11px;position:relative">'
+    +'<span style="width:38px;height:38px;border-radius:11px;background:var(--'+c+'-bg);color:var(--'+c+'-tx);display:flex;align-items:center;justify-content:center;flex-shrink:0">'+icon(ic,19)+'</span>'
+    +'<div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:700">'+txt+'</div><div style="font-size:10px;color:var(--hint);margin-top:1px">Usap kanan untuk sembunyikan</div></div>'
+    +'<button class="btn sm ghost" style="flex-shrink:0" onclick="'+fn+'">'+btn+'</button>'
+    +'<button class="alert-x" onclick="dismissAlert(\''+aid+'\')" title="Sembunyikan">'+icon('close',14)+'</button></div>'; });
+  // quick actions
+  h+=quickActions([['users','Tambah Guru','formGuru()'],['school','Tambah Kelas','formClass()'],['calendar','Tambah Jadwal','formSchedule()'],['todo','To-Do (Proker)','go(\'todo\')'],['grade','Review Rapor','go(\'rapor\')'],['megaphone','Buat Pengumuman','formPengumuman()']]);
+  // today classes preview
+  h+=h_sec('Kelas hari ini','Pantau','go(\'monitor\')');
+  h+= slots.length? slots.slice(0,4).map(slotCard).join('') : '<div class="empty">Belum ada jadwal.</div>';
+  // timeline
+  h+=h_sec('Aktivitas terbaru','Semua','go(\'aktivitas\')');
+  h+=actTimeline(5);
+  return h;
+}
+
+/* --- GURU: hari ini --- */
+function dashGuru(){
+  const mine=todaySlots().filter(s=>s.guruId===myTeacher().id).sort((a,b)=>timeToMin(a.start)-timeToMin(b.start));
+  const myConf=mine.filter(s=>slotStatus(s).k==='confirmed').length;
+  const myLate=mine.filter(s=>slotStatus(s).k==='late').length;
+  const needRefl=mine.filter(s=>slotStatus(s).k==='confirmed' && !ST.refleksi.some(r=>r.date===TODAY && r.guruId===myTeacher().id && r.kelas===s.kelas)).length;
+  const myRaporRev=ST.rapor.filter(r=>r.guruId===myTeacher().id && r.status==='revision').length;
+  let h=annPreview();
+  h+='<div class="card grad-hero" style="color:#fff;border:none"><div style="font-size:12px;opacity:.85">'+fmtDate(TODAYISO)+'</div><div style="font-size:18px;font-weight:800;margin-top:2px">Hari ini Anda mengajar '+mine.length+' kelas</div><div style="font-size:12.5px;opacity:.9;margin-top:3px">'+myConf+' terkonfirmasi · '+myLate+' belum/telat</div></div>';
+  // checklist tugas
+  h+=h_sec('Checklist hari ini');
+  const chk=[];
+  if(myLate>0) chk.push(['clock','red','Konfirmasi '+myLate+' kehadiran yang terlewat','go(\'kehadiran\')']);
+  if(needRefl>0) chk.push(['refleksi','amber','Isi refleksi '+needRefl+' kelas yang sudah selesai','go(\'kehadiran\')']);
+  if(myRaporRev>0) chk.push(['grade','blue','Perbaiki '+myRaporRev+' rapor yang diminta revisi','go(\'rapor\')']);
+  if(!chk.length) chk.push(['check','green','Semua tugas hari ini beres. Barakallah!','go(\'jadwal\')']);
+  chk.forEach(([ic,c,txt,fn])=>{ h+='<div class="card" style="display:flex;align-items:center;gap:11px;cursor:pointer" onclick="'+fn+'"><span style="width:36px;height:36px;border-radius:10px;background:var(--'+c+'-bg);color:var(--'+c+'-tx);display:flex;align-items:center;justify-content:center;flex-shrink:0">'+icon(ic,18)+'</span><span style="font-size:13px;font-weight:600;flex:1">'+txt+'</span><span style="color:var(--hint)">'+icon('chevron',18)+'</span></div>'; });
+  h+=quickActions([['check','Konfirmasi Hadir','go(\'kehadiran\')'],['refleksi','Isi Refleksi','go(\'tambahRefleksi\')'],['grade','Rapor Saya','go(\'rapor\')'],['folder','Dokumen','go(\'dokumen\')'],['chat','Chat & Grup','go(\'chat\')'],['calendar','Kalender','go(\'kalender\')']]);
+  h+=h_sec('Jadwal mengajar hari ini','Semua','go(\'jadwal\')');
+  h+= mine.length? mine.map(slotCard).join('') : '<div class="empty">Tidak ada jadwal mengajar hari ini.</div>';
+  return h;
+}
+function slotCard(s){
+  const st=slotStatus(s); let badge='';
+  if(st.k==='confirmed') badge='<span class="badge done">Hadir '+st.at+'</span>';
+  else if(st.k==='late') badge='<span class="badge late">Telat konfirmasi</span>';
+  else if(st.k==='ongoing') badge='<span class="badge todo">Berlangsung</span>';
+  else badge='<span class="badge gray">Akan datang</span>';
+  return '<div class="slot'+(st.k==='late'?' late':'')+'"><div class="time">'+s.start+'</div><div class="divider"></div><div class="body">'
+    +'<div class="subj">'+esc(s.subj)+'</div><div class="meta">'+esc(s.guru)+' · '+esc(s.kelas)+'</div>'
+    +'<div class="tags"><span class="pill lvl">'+s.jenjang+'</span><span class="pill subj">'+esc(s.kelas)+'</span>'+badge+'</div></div></div>';
+}
+
+/* ================= REFLEKSI ================= */
+function scRefleksi(){
+  const refToday=ST.refleksi.filter(r=>r.date===TODAY);
+  const done=new Set(refToday.map(r=>r.guruId));
+  let h=h_hint('Ketuk mata pelajaran untuk melihat guru pengampu & refleksinya.');
+  h+= SUBJECTS.map(m=>{
+    const gurus=ST.teachers.filter(t=>t.subj===m);
+    const isi=gurus.filter(t=>done.has(t.id)).length;
+    const od=refToday.filter(r=>r.subj===m && r.status==='todo').length;
+    return '<div class="rowitem" style="cursor:pointer" onclick="openMapel(\''+m+'\')"><div class="av">'+icon('refleksi',20)+'</div>'
+      +'<div class="grow"><div class="nm">'+m+'</div><div class="sub">'+isi+'/'+gurus.length+' guru mengisi'+(od?' · '+od+' perlu tindak lanjut':'')+'</div></div>'
+      +'<span style="color:var(--hint)">'+icon('chevron',18)+'</span></div>';
+  }).join('');
+  return h;
+}
+function openMapel(m){ curMapel=m; go('refleksiMapel'); }
+function scRefleksiMapel(){
+  const gurus=ST.teachers.filter(t=>t.subj===curMapel);
+  const refToday=ST.refleksi.filter(r=>r.date===TODAY && r.subj===curMapel);
+  let h=h_hint('Guru yang belum mengisi ditandai abu-abu. Ketuk yang sudah mengisi untuk detail.');
+  h+=gurus.map(t=>{ const r=refToday.find(x=>x.guruId===t.id); const isDone=!!r;
+    return '<div class="rowitem" style="'+(isDone?'cursor:pointer':'opacity:.62')+'" '+(isDone?'onclick="openDetail('+r.id+')"':'')+'>'
+      +'<div class="av">'+initials(t.name)+'</div><div class="grow"><div class="nm">'+esc(t.name)+'</div><div class="sub">'+t.jenjang+' · '+t.tugas+'</div></div>'
+      +'<span class="badge '+(isDone?'done':'todo')+'">'+(isDone?'Sudah isi':'Belum isi')+'</span></div>';
+  }).join('');
+  return h;
+}
+function openDetail(id){ curDetail=id; go('detail'); }
+function scDetail(){
+  const r=ST.refleksi.find(x=>x.id===curDetail); if(!r) return '<div class="empty">Data tidak ditemukan.</div>';
+  let h='<div class="card"><div style="font-size:18px;font-weight:800">'+esc(r.who)+'</div>'
+    +'<div style="display:flex;gap:6px;margin:8px 0"><span class="pill subj">'+esc(r.subj)+'</span><span class="pill lvl">'+r.jenjang+' · '+esc(r.kelas)+'</span></div>'
+    +'<span class="badge '+(r.status==='todo'?'todo':'done')+'">'+(r.status==='todo'?'Perlu tindak lanjut':'Selesai')+'</span></div>';
+  [['Hasil pembelajaran',r.hasil],['Kendala',r.kendala],['Catatan',r.catatan]].forEach(([k,v])=>{
+    h+='<div class="card"><div style="font-size:11px;font-weight:800;color:var(--blue-700);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">'+k+'</div><div style="font-size:13.5px;line-height:1.6">'+esc(v)+'</div></div>'; });
+  if(can.edit()) h+='<div style="height:12px"></div><button class="btn '+(r.status==='todo'?'green':'ghost')+'" onclick="toggleRefStatus('+r.id+')">'+(r.status==='todo'?'Tandai selesai':'Tandai perlu tindak lanjut')+'</button>';
+  return h;
+}
+function toggleRefStatus(id){ const r=ST.refleksi.find(x=>x.id===id); if(r){ r.status=r.status==='todo'?'done':'todo'; showToast('Status diperbarui ✓'); render(); } }
+function scTambahRefleksi(){
+  const mine=myTeacher();
+  return '<div class="field"><label>Tanggal</label><input type="date" id="rf_tgl" value="'+TODAYISO+'"></div>'
+    +(ROLE==='guru'?'<div class="field"><label>Guru</label><input id="rf_guru" value="'+esc(mine.name)+'" readonly></div>':'<div class="field"><label>Guru pengampu</label><input id="rf_guru" list="dlGuru" placeholder="Nama guru"></div>')
+    +'<div class="desk-row"><div class="field"><label>Mapel</label><input id="rf_mapel" list="dlMapel" value="'+(ROLE==='guru'?esc(mine.subj):'')+'"></div>'
+    +'<div class="field"><label>Kelas</label><input id="rf_kelas" list="dlKelas" placeholder="mis. Kelas 7A"></div></div>'
+    +'<div class="field"><label>Hasil pembelajaran</label><textarea id="rf_hasil" placeholder="Bagaimana pembelajaran hari ini?"></textarea></div>'
+    +'<div class="field"><label>Kendala</label><textarea id="rf_kendala" placeholder="Adakah kendala?"></textarea></div>'
+    +'<div class="field"><label>Catatan</label><textarea id="rf_catatan"></textarea></div>'
+    +'<label style="display:flex;gap:10px;align-items:center;background:var(--amber-bg);border:1px solid #F3DDB6;border-radius:11px;padding:12px;margin-bottom:14px;cursor:pointer"><input type="checkbox" id="rf_follow" style="width:18px;height:18px;accent-color:var(--blue-700)"><span style="font-size:13px;font-weight:700;color:var(--amber-tx)">Tandai perlu ditindaklanjuti</span></label>'
+    +'<button class="btn" onclick="saveRefleksi()">Simpan refleksi</button>'
+    +datalists();
+}
+function saveRefleksi(){
+  const g=id=>document.getElementById(id);
+  const guru=g('rf_guru').value.trim(), mapel=g('rf_mapel').value.trim();
+  if(!guru||!mapel){ showToast('Isi guru & mapel dulu'); return; }
+  const t=ST.teachers.find(x=>x.name===guru)||myTeacher();
+  ST.refleksi.unshift({id:ST.ridSeq++, guruId:t.id, who:guru, subj:mapel, jenjang:t.jenjang, kelas:g('rf_kelas').value||'-', date:TODAY, status:g('rf_follow').checked?'todo':'done', hasil:g('rf_hasil').value||'-', kendala:g('rf_kendala').value||'-', catatan:g('rf_catatan').value||'-'});
+  showToast('Refleksi tersimpan ✓'); goBack();
+}
+function datalists(){
+  const mapel=[...new Set(ST.teachers.map(t=>t.subj).concat(SUBJECTS))];
+  const kelas=[...new Set(ST.classes.map(c=>c.kelas))];
+  return '<datalist id="dlGuru">'+ST.teachers.map(t=>'<option>'+esc(t.name)+'</option>').join('')+'</datalist>'
+    +'<datalist id="dlMapel">'+mapel.map(m=>'<option>'+esc(m)+'</option>').join('')+'</datalist>'
+    +'<datalist id="dlKelas">'+kelas.map(k=>'<option>'+esc(k)+'</option>').join('')+'</datalist>'
+    +'<datalist id="dlJenjang"><option>SD</option><option>SMP</option><option>SMA</option></datalist>'
+    +'<datalist id="dlDay">'+DAYS.map(d=>'<option>'+d+'</option>').join('')+'</datalist>';
+}
+</script>
+<script>
+/* ================= KEHADIRAN ================= */
+function scKehadiran(){
+  if(ROLE==='guru') return kehadiranGuru();
+  return kehadiranKoor();
+}
+function kehadiranGuru(){
+  const mine=todaySlots().filter(s=>s.guruId===myTeacher().id).sort((a,b)=>timeToMin(a.start)-timeToMin(b.start));
+  let h=h_hint('Konfirmasi kehadiran mengajar sesuai jadwal Anda. Jika lewat 5 menit dari jam mulai belum konfirmasi, otomatis ditandai <b>telat</b> dan Koordinator dapat menghubungi Anda.','clock');
+  if(!mine.length) return h+'<div class="empty">Tidak ada jadwal mengajar hari ini.</div>';
+  h+=mine.map(s=>{ const st=slotStatus(s); const done=ST.attend[s.id]&&ST.attend[s.id].done;
+    let action='';
+    if(st.k==='confirmed'){
+      action='<span class="badge done">✓ Hadir '+st.at+'</span>';
+      action+=' <button class="btn sm" style="background:#00897B" onclick="window.open(meetLink('+s.id+'),\'_blank\')">'+icon('video',15)+'Masuk Meet</button>';
+      if(done) action+=' <span class="badge info">Refleksi terkirim</span>';
+      else action+=' <button class="btn sm amber" onclick="selesaiKelas('+s.id+')">'+icon('sparkle',15)+'Selesai kelas & refleksi</button>';
+    }
+    else action='<button class="btn sm '+(st.k==='late'?'red':'green')+'" onclick="confirmHadir('+s.id+')">'+icon('check',16)+(st.k==='late'?'Konfirmasi (telat)':'Konfirmasi Hadir')+'</button>';
+    return '<div class="slot'+(st.k==='late'?' late':'')+'"><div class="time">'+s.start+'</div><div class="divider"></div><div class="body">'
+      +'<div class="subj">'+esc(s.subj)+'</div><div class="meta">'+esc(s.kelas)+' · '+s.jenjang+' · '+s.start+'–'+s.end+'</div>'
+      +'<div class="tags">'+action+'</div></div></div>';
+  }).join('');
+  return h;
+}
+function confirmHadir(sid){
+  const s=ST.schedule.find(x=>x.id===sid);
+  const late = NOW_MIN > timeToMin(s.start)+5;
+  const at=String(Math.floor(NOW_MIN/60)).padStart(2,'0')+'.'+String(NOW_MIN%60).padStart(2,'0');
+  ST.attend[sid]={status:'confirmed', at:at, late:late};
+  logAct('check', late?'amber':'green', s.guru+' konfirmasi hadir · '+s.subj+' '+s.start+(late?' (telat)':''));
+  showToast(late?'Kehadiran dikonfirmasi (tercatat telat)':'Kehadiran dikonfirmasi ✓');
+  render();
+}
+/* workflow: selesai kelas -> wajib refleksi */
+function selesaiKelas(sid){
+  const s=ST.schedule.find(x=>x.id===sid);
+  openModal('Kelas selesai · isi refleksi',
+    h_hint('Anda baru menyelesaikan <b>'+esc(s.subj)+' · '+esc(s.kelas)+'</b>. Mohon isi refleksi singkat sebelum menutup — ini otomatis terkirim ke Koordinator.','sparkle')
+    +'<div class="field"><label>Materi & capaian</label><textarea id="sk_hasil" placeholder="Materi apa yang tersampaikan?"></textarea></div>'
+    +'<div class="field"><label>Kendala</label><textarea id="sk_kendala" placeholder="Adakah kendala?"></textarea></div>'
+    +'<label style="display:flex;gap:9px;align-items:center;background:var(--amber-bg);border-radius:10px;padding:11px;margin-bottom:12px;cursor:pointer"><input type="checkbox" id="sk_follow" style="width:17px;height:17px;accent-color:var(--blue-700)"><span style="font-size:12.5px;font-weight:700;color:var(--amber-tx)">Perlu tindak lanjut</span></label>'
+    +'<button class="btn green" onclick="submitSelesai('+sid+')">'+icon('send',16)+'Kirim refleksi & selesai</button>');
+}
+function submitSelesai(sid){
+  const s=ST.schedule.find(x=>x.id===sid); const t=myTeacher();
+  const follow=document.getElementById('sk_follow').checked;
+  ST.refleksi.unshift({id:ST.ridSeq++, guruId:t.id, who:t.name, subj:s.subj, jenjang:s.jenjang, kelas:s.kelas, date:TODAY, status:follow?'todo':'done', hasil:document.getElementById('sk_hasil').value||'-', kendala:document.getElementById('sk_kendala').value||'-', catatan:'-'});
+  if(ST.attend[sid]) ST.attend[sid].done=true;
+  logAct('refleksi','blue',t.name+' mengisi refleksi · '+s.subj+' '+s.kelas);
+  // notif ke koordinator (tersimpan di state; muncul saat login koor)
+  closeModal(); showToast('Refleksi terkirim ke Koordinator ✓'); render();
+}
+function kehadiranKoor(){
+  let slots=todaySlots(); if(F.kj!=='all') slots=slots.filter(s=>s.jenjang===F.kj);
+  if(F.kf==='confirmed') slots=slots.filter(s=>slotStatus(s).k==='confirmed');
+  if(F.kf==='late') slots=slots.filter(s=>slotStatus(s).k==='late');
+  slots.sort((a,b)=>timeToMin(a.start)-timeToMin(b.start));
+  const all=todaySlots(); const conf=all.filter(s=>slotStatus(s).k==='confirmed').length; const late=all.filter(s=>slotStatus(s).k==='late').length;
+  let h='<div class="card"><div style="font-size:14px;font-weight:700">Kehadiran Guru · '+fmtDate(TODAYISO)+'</div>'
+    +'<div style="display:flex;gap:16px;margin-top:10px">'
+    +'<div><div style="font-size:22px;font-weight:800;color:var(--green-tx)">'+conf+'</div><div style="font-size:11px;color:var(--muted)">Terkonfirmasi</div></div>'
+    +'<div><div style="font-size:22px;font-weight:800;color:var(--red-tx)">'+late+'</div><div style="font-size:11px;color:var(--muted)">Telat/belum</div></div>'
+    +'<div><div style="font-size:22px;font-weight:800;color:var(--blue-900)">'+all.length+'</div><div style="font-size:11px;color:var(--muted)">Total sesi</div></div>'
+    +'</div></div><div style="height:12px"></div>';
+  h+=h_chips([['all','Semua'],['SD','SD'],['SMP','SMP'],['SMA','SMA']],F.kj,'setKj');
+  h+=h_chips([['all','Semua status'],['confirmed','Hadir'],['late','Telat/Belum']],F.kf,'setKf');
+  h+= slots.length? slots.map(s=>koorSlotRow(s)).join('') : '<div class="empty">Tidak ada data.</div>';
+  return h;
+}
+function telGuru(wa){ window.open('tel:+'+wa,'_self'); }
+function meetLink(sid){ const s=(ST.schedule||[]).find(x=>x.id===sid)||{jenjang:'x',id:sid}; return 'https://meet.google.com/hsq-'+(''+s.jenjang).toLowerCase()+'-'+s.id; }
+function lateBtns(t,ctx){ return '<button class="mini-btn" title="Telepon" style="background:var(--green-tx);color:#fff" onclick="telGuru(\''+t.wa+'\')">'+icon('bell',17)+'</button>'
+  +'<button class="mini-btn wa" title="WhatsApp" onclick="waGuru(\''+t.wa+'\',\''+encodeURIComponent(t.name||t.guru)+'\',\''+encodeURIComponent(ctx)+'\')">'+icon('wa',17)+'</button>'; }
+function koorSlotRow(s){
+  const st=slotStatus(s); const t=ST.teachers.find(x=>x.id===s.guruId)||{wa:'',name:s.guru};
+  let right='';
+  if(st.k==='confirmed') right='<span class="badge done" title="Waktu konfirmasi">✓ '+st.at+'</span>';
+  else if(st.k==='late') right='<div style="display:flex;gap:7px">'+lateBtns(t, s.subj+' '+s.kelas+' jam '+s.start)+'</div>';
+  else right='<span class="badge gray">'+(st.k==='ongoing'?'Berlangsung':'Akan datang')+'</span>';
+  const conf=(st.k==='confirmed')?'<div style="font-size:10.5px;color:var(--green-tx);margin-top:2px">Dikonfirmasi pukul '+st.at+'</div>':'';
+  return '<div class="slot'+(st.k==='late'?' late':'')+'"><div class="time">'+s.start+'</div><div class="divider"></div><div class="body">'
+    +'<div class="subj">'+esc(s.subj)+'</div><div class="meta">'+esc(s.guru)+' · '+esc(s.kelas)+' · '+s.jenjang+'</div>'+conf+'</div>'
+    +'<div style="display:flex;align-items:center">'+right+'</div></div>';
+}
+function waGuru(wa,nameEnc,ctxEnc){
+  const name=decodeURIComponent(nameEnc), ctx=decodeURIComponent(ctxEnc);
+  const msg=encodeURIComponent('Assalamualaikum '+name+', mohon konfirmasi kehadiran untuk jadwal '+ctx+'. Terima kasih 🙏');
+  window.open('https://wa.me/'+wa+'?text='+msg,'_blank');
+}
+
+/* ================= PEMANTAUAN KELAS (koor) ================= */
+function scMonitor(){
+  if(!can.monitor()) return '<div class="locked"><div class="em">🔒</div><div class="t">Akses Terbatas</div><div class="d">Pemantauan kelas hanya untuk Koordinator & Owner.</div></div>';
+  let slots=todaySlots(); if(F.mon!=='all') slots=slots.filter(s=>s.jenjang===F.mon);
+  // group by kelas
+  const byKelas={}; slots.forEach(s=>{ (byKelas[s.kelas]=byKelas[s.kelas]||[]).push(s); });
+  let h=h_hint('Status realtime tiap kelas. Kelas dengan guru <b>telat konfirmasi >5 menit</b> ditandai merah — ketuk tombol WhatsApp untuk menghubungi.','eye');
+  h+=h_chips([['all','Semua'],['SD','SD'],['SMP','SMP'],['SMA','SMA']],F.mon,'setMon');
+  const keys=Object.keys(byKelas).sort();
+  if(!keys.length) return h+'<div class="empty">Tidak ada jadwal.</div>';
+  h+=keys.map(k=>{
+    const arr=byKelas[k].sort((a,b)=>timeToMin(a.start)-timeToMin(b.start));
+    const anyLate=arr.some(s=>slotStatus(s).k==='late');
+    const now=arr.find(s=>{const st=slotStatus(s).k;return st==='ongoing'||st==='late';});
+    let rows=arr.map(s=>{ const st=slotStatus(s); const t=ST.teachers.find(x=>x.id===s.guruId)||{wa:''};
+      let tag = st.k==='confirmed'?'<span class="badge done">Hadir '+st.at+'</span>':st.k==='late'?'<span class="badge late">Telat</span>':st.k==='ongoing'?'<span class="badge todo">Berlangsung</span>':'<span class="badge gray">'+s.start+'</span>';
+      let wa = st.k==='late'?' <button class="mini-btn" style="width:28px;height:28px;background:var(--green-tx);color:#fff" title="Telepon" onclick="telGuru(\''+t.wa+'\')">'+icon('bell',13)+'</button> <button class="mini-btn wa" style="width:28px;height:28px" onclick="waGuru(\''+t.wa+'\',\''+encodeURIComponent(s.guru)+'\',\''+encodeURIComponent(s.subj+' '+k+' jam '+s.start)+'\')">'+icon('wa',13)+'</button>':'';
+      return '<div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-top:1px solid var(--line)"><span style="font-size:11.5px;font-weight:700;color:var(--blue-tx);min-width:42px">'+s.start+'</span><span style="flex:1;font-size:12.5px"><b>'+esc(s.subj)+'</b> · '+esc(s.guru)+'</span>'+tag+wa+'</div>';
+    }).join('');
+    return '<div class="card" style="'+(anyLate?'border-color:var(--red-solid)':'')+'"><div style="display:flex;align-items:center;gap:8px"><div style="font-size:15px;font-weight:800">'+esc(k)+'</div><span class="pill lvl">'+arr[0].jenjang+'</span>'+(now?'<span class="badge info" style="margin-left:auto">Sesi: '+esc(now.subj)+'</span>':'<span class="badge gray" style="margin-left:auto">Selesai/menunggu</span>')+'</div>'+rows+'</div>';
+  }).join('');
+  return h;
+}
+
+/* ================= JADWAL ================= */
+let calY=2026, calM=6, selIso=TODAYISO;
+const KALDIK=[['2026-07-07','Rapat','Rakor Harian'],['2026-07-09','Rapat','Evaluasi Bulanan'],['2026-07-11','Observasi','Observasi guru'],['2026-07-15','Soal','Batas soal ujian'],['2026-07-20','Rapor','Bagi rapor'],['2026-07-23','Ujian','Remedial']];
+const EVC={Rapat:'var(--blue-700)',Observasi:'var(--amber-solid)',Soal:'var(--green-tx)',Rapor:'var(--blue-500)',Ujian:'var(--red-tx)'};
+function scJadwal(){
+  let h='';
+  if(can.koor()) h+='<button class="btn ghost sm" style="margin-bottom:14px" onclick="formSchedule()">'+icon('plus',18)+'Tambah / atur jadwal per kelas</button>';
+  // calendar
+  const first=new Date(calY,calM,1), startDow=first.getDay(), dim=new Date(calY,calM+1,0).getDate();
+  const iso=d=>calY+'-'+String(calM+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+  let cells='';
+  ['A','S','S','R','K','J','S'].forEach(d=>cells+='<div class="dow">'+d+'</div>');
+  for(let i=0;i<startDow;i++) cells+='<div></div>';
+  for(let d=1;d<=dim;d++){ const ev=KALDIK.filter(k=>k[0]===iso(d)); const sel=iso(d)===selIso, today=iso(d)===TODAYISO;
+    cells+='<div class="cell'+(sel?' sel':'')+(today&&!sel?' today':'')+'" onclick="selDay(\''+iso(d)+'\')">'+d+(ev.length?'<span class="ev" style="background:'+(sel?'#fff':EVC[ev[0][1]]||'var(--hint)')+'"></span>':'')+'</div>'; }
+  h+='<div class="card"><div style="display:flex;align-items:center;margin-bottom:10px"><b style="font-size:14px">'+BULAN[calM]+' '+calY+'</b><span style="margin-left:auto;display:flex;gap:6px"><button class="mini-btn chat" style="width:30px;height:30px" onclick="calNav(-1)">'+icon('back',16)+'</button><button class="mini-btn chat" style="width:30px;height:30px" onclick="calNav(1)">'+icon('chevron',16)+'</button></span></div><div class="cal">'+cells+'</div></div>';
+  // agenda selected
+  const evs=KALDIK.filter(k=>k[0]===selIso);
+  h+='<div class="card"><div style="font-size:13px;font-weight:700;color:var(--blue-700);margin-bottom:8px">'+fmtDate(selIso)+'</div>';
+  h+= evs.length? evs.map(e=>'<div style="display:flex;align-items:center;gap:8px;padding:5px 0"><span style="width:8px;height:8px;border-radius:50%;background:'+(EVC[e[1]]||'var(--hint)')+'"></span><span style="font-size:13px">'+esc(e[2])+'</span><span class="pill lvl" style="margin-left:auto">'+e[1]+'</span></div>').join('') : '<div style="font-size:12.5px;color:var(--hint)">Tidak ada agenda kaldik.</div>';
+  h+='</div>';
+  // jadwal per hari
+  const selDayName=HARI[new Date(selIso+'T00:00:00').getDay()];
+  h+=h_sec('Jadwal pelajaran · '+selDayName);
+  h+=h_chips([['all','Semua'],['SD','SD'],['SMP','SMP'],['SMA','SMA']],F.sj,'setSj');
+  let sched=ST.schedule.filter(s=>s.day===selDayName && (F.sj==='all'||s.jenjang===F.sj)).sort((a,b)=>timeToMin(a.start)-timeToMin(b.start));
+  h+= sched.length? sched.map(s=>slotCard(s)).join('') : '<div class="empty">Tidak ada jadwal.</div>';
+  return h;
+}
+function selDay(iso){ selIso=iso; render(); }
+function calNav(d){ calM+=d; if(calM<0){calM=11;calY--;} if(calM>11){calM=0;calY++;} render(); }
+function formSchedule(){
+  openModal('Atur jadwal per kelas',
+    '<div class="field"><label>Kelas</label><input id="sf_kelas" list="dlKelas" placeholder="mis. Kelas 7A"></div>'
+    +'<div class="field"><label>Hari</label><input id="sf_day" list="dlDay" value="'+TODAY_DAY+'"></div>'
+    +'<div class="desk-row"><div class="field"><label>Jam mulai</label><input id="sf_start" placeholder="07.30"></div><div class="field"><label>Jam selesai</label><input id="sf_end" placeholder="08.15"></div></div>'
+    +'<div class="field"><label>Mapel</label><input id="sf_mapel" list="dlMapel"></div>'
+    +'<div class="field"><label>Guru pengampu</label><input id="sf_guru" list="dlGuru"></div>'
+    +'<button class="btn" onclick="saveSchedule()">Simpan jadwal</button>'+datalists());
+}
+function saveSchedule(){
+  const g=id=>document.getElementById(id).value.trim();
+  const kelas=g('sf_kelas'); if(!kelas){ showToast('Kelas wajib'); return; }
+  const cls=ST.classes.find(c=>c.kelas===kelas); const t=ST.teachers.find(x=>x.name===g('sf_guru'));
+  ST.schedule.push({id:ST.sidSeq++, day:g('sf_day')||TODAY_DAY, start:g('sf_start')||'07.30', end:g('sf_end')||'08.15', subj:g('sf_mapel')||'Matematika', jenjang:cls?cls.jenjang:'SMP', kelas:kelas, guruId:t?t.id:0, guru:g('sf_guru')||'—'});
+  closeModal(); showToast('Jadwal ditambahkan ✓'); render();
+}
+</script>
+<script>
+/* ================= DATA & REKAP ================= */
+function scData(){
+  const byJ=['SD','SMP','SMA'].map(j=>[j,ST.refleksi.filter(r=>r.jenjang===j).length]);
+  const byM=SUBJECTS.map(m=>[m,ST.refleksi.filter(r=>r.subj===m).length]);
+  const byK=ST.classes.slice(0,12).map(c=>[c.kelas,ST.refleksi.filter(r=>r.kelas===c.kelas).length]);
+  const rows=F.dseg==='jenjang'?byJ:F.dseg==='mapel'?byM:byK;
+  const max=Math.max(1,...rows.map(r=>r[1]));
+  let h='<div class="seg">'+[['jenjang','Jenjang'],['mapel','Mapel'],['kelas','Kelas']].map(([k,l])=>'<button class="'+(F.dseg===k?'on':'')+'" onclick="setDseg(\''+k+'\')">'+l+'</button>').join('')+'</div>';
+  h+=rows.map(([k,v])=>'<div class="card"><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:8px"><b>'+esc(k)+'</b><span style="color:var(--muted)">'+v+' refleksi</span></div><div class="bar"><span style="width:'+(v/max*100)+'%"></span></div></div>').join('');
+  return h;
+}
+
+/* ================= KOMPOSISI ================= */
+function scKomposisi(){
+  let cs=ST.classes; if(F.cj!=='all') cs=cs.filter(c=>c.jenjang===F.cj);
+  let h='';
+  if(can.koor()) h+='<button class="btn ghost sm" style="margin-bottom:14px" onclick="formClass()">'+icon('plus',18)+'Tambah kelas</button>';
+  h+=h_chips([['all','Semua'],['SD','SD'],['SMP','SMP'],['SMA','SMA']],F.cj,'setCj');
+  h+='<div class="grid-2" style="display:grid;grid-template-columns:1fr;gap:0">';
+  h+=cs.map(c=>{ const pct=Math.round(c.santri/c.cap*100); const full=c.santri>=c.cap, near=c.santri>=c.cap-2;
+    const col=full?'var(--red-solid)':near?'var(--amber-solid)':'var(--green-tx)';
+    return '<div class="card"><div style="display:flex;align-items:center;margin-bottom:8px"><b style="font-size:15px">'+esc(c.kelas)+'</b>'+(full?'<span class="badge late" style="margin-left:8px">PENUH</span>':'')+'<span class="pill lvl" style="margin-left:auto">'+c.jenjang+'</span></div>'
+      +'<div style="font-size:12.5px;color:var(--muted);margin-bottom:8px"><b style="color:var(--ink)">'+c.santri+'</b> / '+c.cap+' santri</div>'
+      +'<div class="bar"><span style="width:'+Math.min(100,pct)+'%;background:'+col+'"></span></div></div>';
+  }).join('');
+  h+='</div>';
+  return h;
+}
+function formClass(){
+  openModal('Tambah kelas',
+    '<div class="field"><label>Jenjang</label><input id="cf_jen" list="dlJenjang" value="SD"></div>'
+    +'<div class="field"><label>Nama kelas</label><input id="cf_kelas" placeholder="mis. Kelas 1C"></div>'
+    +'<div class="field"><label>Jumlah santri awal</label><input id="cf_n" type="number" min="0" max="12" value="0"></div>'
+    +'<button class="btn" onclick="saveClass()">Simpan kelas</button>'+datalists());
+}
+function saveClass(){
+  const jen=document.getElementById('cf_jen').value||'SD', kelas=document.getElementById('cf_kelas').value.trim(), n=parseInt(document.getElementById('cf_n').value)||0;
+  if(!kelas){ showToast('Nama kelas wajib'); return; }
+  ST.classes.push({id:ST.cidSeq++, jenjang:jen, kelas:kelas, cap:MAX_SANTRI, santri:Math.min(MAX_SANTRI,n)});
+  logAct('school','blue','Koordinator menambahkan kelas '+kelas+' ('+jen+')');
+  closeModal(); showToast('Kelas '+kelas+' dibuat ✓');
+  refreshFullClassNotif(); // notif kelas penuh bisa hilang kalau tak ada lagi yg penuh
+  render();
+}
+
+/* ================= DATA GURU (WA + chat) ================= */
+function scGuru(){
+  let ts=ST.teachers; if(F.gj!=='all') ts=ts.filter(t=>t.jenjang===F.gj);
+  let h='';
+  if(can.koor()) h+='<button class="btn ghost sm" style="margin-bottom:14px" onclick="formGuru()">'+icon('plus',18)+'Tambah guru</button>';
+  h+=h_chips([['all','Semua'],['SD','SD'],['SMP','SMP'],['SMA','SMA']],F.gj,'setGj');
+  h+=ts.map(t=>'<div class="rowitem"><div style="cursor:pointer" onclick="'+(can.edit()?'openPerf('+t.id+')':'chatGuru('+t.id+')')+'">'+avatarSVG(t.gender,42)+'</div>'
+    +'<div class="grow" style="cursor:pointer" onclick="'+(can.edit()?'openPerf('+t.id+')':'chatGuru('+t.id+')')+'"><div class="nm">'+esc(t.name)+(can.edit()?' <span style="color:var(--blue-700)">'+icon('chevron',13)+'</span>':'')+'</div><div class="sub">'+esc(t.subj)+' · '+t.jenjang+(t.wali?' · Wali '+esc(t.wali):'')+'</div><div class="sub" style="color:var(--blue-700);font-weight:600;margin-top:3px">+'+t.wa+'</div></div>'
+    +'<button class="mini-btn wa" title="WhatsApp" onclick="waGuru(\''+t.wa+'\',\''+encodeURIComponent(t.name)+'\',\''+encodeURIComponent('koordinasi akademik')+'\')">'+icon('wa',18)+'</button>'
+    +'<button class="mini-btn chat" title="Chat aplikasi" style="margin-left:8px" onclick="chatGuru('+t.id+')">'+icon('chat',18)+'</button>'
+    +'</div>').join('');
+  return h;
+}
+function chatGuru(tid){
+  const t=ST.teachers.find(x=>x.id===tid); if(!t) return;
+  let dm=ST.directs.find(d=>d.id==='dm_g'+tid);
+  if(!dm){ dm={id:'dm_g'+tid, type:'dm', cat:'guru', name:t.name, sub:t.subj+' · '+t.jenjang, gender:t.gender, online:Math.random()>.5, wa:t.wa, msgs:[]}; ST.directs.push(dm); }
+  OPEN_CHAT=dm; go('chatThread');
+}
+function formGuru(){
+  openModal('Tambah guru',
+    '<div class="field"><label>Nama</label><input id="gf_name" placeholder="Ustadz/Ustadzah …"></div>'
+    +'<div class="field"><label>Mapel</label><input id="gf_subj" list="dlMapel"></div>'
+    +'<div class="field"><label>Jenjang</label><input id="gf_jen" list="dlJenjang" value="SD"></div>'
+    +'<div class="field"><label>No. WhatsApp (628…)</label><input id="gf_wa" placeholder="6281234567890"></div>'
+    +'<button class="btn" onclick="saveGuru()">Simpan guru</button>'+datalists());
+}
+function saveGuru(){
+  const g=id=>document.getElementById(id).value.trim();
+  if(!g('gf_name')){ showToast('Nama wajib'); return; }
+  ST.teachers.push({id:Math.max(...ST.teachers.map(t=>t.id))+1, name:g('gf_name'), subj:g('gf_subj')||'Matematika', jenjang:g('gf_jen')||'SD', wali:'', wa:g('gf_wa')||'628000000000', email:'', tugas:'Guru Mapel'});
+  closeModal(); showToast('Guru ditambahkan ✓'); render();
+}
+
+/* ================= PENGINGAT ================= */
+const REMINDERS=[['calendar','Rapat evaluasi bulanan','Kamis, 9 Juli 2026','2 hari lagi',false],['search','Observasi guru pekan ini','Sabtu, 11 Juli 2026','4 hari lagi',false],['document','Batas pengumpulan soal ujian','Rabu, 15 Juli 2026','8 hari lagi',false],['refleksi','Setoran refleksi mingguan','Sabtu, 5 Juli 2026','Terlewat',true]];
+function scPengingat(){
+  let h='';
+  // kelas penuh (khusus koor/owner) - informasi utk buat kelas baru
+  if(can.edit()){
+    const full=ST.classes.filter(c=>c.santri>=c.cap);
+    if(full.length){
+      h+=h_hint('<b>'+full.length+' kelas penuh</b> ('+full.map(c=>esc(c.kelas)).join(', ')+'). Ini hanya informasi agar Anda segera membuat kelas baru. Peringatan otomatis hilang setelah kelas baru dibuat & tak ada kelas penuh.','school','amber');
+      full.forEach(c=>{ h+='<div class="card" style="border-color:var(--amber-solid);display:flex;align-items:center;gap:11px"><span style="color:var(--amber-tx)">'+icon('school',22)+'</span><div class="grow"><div style="font-size:13.5px;font-weight:700">Kelas '+esc(c.kelas)+' penuh</div><div style="font-size:12px;color:var(--muted)">'+c.santri+'/'+c.cap+' santri · '+c.jenjang+'</div></div><button class="btn sm amber" onclick="formClassFor(\''+c.jenjang+'\')">'+icon('plus',15)+'Buat kelas</button></div>'; });
+      h+='<div style="height:14px"></div>';
+    }
+  }
+  if(can.edit()) h+='<button class="btn ghost sm" style="margin-bottom:14px" onclick="formReminder()">'+icon('plus',18)+'Tambah pengingat</button>';
+  h+=REMINDERS.map(r=>'<div class="rowitem" style="'+(r[4]?'opacity:.6':'')+'"><div class="av" style="background:var(--amber-bg);color:var(--amber-tx)">'+icon(r[0],20)+'</div><div class="grow"><div class="nm">'+esc(r[1])+'</div><div class="sub">'+esc(r[2])+'</div></div><span class="badge '+(r[4]?'gray':'todo')+'">'+r[3]+'</span></div>').join('');
+  return h;
+}
+function formClassFor(jen){ formClass(); setTimeout(()=>{ const el=document.getElementById('cf_jen'); if(el) el.value=jen; },30); }
+function formReminder(){ openModal('Tambah pengingat','<div class="field"><label>Judul</label><input id="rm_t"></div><div class="field"><label>Tanggal</label><input id="rm_d" type="date"></div><button class="btn" onclick="closeModal();showToast(\'Pengingat ditambah ✓\')">Simpan</button>'); }
+
+/* ================= RAPAT ================= */
+const MEETINGS=[['Rakor Harian Manajemen','2026-07-07','07.30','https://meet.google.com/abc-defg-hij'],['Rapat Evaluasi Bulanan','2026-07-09','13.00','https://meet.google.com/xyz-mnop-qrs'],['Koordinasi Rapor Semester','2026-07-20','20.00','https://meet.google.com/rap-orse-tuv']];
+function scRapat(){
+  let h='';
+  if(can.edit()) h+='<button class="btn ghost sm" style="margin-bottom:14px" onclick="formMeeting()">'+icon('plus',18)+'Buat rapat baru</button>';
+  h+=h_hint('Rapat memakai Google Meet. Tombol Gabung membuka Meet di tab baru.','video');
+  h+=MEETINGS.map(m=>'<div class="card"><div style="display:flex;align-items:center;gap:8px"><b style="font-size:14.5px">'+esc(m[0])+'</b></div>'
+    +'<div style="font-size:12px;color:var(--muted);margin:6px 0 8px">'+fmtDate(m[1])+' · '+m[2]+'</div>'
+    +'<div style="font-size:12px;color:var(--blue-700);background:var(--blue-50);border-radius:8px;padding:8px 10px;margin-bottom:10px;word-break:break-all;font-weight:600">'+m[3]+'</div>'
+    +'<div style="display:flex;gap:8px"><button class="btn sm" onclick="window.open(\''+m[3]+'\',\'_blank\')">Gabung</button><button class="btn sm ghost" onclick="copyText(\''+m[3]+'\')">Salin link</button></div></div>').join('');
+  return h;
+}
+function copyText(t){ if(navigator.clipboard) navigator.clipboard.writeText(t); showToast('Link disalin ✓'); }
+function formMeeting(){ openModal('Buat rapat','<div class="field"><label>Judul rapat</label><input id="mf_t"></div><div class="field"><label>Tanggal</label><input id="mf_d" type="date"></div><div class="field"><label>Jam</label><input id="mf_time" placeholder="13.00"></div><button class="btn" onclick="closeModal();showToast(\'Rapat dibuat ✓ (link Meet otomatis)\')">Buat & salin link</button>'); }
+
+/* ================= LAPORAN ================= */
+let lPeriod='Mingguan';
+function scLaporan(){
+  let rows=ST.refleksi; const total=rows.length, todo=rows.filter(r=>r.status==='todo').length;
+  const slots=todaySlots(); const conf=slots.filter(s=>slotStatus(s).k==='confirmed').length; const pct=slots.length?Math.round(conf/slots.length*100):0;
+  let h='<div class="seg">'+['Mingguan','Bulanan','Semester'].map(p=>'<button class="'+(lPeriod===p?'on':'')+'" onclick="setPeriod(\''+p+'\')">'+p+'</button>').join('')+'</div>';
+  h+='<div class="card"><div style="font-size:13px;font-weight:700;color:var(--blue-900)">Laporan '+lPeriod+'</div><div style="font-size:12px;color:var(--muted);margin-bottom:14px">Ringkasan otomatis dari refleksi & kehadiran</div><div class="grid-2" style="display:grid;grid-template-columns:1fr 1fr;gap:10px">'
+    +[[total,'total refleksi'],[todo,'perlu tindak lanjut'],[pct+'%','kehadiran hari ini'],[ST.teachers.length,'guru terdata']].map(([v,l])=>'<div style="background:var(--blue-50);border-radius:10px;padding:12px"><b style="font-size:22px;font-weight:800;color:var(--blue-900);display:block">'+v+'</b><span style="font-size:11.5px;color:var(--blue-700);font-weight:600">'+l+'</span></div>').join('')
+    +'</div></div><div style="height:12px"></div><button class="btn" onclick="showToast(\'Laporan diunduh (contoh) ✓\')">Unduh laporan (PDF)</button>';
+  return h;
+}
+function setPeriod(p){ lPeriod=p; render(); }
+</script>
+<script>
+/* ================= RAPOR (workflow) ================= */
+/* ================= RAPOR (student-centered) ================= */
+const RSTAT={draft:['Draf','gray'],submitted:['Menunggu Review','info'],revision:['Perlu Revisi','todo'],accepted:['Disetujui','done'],arsip:['Arsip','gray']};
+let rpTab='semua', rpKelas='all', rpGuru='all', rpSearch='', curRapor=null, curKelasIsi=null;
+function setRpTab(v){rpTab=v;render();} function setRpKelas(v){rpKelas=v;render();} function setRpGuru(v){rpGuru=v;render();}
+function myRaporScope(){ return ROLE==='guru'? ST.rapor.filter(r=>r.guruId===myTeacher().id) : ST.rapor; }
+function raporAvg(r){ const n=(r.sections&&r.sections.nilai||[]).filter(x=>x.nilai!=null); return n.length? Math.round(n.reduce((a,b)=>a+b.nilai,0)/n.length):0; }
+function scRapor(){
+  const base=myRaporScope();
+  const cnt=s=>base.filter(r=>r.status===s).length;
+  const total=base.length, appr=cnt('accepted'), pct=total?Math.round(appr/total*100):0;
+  let h='';
+  // Dashboard rapor
+  h+='<div class="card grad-blue" style="color:#fff;border:none"><div style="font-size:12px;opacity:.85;font-weight:600">Dashboard Rapor · '+ST.SEM+'</div>'
+    +'<div style="display:flex;align-items:flex-end;gap:6px;margin-top:4px"><div style="font-size:34px;font-weight:800;line-height:1">'+total+'</div><div style="font-size:12px;opacity:.85;margin-bottom:5px">total rapor santri</div></div>'
+    +'<div style="margin-top:12px;background:rgba(255,255,255,.25);border-radius:8px;height:9px;overflow:hidden"><span style="display:block;height:100%;width:'+pct+'%;background:#fff;border-radius:8px"></span></div>'
+    +'<div style="font-size:11px;opacity:.9;margin-top:5px">'+pct+'% disetujui</div></div>';
+  // stat chips (clickable -> tab)
+  h+='<div class="stat-grid" style="margin-top:12px">'
+    +'<div class="stat" onclick="setRpTab(\'draft\')" style="cursor:pointer"><div class="n" style="color:var(--gray-tx)">'+cnt('draft')+'</div><div class="l">Draf</div></div>'
+    +'<div class="stat" onclick="setRpTab(\'submitted\')" style="cursor:pointer"><div class="n" style="color:var(--blue-tx)">'+cnt('submitted')+'</div><div class="l">Menunggu Review</div></div>'
+    +'<div class="stat" onclick="setRpTab(\'revision\')" style="cursor:pointer"><div class="n" style="color:var(--amber-tx)">'+cnt('revision')+'</div><div class="l">Perlu Revisi</div></div>'
+    +'<div class="stat" onclick="setRpTab(\'accepted\')" style="cursor:pointer"><div class="n" style="color:var(--green-tx)">'+appr+'</div><div class="l">Disetujui</div></div>'
+    +'</div>';
+  // Guru: pilih kelas cepat
+  if(ROLE==='guru'){
+    const kelasSaya=[...new Set(base.map(r=>r.kelas))];
+    if(kelasSaya.length){ h+=h_sec('Kelas saya · pilih untuk isi rapor');
+      h+='<div class="chips">'+kelasSaya.map(k=>'<div class="chip'+(rpKelas===k?' on':'')+'" onclick="openKelasIsi(\''+k+'\')">'+esc(k)+'</div>').join('')+'</div>'; }
+  }
+  // Tabs status
+  const tabs=[['semua','Semua'],['draft','Draf'],['submitted','Menunggu Review'],['revision','Perlu Revisi'],['accepted','Disetujui'],['arsip','Arsip']];
+  h+='<div class="seg" style="margin-top:14px">'+tabs.map(([k,l])=>'<button class="'+(rpTab===k?'on':'')+'" onclick="setRpTab(\''+k+'\')">'+l+'</button>').join('')+'</div>';
+  // Filter kelas + guru + cari
+  const allKelas=[...new Set(base.map(r=>r.kelas))];
+  h+='<div class="desk-row">';
+  h+='<div class="field" style="margin-bottom:10px"><select onchange="setRpKelas(this.value)"><option value="all">Semua kelas</option>'+allKelas.map(k=>'<option'+(rpKelas===k?' selected':'')+'>'+esc(k)+'</option>').join('')+'</select></div>';
+  if(ROLE!=='guru'){ const gs=[...new Map(base.map(r=>[r.guruId,r.guruWali])).entries()];
+    h+='<div class="field" style="margin-bottom:10px"><select onchange="setRpGuru(this.value)"><option value="all">Semua guru wali</option>'+gs.map(([id,nm])=>'<option value="'+id+'"'+(rpGuru==String(id)?' selected':'')+'>'+esc(nm)+'</option>').join('')+'</select></div>'; }
+  h+='</div>';
+  h+='<div class="field" style="margin-bottom:12px"><input placeholder="Cari nama santri…" oninput="rpSearch=this.value;render()" value="'+esc(rpSearch)+'"></div>';
+  // List
+  let list=base.slice();
+  if(rpTab!=='semua') list=list.filter(r=>r.status===rpTab);
+  if(rpKelas!=='all') list=list.filter(r=>r.kelas===rpKelas);
+  if(rpGuru!=='all') list=list.filter(r=>String(r.guruId)===rpGuru);
+  if(rpSearch) list=list.filter(r=>r.santri.toLowerCase().includes(rpSearch.toLowerCase()));
+  h+='<div style="font-size:12px;color:var(--hint);margin-bottom:8px">'+list.length+' rapor</div>';
+  if(!list.length) return h+'<div class="empty">Tidak ada rapor pada filter ini.</div>';
+  h+=list.slice(0,60).map(raporRow).join('');
+  return h;
+}
+function raporRow(r){ const st=RSTAT[r.status]||['?','gray'];
+  return '<div class="chat-li" onclick="openRapor('+r.id+')"><div class="chat-ava">'+avatarSVG(r.gender,44)+'</div>'
+    +'<div class="grow" style="min-width:0"><div class="nm">'+esc(r.santri)+'</div><div class="last">'+esc(r.kelas)+' · '+esc(r.semester)+' · Wali: '+esc(r.guruWali)+'</div></div>'
+    +'<span class="badge '+st[1]+'">'+st[0]+'</span></div>';
+}
+/* --- alur guru: pilih kelas -> daftar santri --- */
+function openKelasIsi(k){ curKelasIsi=k; go('kelasIsi'); }
+function scKelasIsi(){
+  const k=curKelasIsi; const list=ST.rapor.filter(r=>r.kelas===k && r.guruId===myTeacher().id);
+  let h=h_hint('Klik santri untuk mengisi rapornya. Isi satu per satu, lebih rapi daripada tabel panjang.','grade');
+  h+='<div style="font-size:15px;font-weight:800;margin:4px 2px 12px">'+esc(k)+' · '+list.length+' santri</div>';
+  h+=list.map(r=>{ const st=RSTAT[r.status]; return '<div class="chat-li" onclick="openRapor('+r.id+')"><div class="chat-ava">'+avatarSVG(r.gender,44)+'</div><div class="grow"><div class="nm">'+esc(r.santri)+'</div><div class="last">Rata-rata '+(raporAvg(r)||'—')+'</div></div><span class="badge '+st[1]+'">'+st[0]+'</span></div>'; }).join('');
+  return h;
+}
+/* --- halaman per-santri --- */
+function openRapor(id){ curRapor=id; go('raporSantri'); }
+function scRaporSantri(){
+  const r=ST.rapor.find(x=>x.id===curRapor); if(!r) return '<div class="empty">Rapor tidak ditemukan.</div>';
+  const st=RSTAT[r.status]||['?','gray']; const mine=ROLE==='guru'&&r.guruId===myTeacher().id;
+  const sec=r.sections; const filled=sec.nilai.some(n=>n.nilai!=null);
+  let h='<div class="card" style="display:flex;gap:13px;align-items:center">'+avatarSVG(r.gender,56)
+    +'<div style="flex:1"><div style="font-size:17px;font-weight:800">'+esc(r.santri)+'</div><div style="font-size:12.5px;color:var(--muted)">'+esc(r.kelas)+' · '+esc(r.semester)+'</div></div><span class="badge '+st[1]+'">'+st[0]+'</span></div>';
+  if(r.status==='revision'&&r.note) h+=h_hint('<b>Catatan revisi Koordinator:</b> '+esc(r.note),'info','amber');
+  // guru actions
+  if(mine && (r.status==='draft'||r.status==='revision')){ h+='<div style="height:10px"></div><button class="btn" onclick="editRaporSantri('+r.id+')">'+icon('grade',16)+'Isi / Edit Rapor</button>'; if(filled) h+='<button class="btn green" style="margin-top:8px" onclick="submitRaporSantri('+r.id+')">'+icon('send',16)+'Kirim ke Koordinator</button>'; }
+  // koor review
+  if(ROLE!=='guru' && r.status==='submitted'){ h+='<div style="height:10px"></div><div style="display:flex;gap:8px"><button class="btn green" onclick="reviewSantri('+r.id+',\'accept\')">'+icon('check',16)+'Setujui</button><button class="btn amber" onclick="reviewSantri('+r.id+',\'revise\')">Minta Revisi</button></div>'; }
+  // sections
+  const secBox=(title,body)=>'<div class="card"><div style="font-size:11px;font-weight:800;color:var(--blue-tx);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">'+title+'</div>'+body+'</div>';
+  h+=h_sec('Identitas');
+  h+=secBox('Identitas','<div style="font-size:13px;line-height:1.8">NIS: '+esc(ST.santri.find(s=>s.id===r.santriId)?ST.santri.find(s=>s.id===r.santriId).nis:'—')+'<br>Kelas: '+esc(r.kelas)+'<br>Wali kelas: '+esc(r.guruWali)+'<br>Semester: '+esc(r.semester)+'</div>');
+  h+=h_sec('Nilai Akademik');
+  if(filled){ h+=secBox('Nilai per mapel', sec.nilai.map(n=>{ const ok=n.nilai>=n.kkm; return '<div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--line)"><span style="flex:1;font-size:13px">'+esc(n.mapel)+'</span><span style="font-size:11px;color:var(--hint)">KKM '+n.kkm+'</span><span class="badge '+(ok?'done':'late')+'">'+(n.nilai==null?'—':n.nilai)+'</span></div>'; }).join('')+'<div style="text-align:right;font-size:13px;font-weight:700;margin-top:8px">Rata-rata: '+raporAvg(r)+'</div>'); }
+  else h+=secBox('Nilai per mapel','<div style="font-size:12.5px;color:var(--hint)">Belum diisi.</div>');
+  h+=h_sec('Catatan & Sikap');
+  h+=secBox('Sikap', '<div style="font-size:13px">'+(sec.sikap||'—')+'</div>');
+  h+=secBox('Catatan Guru', '<div style="font-size:13px;line-height:1.6">'+(esc(sec.catatan)||'—')+'</div>');
+  h+=h_sec('Absensi');
+  h+=secBox('Kehadiran','<div style="display:flex;gap:14px;flex-wrap:wrap;font-size:13px">'+[['Hadir',sec.absensi.hadir],['Sakit',sec.absensi.sakit],['Izin',sec.absensi.izin],['Alpa',sec.absensi.alpa]].map(([k,v])=>'<div><b style="font-size:18px">'+v+'</b><div style="font-size:11px;color:var(--muted)">'+k+'</div></div>').join('')+'</div>');
+  h+=h_sec('Prestasi & Komentar');
+  h+=secBox('Prestasi','<div style="font-size:13px">'+(esc(sec.prestasi)||'—')+'</div>');
+  h+=secBox('Komentar Akhir','<div style="font-size:13px;line-height:1.6">'+(esc(sec.komentar)||'—')+'</div>');
+  h+=h_sec('Riwayat Semester');
+  h+=secBox('Riwayat','<div style="font-size:12.5px;color:var(--muted)">Semester Ganjil 2025/2026 (aktif)<br>Semester Genap 2024/2025 — arsip<br>Semester Ganjil 2024/2025 — arsip</div>');
+  return h;
+}
+function editRaporSantri(id){
+  const r=ST.rapor.find(x=>x.id===id); const s=r.sections;
+  let body=h_hint('Isi nilai per mapel & catatan. Simpan draf dulu, kirim saat sudah lengkap.','grade');
+  body+=s.nilai.map((n,i)=>'<div class="field" style="margin-bottom:10px"><label>'+esc(n.mapel)+' (KKM '+n.kkm+')</label><input id="rn_'+i+'" type="number" min="0" max="100" value="'+(n.nilai==null?'':n.nilai)+'"></div>').join('');
+  body+='<div class="field"><label>Sikap</label><select id="r_sikap"><option value="">—</option>'+['Sangat Baik','Baik','Cukup'].map(o=>'<option'+(s.sikap===o?' selected':'')+'>'+o+'</option>').join('')+'</select></div>';
+  body+='<div class="desk-row"><div class="field"><label>Hadir</label><input id="r_h" type="number" value="'+s.absensi.hadir+'"></div><div class="field"><label>Sakit</label><input id="r_s" type="number" value="'+s.absensi.sakit+'"></div></div>';
+  body+='<div class="desk-row"><div class="field"><label>Izin</label><input id="r_i" type="number" value="'+s.absensi.izin+'"></div><div class="field"><label>Alpa</label><input id="r_a" type="number" value="'+s.absensi.alpa+'"></div></div>';
+  body+='<div class="field"><label>Prestasi</label><input id="r_prestasi" value="'+esc(s.prestasi)+'"></div>';
+  body+='<div class="field"><label>Catatan Guru</label><textarea id="r_catatan">'+esc(s.catatan)+'</textarea></div>';
+  body+='<div class="field"><label>Komentar Akhir</label><textarea id="r_komentar">'+esc(s.komentar)+'</textarea></div>';
+  body+='<button class="btn" onclick="saveRaporSantri('+id+',false)">Simpan draf</button>';
+  body+='<button class="btn green" style="margin-top:8px" onclick="saveRaporSantri('+id+',true)">'+icon('send',15)+'Simpan & kirim</button>';
+  openModal('Isi rapor · '+r.santri, body);
+}
+function saveRaporSantri(id,submit){
+  const r=ST.rapor.find(x=>x.id===id); const s=r.sections; const g=x=>document.getElementById(x);
+  s.nilai.forEach((n,i)=>{ const v=g('rn_'+i).value; n.nilai = v===''?null:parseInt(v); });
+  s.sikap=g('r_sikap').value; s.absensi={hadir:+g('r_h').value||0,sakit:+g('r_s').value||0,izin:+g('r_i').value||0,alpa:+g('r_a').value||0};
+  s.prestasi=g('r_prestasi').value; s.catatan=g('r_catatan').value; s.komentar=g('r_komentar').value;
+  if(submit){ if(!s.nilai.some(n=>n.nilai!=null)){ showToast('Isi minimal satu nilai'); return; } r.status='submitted'; r.note=''; logAct('grade','blue',r.guruWali+' mengirim rapor '+r.santri+' ('+r.kelas+')'); pushNotifRole('koor','rapor','grade','blue','Rapor menunggu review','Rapor '+r.santri+' ('+r.kelas+') dikirim '+r.guruWali+'.',{sc:'raporSantri',id:r.id}); showToast('Rapor '+r.santri+' terkirim ✓'); }
+  else showToast('Draf tersimpan ✓');
+  closeModal(); render();
+}
+function submitRaporSantri(id){ const r=ST.rapor.find(x=>x.id===id); if(!r.sections.nilai.some(n=>n.nilai!=null)){ showToast('Isi nilai dulu'); return; } r.status='submitted'; r.note=''; logAct('grade','blue',r.guruWali+' mengirim rapor '+r.santri); pushNotifRole('koor','rapor','grade','blue','Rapor menunggu review','Rapor '+r.santri+' ('+r.kelas+') dikirim.',{sc:'raporSantri',id:r.id}); showToast('Rapor terkirim ✓'); render(); }
+function reviewSantri(id,act){
+  const r=ST.rapor.find(x=>x.id===id);
+  if(act==='accept'){ r.status='accepted'; r.note=''; logAct('grade','green','Koordinator menyetujui rapor '+r.santri+' ('+r.kelas+')'); pushNotifRole('guru','rapor','grade','green','Rapor disetujui ✓','Rapor '+r.santri+' ('+r.kelas+') telah disetujui Koordinator.',{sc:'raporSantri',id:r.id}); showToast('Rapor disetujui ✓'); render(); }
+  else openModal('Minta revisi · '+r.santri,'<div class="field"><label>Catatan revisi</label><textarea id="rev_note" placeholder="mis. Lengkapi nilai IPA & catatan sikap."></textarea></div><button class="btn amber" onclick="doReviseSantri('+id+')">Kirim permintaan revisi</button>');
+}
+function doReviseSantri(id){ const r=ST.rapor.find(x=>x.id===id); r.status='revision'; r.note=document.getElementById('rev_note').value||'Mohon diperbaiki.'; logAct('grade','amber','Koordinator minta revisi rapor '+r.santri+' ('+r.kelas+')'); pushNotifRole('guru','rapor','grade','amber','Rapor perlu revisi','Rapor '+r.santri+' ('+r.kelas+'): '+r.note,{sc:'raporSantri',id:r.id}); closeModal(); showToast('Permintaan revisi dikirim ✓'); render(); }
+
+/* ================= CHAT ================= */
+const CHAT_CATS=[['semua','Semua'],['manajemen','Manajemen & Staff'],['akademik','Guru Mapel Akademik'],['guru','Guru']];
+function allChats(){
+  // gabungan channels + directs, urut by last msg
+  const list=ST.channels.concat(ST.directs);
+  return list;
+}
+function chatVisibleFor(c){
+  // guru hanya lihat: grup mapel-nya, broadcast akademik, grup semua guru, dm koor/owner, dm dirinya
+  if(ROLE!=='guru') return true;
+  const myId=myTeacher().id, mySubj=myTeacher().subj;
+  if(c.type==='dm') return c.id==='dm_koor'||c.id==='dm_owner';
+  if(c.id==='bc_akademik'||c.id==='grp_semua_guru') return true;
+  if(c.id==='grp_manajemen') return false;
+  if(c.id.startsWith('mapel_')) return c.name==='Grup '+mySubj;
+  return (c.members||[]).includes(myId);
+}
+function scChat(){
+  let h='<div class="seg">'+CHAT_CATS.map(([k,l])=>'<button class="'+(CHAT_CAT===k?'on':'')+'" onclick="setChatCat(\''+k+'\')">'+l+'</button>').join('')+'</div>';
+  if(can.createGroup()) h+='<button class="btn ghost sm" style="margin-bottom:12px" onclick="go(\'buatGrup\')">'+icon('bgroup',18)+'Buat grup baru</button>';
+  let list=allChats().filter(chatVisibleFor);
+  if(CHAT_CAT!=='semua') list=list.filter(c=>c.cat===CHAT_CAT);
+  if(!list.length) return h+'<div class="empty">Tidak ada percakapan di kategori ini.</div>';
+  h+=list.map(c=>{
+    const last=c.msgs&&c.msgs.length?c.msgs[c.msgs.length-1]:null;
+    const lastTxt=last?((last.from==='me'?'Anda: ':(last.who?last.who.split(' ')[0]+': ':''))+last.t):(c.type==='broadcast'?'Saluran broadcast':'Mulai percakapan…');
+    const avC=c.type==='broadcast'?'bc':(c.type==='dm'?'':'grp');
+    const avInner=c.type==='broadcast'?icon('broadcast',20):(c.type==='dm'?av2(c.name):icon('bgroup',20));
+    const dot=c.type==='dm'?'<div class="dot '+(c.online?'on':'off')+'"></div>':'';
+    const avaBlock = c.type==='dm' ? avatarSVG(c.gender||'L',48) : '<div class="a '+avC+'">'+avInner+'</div>';
+    return '<div class="chat-li" onclick="openChat(\''+c.id+'\')"><div class="chat-ava">'+avaBlock+dot+'</div>'
+      +'<div class="grow" style="min-width:0"><div class="nm">'+esc(c.name)+(c.type==='broadcast'?' <span class="badge info" style="font-size:9px">BROADCAST</span>':'')+'</div><div class="last">'+esc(lastTxt)+'</div></div>'
+      +'<div class="meta"><div class="tm">'+(last?last.tm:'')+'</div></div></div>';
+  }).join('');
+  return h;
+}
+function setChatCat(k){ CHAT_CAT=k; render(); }
+function findChat(id){ return allChats().find(c=>c.id===id); }
+function openChat(id){ OPEN_CHAT=findChat(id); if(OPEN_CHAT) go('chatThread'); }
+function scChatThread(){
+  const c=OPEN_CHAT; if(!c) return '<div class="empty">Pilih percakapan.</div>';
+  const canPost = !(c.type==='broadcast' && !can.broadcast());
+  const avC=c.type==='broadcast'?'bc':(c.type==='dm'?'':'grp');
+  const avInner=c.type==='broadcast'?icon('broadcast',18):(c.type==='dm'?av2(c.name):icon('bgroup',18));
+  const headAva = c.type==='dm' ? avatarSVG(c.gender||'L',42) : '<div class="a '+avC+'">'+avInner+'</div>';
+  let head='<div class="thread-head">'+headAva+'<div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:700">'+esc(c.name)+'</div><div style="font-size:11.5px;color:var(--muted)">'+esc(c.sub||(c.type==='dm'?(c.online?'online':'offline'):((c.members||[]).length+' anggota')))+'</div></div>';
+  if(c.type==='dm'&&c.wa) head+='<button class="mini-btn wa" onclick="waGuru(\''+c.wa+'\',\''+encodeURIComponent(c.name)+'\',\''+encodeURIComponent('koordinasi')+'\')">'+icon('wa',18)+'</button>';
+  if(c.type!=='broadcast') head+='<button class="mini-btn chat" title="Mulai video meeting" style="background:#E1F0EE;color:#00897B" onclick="startChatMeet(\''+c.id+'\')">'+icon('video',18)+'</button>';
+  if(c.type==='group'&&can.createGroup()) head+='<button class="mini-btn chat" onclick="manageMembers(\''+c.id+'\')">'+icon('users',18)+'</button>';
+  head+='</div>';
+  let msgs=(c.msgs||[]).map(m=>{
+    if(m.from==='sys') return '<div class="cmsg sys">'+esc(m.t)+'</div>';
+    const me=m.from==='me';
+    let body=esc(m.t);
+    if(m.file) body='<div style="display:flex;align-items:center;gap:8px"><span>'+icon('doc2',18)+'</span><span>'+esc(m.file)+'</span></div>';
+    if(m.meet) body='<div style="display:flex;align-items:center;gap:8px"><span>'+icon('video',18)+'</span><span>Video meeting dimulai — <a href="'+esc(m.meet)+'" target="_blank" style="text-decoration:underline">Gabung</a></span></div>';
+    return '<div class="cmsg '+(me?'me':'them')+'">'+((!me&&c.type!=='dm'&&m.who)?'<div class="who">'+esc(m.who)+'</div>':'')+body+'<div class="tm">'+m.tm+'</div></div>';
+  }).join('');
+  let input = canPost
+    ? '<div class="thread-input"><button title="Lampirkan file" onclick="attachFile()" style="width:46px;height:46px;border-radius:50%;background:var(--chip-bg);color:var(--muted);border:none;cursor:pointer;flex-shrink:0">'+icon('folder',20)+'</button><input id="chatInput" placeholder="Ketik pesan…" onkeydown="if(event.key===\'Enter\')sendChat()"><button onclick="sendChat()">'+icon('send',20)+'</button></div>'
+    : '<div class="bc-note">🔒 Hanya Koordinator yang dapat mengirim ke saluran broadcast ini. Anda menerima info di sini.</div>';
+  return '<div class="thread">'+head+'<div class="thread-msgs">'+(msgs||'<div class="empty">Belum ada pesan.</div>')+'</div>'+input+'</div>';
+}
+function nowHM(){ return new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'}); }
+function attachFile(){
+  openModal('Kirim file', h_hint('Demo: pilih jenis lampiran. Di versi produksi akan membuka pemilih file perangkat.','folder')
+    +['Dokumen.pdf','Foto.jpg','Materi-ajar.docx','Rekap-nilai.xlsx'].map(f=>'<button class="btn ghost" style="margin-bottom:8px" onclick="doAttach(\''+f+'\')">'+icon('doc2',16)+' '+f+'</button>').join(''));
+}
+function doAttach(f){ OPEN_CHAT.msgs.push({from:'me',who:ME.name,file:f,t:f,tm:nowHM()}); closeModal(); render(); showToast('File terkirim ✓'); }
+function startChatMeet(id){ const c=findChat(id); const link='https://meet.google.com/hsq-grp-'+(''+id).replace(/\W/g,''); c.msgs.push({from:'me',who:ME.name,meet:link,t:'Video meeting',tm:nowHM()}); c.msgs.push({from:'sys',t:ME.name+' memulai video meeting'}); OPEN_CHAT=c; render(); showToast('Meeting dimulai ✓'); window.open(link,'_blank'); }
+function sendChat(){
+  const inp=document.getElementById('chatInput'); if(!inp) return; const t=inp.value.trim(); if(!t) return;
+  const now=new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
+  OPEN_CHAT.msgs.push({from:'me',who:ME.name,t:t,tm:now}); inp.value=''; render();
+  if(OPEN_CHAT.type==='dm'){ setTimeout(()=>{ OPEN_CHAT.msgs.push({from:'them',who:OPEN_CHAT.name,t:'Baik, siap. Terima kasih 🙏',tm:new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'})}); if(SCREEN==='chatThread') render(); },1200); }
+}
+function manageMembers(id){
+  const c=findChat(id); const count=(c.members||[]).length;
+  openModal('Anggota grup', '<div style="font-size:13px;margin-bottom:12px">'+esc(c.name)+' · <b>'+count+' anggota</b></div>'
+    +'<button class="btn" onclick="closeModal();openAddMembers(\''+id+'\')">'+icon('plus',16)+'Tambah anggota</button>');
+}
+function openAddMembers(id){ groupSel=[]; addMembersFor=id; go('buatGrup'); }
+let addMembersFor=null;
+
+/* ================= BUAT GRUP ================= */
+function scBuatGrup(){
+  if(!can.createGroup()) return '<div class="locked"><div class="em">🔒</div><div class="t">Akses Terbatas</div><div class="d">Hanya Koordinator/Owner yang bisa membuat grup.</div></div>';
+  const editing = addMembersFor? findChat(addMembersFor):null;
+  let h='';
+  if(!editing) h+='<div class="field"><label>Nama grup</label><input id="grp_name" placeholder="mis. Grup Wali Kelas SMP"></div>'
+    +'<div class="field"><label>Kategori</label><select id="grp_cat"><option value="akademik">Guru Mapel Akademik</option><option value="manajemen">Manajemen & Staff</option><option value="guru">Guru</option></select></div>';
+  else h+=h_hint('Menambah anggota ke <b>'+esc(editing.name)+'</b>.','bgroup');
+  h+='<div class="sec-title">Pilih anggota <span class="more" onclick="toggleAllMembers()">Pilih semua</span></div>';
+  h+='<div class="card" style="padding:6px 14px">';
+  h+=ST.teachers.map(t=>{ const sel=groupSel.includes(t.id);
+    return '<div class="mem'+(sel?' sel':'')+'" onclick="toggleMember('+t.id+')"><div class="av">'+initials(t.name)+'</div><div style="flex:1"><div style="font-size:13px;font-weight:600">'+esc(t.name)+'</div><div style="font-size:11px;color:var(--muted)">'+esc(t.subj)+' · '+t.jenjang+'</div></div><div class="chk">'+(sel?icon('check',14):'')+'</div></div>';
+  }).join('');
+  h+='</div><div style="height:14px"></div>';
+  h+='<button class="btn" onclick="saveGroup()">'+(editing?'Tambahkan '+groupSel.length+' anggota':'Buat grup ('+groupSel.length+' anggota)')+'</button>';
+  return h;
+}
+function toggleMember(id){ const i=groupSel.indexOf(id); if(i<0) groupSel.push(id); else groupSel.splice(i,1); render(); }
+function toggleAllMembers(){ if(groupSel.length===ST.teachers.length) groupSel=[]; else groupSel=ST.teachers.map(t=>t.id); render(); }
+function saveGroup(){
+  if(addMembersFor){ const c=findChat(addMembersFor); const set=new Set(c.members||[]); groupSel.forEach(id=>set.add(id)); c.members=[...set];
+    c.msgs.push({from:'sys',t:groupSel.length+' anggota ditambahkan'}); const added=addMembersFor; addMembersFor=null; groupSel=[]; OPEN_CHAT=c; go('chatThread'); showToast('Anggota ditambahkan ✓'); return; }
+  const name=document.getElementById('grp_name').value.trim(); if(!name){ showToast('Nama grup wajib'); return; }
+  const cat=document.getElementById('grp_cat').value;
+  const id='grp_'+(ST.chanSeq++);
+  const c={id, type:'group', cat, name, sub:groupSel.length+' anggota', members:groupSel.slice(), koorOnly:false, msgs:[{from:'sys',t:'Grup dibuat oleh '+ME.name}]};
+  ST.channels.push(c); groupSel=[]; OPEN_CHAT=c; go('chatThread'); showToast('Grup "'+name+'" dibuat ✓');
+}
+
+/* ================= NOTIFIKASI (layar) ================= */
+function scNotifikasi(){
+  const list = ST.notifs.filter(n=>!n.done);
+  const done = ST.notifs.filter(n=>n.done);
+  let h='';
+  h+=h_hint('Tandai <b>dibaca</b> agar badge sepi, atau <b>selesai</b> untuk menyingkirkan dari daftar.','bell');
+  if(list.length){
+    h+='<div class="sec-title">Belum selesai ('+list.length+')<span class="more" onclick="notifAllRead()">Tandai semua dibaca</span></div>';
+    h+=list.map(notifCard).join('');
+  } else {
+    h+='<div class="card" style="text-align:center;padding:34px 18px;color:var(--muted)"><div style="font-size:34px;margin-bottom:6px">🎉</div><div style="font-weight:700;color:var(--ink)">Tidak ada notifikasi</div><div style="font-size:12.5px;margin-top:4px">Semua sudah Anda tangani. Mantap!</div></div>';
+  }
+  if(done.length){
+    h+='<div style="height:8px"></div><div class="sec-title">Selesai ('+done.length+')<span class="more" onclick="clearDone()">Bersihkan</span></div>';
+    h+=done.map(notifCard).join('');
+  }
+  return h;
+}
+function notifCard(n){
+  const cls='notif-item'+(!n.read&&!n.done?' unread':'')+(n.done?' done':'');
+  const idq="'"+n.id+"'";
+  let acts='';
+  if(!n.done){
+    acts='<div class="notif-actions">';
+    if(!n.read) acts+='<button class="btn ghost sm" onclick="event.stopPropagation();notifRead('+idq+')">'+icon('eye',15)+'Dibaca</button>';
+    acts+='<button class="btn green sm" onclick="event.stopPropagation();notifDone('+idq+')">'+icon('check',15)+'Selesai</button>';
+    if(n.type==='kelaspenuh' && can.koor()) acts+='<button class="btn sm" onclick="event.stopPropagation();formClass()">'+icon('plus',15)+'Buat kelas</button>';
+    acts+='</div>';
+  } else acts='<div class="notif-actions"><span class="badge done">'+icon('check',13)+' Selesai</span></div>';
+  return '<div class="'+cls+'" style="cursor:pointer" onclick="notifGo('+idq+')">'
+    +'<div class="nic" style="background:var(--'+n.color+'-bg);color:var(--'+n.color+'-tx)">'+icon(n.ic,20)+'</div>'
+    +'<div style="flex:1;min-width:0"><div class="nt">'+esc(n.title)+'</div><div class="nd">'+esc(n.desc)+'</div><div class="nm">'+esc(n.when)+'</div>'+acts+'</div>'
+    +'<span style="color:var(--hint);align-self:center">'+icon('chevron',18)+'</span></div>';
+}
+function notifGo(id){ const n=ST.notifs.find(x=>x.id==id); if(!n) return; n.read=true; updateNotifDot();
+  const t=n.target;
+  if(t&&t.sc){ if(t.sc==='raporSantri'&&t.id!=null) curRapor=t.id; go(t.sc); }
+  else render();
+}
+
+/* ================= SINKRONISASI DATA (layar) ================= */
+function scDataSync(){
+  if(!can.sync()) return '<div class="locked"><div class="em">🔒</div><div class="t">Akses Terbatas</div><div class="d">Hanya Koordinator/Owner yang bisa menyinkronkan data.</div></div>';
+  let h='';
+  h+=h_hint('Impor data massal dari <b>Excel/CSV</b> untuk santri, guru, & jadwal. Demo — di versi produksi akan terhubung ke database (Supabase).','sync');
+  const cards=[
+    ['users','Data Santri','Impor daftar santri per kelas dari file Excel.'],
+    ['school','Data Guru','Impor biodata & kontak guru sekaligus.'],
+    ['calendar','Jadwal Pelajaran','Impor jadwal per kelas dalam sekali unggah.'],
+  ];
+  h+='<div class="sec-title">Sumber data</div>';
+  cards.forEach(([ic,t,d])=>{
+    h+='<div class="card" style="display:flex;gap:13px;align-items:center;margin-bottom:10px">'
+      +'<div class="nic" style="width:42px;height:42px;border-radius:12px;background:var(--blue-50);color:var(--blue-700);display:flex;align-items:center;justify-content:center;flex-shrink:0">'+icon(ic,20)+'</div>'
+      +'<div style="flex:1"><div style="font-size:13.5px;font-weight:700">'+t+'</div><div style="font-size:12px;color:var(--muted);margin-top:2px">'+d+'</div></div>'
+      +'<button class="btn ghost sm" onclick="showToast(\'Fitur impor tersambung di versi produksi\')">'+icon('plus',15)+'Impor</button></div>';
+  });
+  h+='<div class="sec-title">Status sinkronisasi</div>';
+  h+='<div class="card"><div style="display:flex;align-items:center;gap:10px"><span class="badge done">'+icon('check',13)+' Tersinkron</span><span style="font-size:12px;color:var(--muted)">Terakhir: hari ini, 06.30</span></div>'
+    +'<div style="height:10px"></div><button class="btn" onclick="showToast(\'Sinkronisasi selesai ✓\')">'+icon('sync',17)+'Sinkronkan sekarang</button></div>';
+  return h;
+}
+
+/* ================= PROFIL (layar) ================= */
+function scProfil(){
+  const t = ROLE==='guru'? myTeacher() : null;
+  let h='';
+  h+='<div class="card" style="text-align:center;padding:22px 16px">'
+    +'<div style="margin:0 auto 12px;display:flex;justify-content:center">'+(t?avatarSVG(t.gender,74):'<div style="width:74px;height:74px;border-radius:22px;background:var(--blue-700);color:#fff;font-weight:800;font-size:26px;display:flex;align-items:center;justify-content:center">'+esc(ME.avatar)+'</div>')+'</div>'
+    +'<div style="font-size:17px;font-weight:800">'+esc(ME.name)+'</div>'
+    +'<div style="font-size:12.5px;color:var(--muted);margin-top:3px">'+esc(ME.jab)+'</div>'
+    +'<div style="margin-top:8px"><span class="badge todo">'+ROLE.toUpperCase()+'</span></div></div>';
+  h+='<div class="sec-title">Informasi</div>';
+  const rows=[['user','Nama',ME.name],['document','Email',ME.email],['wa','WhatsApp','+'+ME.wa]];
+  if(t){ rows.push(['grade','Mapel',ME.subj||t.subj]); rows.push(['school','Jenjang',t.jenjang]); }
+  h+='<div class="card" style="padding:4px 14px">';
+  rows.forEach(([ic,k,v],i)=>{ h+='<div style="display:flex;align-items:center;gap:12px;padding:12px 0'+(i<rows.length-1?';border-bottom:1px solid var(--line)':'')+'">'
+    +'<span style="color:var(--blue-500)">'+icon(ic,17)+'</span><div style="flex:1"><div style="font-size:11px;color:var(--hint)">'+k+'</div><div style="font-size:13.5px;font-weight:600">'+esc(v)+'</div></div></div>'; });
+  h+='</div>';
+  h+='<div style="height:12px"></div><button class="btn ghost" onclick="showToast(\'Ubah profil tersedia di versi produksi\')">'+icon('gear',17)+'Ubah profil</button>';
+  return h;
+}
+
+/* ================= PENGATURAN / AKUN (layar) ================= */
+function scAkun(){
+  let h='';
+  h+='<div class="sec-title">Akun</div>';
+  h+='<div class="card" style="padding:4px 14px">'
+    +settingRow('user','Profil saya','Lihat & kelola profil','go(\'profil\')')
+    +settingRow('bell','Notifikasi','Kelola pemberitahuan','go(\'notifikasi\')');
+  if(can.manageUser()) h+=settingRow('users','Kelola Pengguna','Owner: atur akun & peran','showToast(\'Manajemen pengguna: versi produksi\')');
+  if(can.sync()) h+=settingRow('sync','Sinkronisasi Data','Impor Excel/CSV','go(\'datasync\')');
+  h+='</div>';
+  h+='<div class="sec-title">Tampilan</div>';
+  h+='<div class="card"><div style="font-size:13px;font-weight:700;margin-bottom:4px">Tema</div><div style="font-size:11.5px;color:var(--muted);margin-bottom:11px">Pilih tampilan terang, gelap, atau ikuti perangkat.</div>'
+    +'<div class="seg">'
+    +'<button class="'+(THEME==='light'?'on':'')+'" onclick="setTheme(\'light\')">Terang</button>'
+    +'<button class="'+(THEME==='dark'?'on':'')+'" onclick="setTheme(\'dark\')">Gelap</button>'
+    +'<button class="'+(THEME==='system'?'on':'')+'" onclick="setTheme(\'system\')">Perangkat</button>'
+    +'</div></div>';
+  h+='<div class="sec-title">Keamanan</div>';
+  h+='<div class="card" style="padding:4px 14px">'
+    +settingRow('lock','Ubah Kata Sandi','Perbarui kata sandi akun','showToast(\'Ubah sandi: versi produksi\')')
+    +settingRow('info','Tentang Aplikasi','Akademik HSUQI v3.0','showToast(\'Akademik HSUQI · v3.0\')');
+  h+='</div>';
+  h+='<div style="height:14px"></div><button class="btn red" onclick="logout()">'+icon('logout',17)+'Keluar</button>';
+  return h;
+}
+function settingRow(ic,t,d,fn,last){
+  return '<div onclick="'+fn+'" style="display:flex;align-items:center;gap:12px;padding:13px 0;cursor:pointer;border-bottom:1px solid var(--line)">'
+    +'<span style="width:34px;height:34px;border-radius:10px;background:var(--blue-50);color:var(--blue-700);display:flex;align-items:center;justify-content:center;flex-shrink:0">'+icon(ic,17)+'</span>'
+    +'<div style="flex:1"><div style="font-size:13.5px;font-weight:600">'+t+'</div><div style="font-size:11.5px;color:var(--muted)">'+d+'</div></div>'
+    +'<span style="color:var(--hint)">'+icon('chevron',18)+'</span></div>';
+}
+
+/* ================= INIT ================= */
+window.addEventListener('DOMContentLoaded',function(){
+  try{ if(typeof selRole!=='undefined' && !selRole) fillDemo('koor'); }catch(e){}
+  var bb=document.getElementById('backBtn'); if(bb) bb.innerHTML=icon('back',20);
+  try{ initTheme(); }catch(e){}
+});
+</script>
+<script>
+/* ================= MODUL BARU (v4) ================= */
+let curPerf=null, searchQ='';
+/* --- dismiss alert "perlu perhatian" --- */
+let dismissedAlerts=new Set();
+function dismissAlert(id){ dismissedAlerts.add(id); render(); }
+let _alTS=0,_alSwipe=false;
+function alertTS(e){ _alTS=e.touches[0].clientX; _alSwipe=false; }
+function alertTM(e,card){ const dx=e.touches[0].clientX-_alTS; if(dx>8){ _alSwipe=true; card.style.transform='translateX('+Math.min(dx,120)+'px)'; card.style.opacity=String(Math.max(1-dx/160,.3)); } }
+function alertTE(e,card,id){ const dx=e.changedTouches[0].clientX-_alTS; if(dx>70){ card.style.transform='translateX(130%)'; card.style.opacity='0'; setTimeout(()=>dismissAlert(id),140); } else { card.style.transform=''; card.style.opacity=''; } }
+/* --- TEMA: terang / gelap / sesuai perangkat --- */
+let THEME='system';
+function effectiveTheme(t){ if(t==='system'){ return (window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches)?'dark':'light'; } return t; }
+function applyTheme(t){ THEME=t; const eff=effectiveTheme(t); document.documentElement.setAttribute('data-theme',eff); try{ localStorage.setItem('hsuqi_theme',t); }catch(e){} }
+function setTheme(t){ applyTheme(t); render(); }
+function initTheme(){ let t='system'; try{ t=localStorage.getItem('hsuqi_theme')||'system'; }catch(e){} applyTheme(t);
+  if(window.matchMedia){ try{ window.matchMedia('(prefers-color-scheme:dark)').addEventListener('change',()=>{ if(THEME==='system') applyTheme('system'); }); }catch(e){} } }
+const PRIO={'Tinggi':['red','Tinggi'],'Sedang':['amber','Sedang'],'Rendah':['gray','Rendah']};
+
+/* ---------- OBSERVASI KELAS ---------- */
+function scObservasi(){
+  const guru = ROLE==='guru';
+  let list = guru ? ST.observasi.filter(o=>o.guruId===myTeacher().id) : ST.observasi;
+  let h='';
+  if(guru) h+=h_hint('Riwayat observasi kelas Anda oleh Koordinator beserta rekomendasi & tindak lanjut.','obs');
+  else { h+=h_hint('Buat observasi kelas, beri catatan & rekomendasi, lalu pantau tindak lanjutnya.','obs');
+    h+='<button class="btn ghost sm" style="margin-bottom:14px" onclick="formObservasi()">'+icon('plus',18)+'Buat observasi baru</button>'; }
+  if(!list.length) return h+'<div class="empty">Belum ada observasi.</div>';
+  h+=list.map(o=>{ const col=o.skor>=85?'green':o.skor>=75?'amber':'red';
+    return '<div class="card"><div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><b style="font-size:14.5px">'+esc(o.guru)+'</b><span class="badge '+(o.tindak==='done'?'done':'todo')+'" style="margin-left:auto">'+(o.tindak==='done'?'Selesai':'Perlu tindak lanjut')+'</span></div>'
+      +'<div style="font-size:12px;color:var(--muted);margin-bottom:8px">'+esc(o.subj)+' · '+esc(o.kelas)+' · '+esc(o.date)+'</div>'
+      +'<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><div style="font-size:26px;font-weight:800;color:var(--'+col+'-tx)">'+o.skor+'</div><div style="flex:1"><div class="bar"><span style="width:'+o.skor+'%;background:var(--'+col+'-solid)"></span></div></div></div>'
+      +'<div style="font-size:12.5px;line-height:1.55"><b>Catatan:</b> '+esc(o.catatan)+'</div>'
+      +'<div style="font-size:12.5px;line-height:1.55;margin-top:4px;color:var(--blue-700)"><b>Rekomendasi:</b> '+esc(o.rekomendasi)+'</div>'
+      +(!guru && o.tindak!=='done'?'<div style="margin-top:10px"><button class="btn sm green" onclick="obsDone('+o.id+')">'+icon('check',15)+'Tandai tindak lanjut selesai</button></div>':'')+'</div>';
+  }).join('');
+  return h;
+}
+function obsDone(id){ const o=ST.observasi.find(x=>x.id===id); o.tindak='done'; logAct('obs','green','Tindak lanjut observasi '+o.guru+' selesai'); showToast('Ditandai selesai ✓'); render(); }
+function formObservasi(){
+  openModal('Buat observasi',
+    '<div class="field"><label>Guru</label><input id="ob_guru" list="dlGuru" placeholder="Nama guru"></div>'
+    +'<div class="field"><label>Mapel</label><input id="ob_subj" list="dlMapel"></div>'
+    +'<div class="field"><label>Kelas</label><input id="ob_kelas" list="dlKelas"></div>'
+    +'<div class="field"><label>Skor (0-100)</label><input id="ob_skor" type="number" min="0" max="100" value="80"></div>'
+    +'<div class="field"><label>Catatan</label><textarea id="ob_cat"></textarea></div>'
+    +'<div class="field"><label>Rekomendasi</label><textarea id="ob_rek"></textarea></div>'
+    +'<button class="btn" onclick="saveObservasi()">Simpan observasi</button>'+datalists());
+}
+function saveObservasi(){
+  const g=id=>document.getElementById(id).value.trim();
+  if(!g('ob_guru')){ showToast('Guru wajib'); return; }
+  const t=ST.teachers.find(x=>x.name===g('ob_guru'));
+  ST.observasi.unshift({id:ST.obsSeq++, guruId:t?t.id:0, guru:g('ob_guru'), subj:g('ob_subj')||'-', kelas:g('ob_kelas')||'-', date:TODAY, skor:parseInt(g('ob_skor'))||0, catatan:g('ob_cat')||'-', rekomendasi:g('ob_rek')||'-', tindak:'todo'});
+  logAct('obs','amber','Observasi '+g('ob_guru')+' dibuat (skor '+(g('ob_skor')||0)+')');
+  closeModal(); showToast('Observasi tersimpan ✓'); render();
+}
+
+/* ---------- PERFORMA GURU ---------- */
+function openPerf(tid){ curPerf=ST.teachers.find(t=>t.id===tid); go('guruPerf'); }
+function scGuruPerf(){
+  const t=curPerf; if(!t) return '<div class="empty">Pilih guru.</div>';
+  const slots=ST.schedule.filter(s=>s.guruId===t.id);
+  const conf=slots.filter(s=>ST.attend[s.id]&&ST.attend[s.id].status==='confirmed').length;
+  const lateN=slots.filter(s=>ST.attend[s.id]&&ST.attend[s.id].late).length;
+  const hadirPct=slots.length?Math.round(conf/slots.length*100):100;
+  const refl=ST.refleksi.filter(r=>r.guruId===t.id);
+  const lastRefl=refl[0];
+  let h='<div class="card" style="display:flex;gap:13px;align-items:center">'+avatarSVG(t.gender,56)
+    +'<div style="flex:1"><div style="font-size:16px;font-weight:800">'+esc(t.name)+'</div><div style="font-size:12.5px;color:var(--muted)">'+esc(t.subj)+' · '+t.jenjang+' · '+esc(t.tugas)+'</div></div>'
+    +'<span class="badge done">Aktif</span></div>';
+  h+='<div class="stat-grid" style="margin-top:12px">'
+    +statCard(hadirPct+'%','Kehadiran',hadirPct>=85?'var(--green-tx)':'var(--amber-tx)')
+    +statCard(lateN,'Keterlambatan',lateN?'var(--red-tx)':'var(--green-tx)')
+    +statCard(refl.length,'Refleksi terisi','var(--blue-tx)')
+    +statCard(ST.rapor.filter(r=>r.guruId===t.id&&r.status==='accepted').length,'Rapor disetujui','var(--blue-900)')
+    +'</div>';
+  h+=h_sec('Administrasi');
+  [['Perangkat ajar',true],['Silabus',true],['Refleksi rutin',refl.length>0],['Rapor',ST.rapor.some(r=>r.guruId===t.id&&r.status==='accepted')]].forEach(([k,ok])=>{
+    h+='<div class="rowitem"><div class="av" style="background:var(--'+(ok?'green':'amber')+'-bg);color:var(--'+(ok?'green':'amber')+'-tx)">'+icon(ok?'check':'clock',18)+'</div><div class="grow"><div class="nm">'+k+'</div></div><span class="badge '+(ok?'done':'todo')+'">'+(ok?'Lengkap':'Belum')+'</span></div>'; });
+  h+=h_sec('Refleksi terakhir','Semua','go(\'refleksi\')');
+  h+= lastRefl? '<div class="card" style="cursor:pointer" onclick="openDetail('+lastRefl.id+')"><div style="font-size:12px;color:var(--muted)">'+esc(lastRefl.date)+' · '+esc(lastRefl.kelas)+'</div><div style="font-size:13px;margin-top:6px">'+esc(lastRefl.hasil)+'</div></div>' : '<div class="empty">Belum ada refleksi.</div>';
+  h+='<div style="height:12px"></div><button class="btn wa" onclick="waGuru(\''+t.wa+'\',\''+encodeURIComponent(t.name)+'\',\''+encodeURIComponent('koordinasi performa')+'\')">'+icon('wa',17)+'Hubungi via WhatsApp</button>';
+  return h;
+}
+
+/* ---------- KALENDER AKADEMIK ---------- */
+const CAL_TYPES={Ujian:'red',Project:'blue',Observasi:'amber',Rapat:'blue',Workshop:'green',Libur:'gray',Deadline:'red'};
+let calEvents=[
+  {date:'2026-07-07',type:'Rapat',t:'Rakor Harian'},{date:'2026-07-09',type:'Rapat',t:'Evaluasi Bulanan'},
+  {date:'2026-07-11',type:'Observasi',t:'Observasi guru'},{date:'2026-07-15',type:'Deadline',t:'Batas soal ujian'},
+  {date:'2026-07-20',type:'Deadline',t:'Setoran rapor'},{date:'2026-07-23',type:'Ujian',t:'Remedial'},
+  {date:'2026-07-28',type:'Workshop',t:'Workshop kurikulum'},{date:'2026-07-30',type:'Libur',t:'Libur semester'},
+];
+function scKalender(){
+  let h='';
+  if(can.edit()) h+='<button class="btn ghost sm" style="margin-bottom:14px" onclick="formCalEvent()">'+icon('plus',18)+'Tambah agenda</button>';
+  // legend
+  h+='<div class="chips">'+Object.keys(CAL_TYPES).map(k=>'<span class="chip" style="pointer-events:none"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--'+CAL_TYPES[k]+'-solid,var(--hint));margin-right:6px"></span>'+k+'</span>').join('')+'</div>';
+  // upcoming list grouped
+  const sorted=[...calEvents].sort((a,b)=>a.date.localeCompare(b.date));
+  h+=h_sec('Agenda mendatang');
+  h+=sorted.map(e=>{ const c=CAL_TYPES[e.type]||'gray';
+    return '<div class="rowitem"><div class="av" style="background:var(--'+c+'-bg,var(--chip-bg));color:var(--'+c+'-tx,var(--chip-tx))">'+icon('calendar',18)+'</div><div class="grow"><div class="nm">'+esc(e.t)+'</div><div class="sub">'+fmtDate(e.date)+'</div></div><span class="badge '+(c==='red'?'late':c==='green'?'done':c==='amber'?'todo':'gray')+'">'+e.type+'</span></div>';
+  }).join('');
+  return h;
+}
+function formCalEvent(){
+  openModal('Tambah agenda',
+    '<div class="field"><label>Judul</label><input id="ce_t"></div>'
+    +'<div class="field"><label>Tanggal</label><input id="ce_d" type="date" value="'+TODAYISO+'"></div>'
+    +'<div class="field"><label>Jenis</label><select id="ce_type">'+Object.keys(CAL_TYPES).map(k=>'<option>'+k+'</option>').join('')+'</select></div>'
+    +'<button class="btn" onclick="saveCalEvent()">Simpan agenda</button>');
+}
+function saveCalEvent(){ const t=document.getElementById('ce_t').value.trim(); if(!t){showToast('Judul wajib');return;} calEvents.push({date:document.getElementById('ce_d').value,type:document.getElementById('ce_type').value,t}); logAct('calendar','blue','Agenda "'+t+'" ditambahkan ke kalender'); closeModal(); showToast('Agenda ditambahkan ✓'); render(); }
+
+/* ---------- DOCUMENT CENTER ---------- */
+let docCat='Semua';
+function scDokumen(){
+  const cats=['Semua','Modul','Perangkat Ajar','Silabus','Soal','Template','Panduan'];
+  let list=ST.documents.filter(d=>docCat==='Semua'||d.cat===docCat);
+  let h='';
+  if(can.edit()) h+='<button class="btn ghost sm" style="margin-bottom:12px" onclick="showToast(\'Unggah dokumen: versi produksi\')">'+icon('upload',18)+'Unggah dokumen</button>';
+  h+=h_hint('Semua berkas akademik terpusat: modul, perangkat ajar, silabus, soal, template, panduan.','folder');
+  h+='<div class="chips">'+cats.map(c=>'<div class="chip'+(docCat===c?' on':'')+'" onclick="setDocCat(\''+c+'\')">'+c+'</div>').join('')+'</div>';
+  if(!list.length) return h+'<div class="empty">Tidak ada dokumen.</div>';
+  h+=list.map(d=>'<div class="rowitem"><div class="av" style="background:var(--blue-50);color:var(--blue-700)">'+icon('doc2',18)+'</div><div class="grow"><div class="nm">'+esc(d.name)+'</div><div class="sub">'+esc(d.cat)+' · '+esc(d.by)+' · '+esc(d.date)+' · '+esc(d.size)+'</div></div><button class="mini-btn chat" title="Unduh" onclick="showToast(\'Mengunduh '+esc(d.name)+' …\')">'+icon('download',18)+'</button></div>').join('');
+  return h;
+}
+function setDocCat(c){ docCat=c; render(); }
+
+/* ---------- BANK SOAL ---------- */
+let bsLevel=null,bsKelas=null,bsMapel=null;
+function bsReset(){bsLevel=null;bsKelas=null;bsMapel=null;render();}
+function scBankSoal(){
+  let h='';
+  if(can.koor()) h+='<button class="btn ghost sm" style="margin-bottom:12px" onclick="formSoal()">'+icon('plus',18)+'Tambah soal</button>';
+  // clickable breadcrumb via ids
+  h+='<div style="display:flex;flex-wrap:wrap;gap:4px;align-items:center;font-size:12.5px;margin-bottom:12px">'
+    +'<span style="color:var(--blue-tx);font-weight:700;cursor:pointer" onclick="bsReset()">Bank Soal</span>'
+    +(bsLevel?'<span style="color:var(--hint)">/</span><span style="color:'+(bsKelas?'var(--blue-tx)':'var(--muted)')+';font-weight:'+(bsKelas?'700':'400')+';cursor:pointer" onclick="bsKelas=null;bsMapel=null;render()">'+esc(bsLevel)+'</span>':'')
+    +(bsKelas?'<span style="color:var(--hint)">/</span><span style="color:'+(bsMapel?'var(--blue-tx)':'var(--muted)')+';font-weight:'+(bsMapel?'700':'400')+';cursor:pointer" onclick="bsMapel=null;render()">'+esc(bsKelas)+'</span>':'')
+    +(bsMapel?'<span style="color:var(--hint)">/</span><span style="color:var(--muted)">'+esc(bsMapel)+'</span>':'')
+    +'</div>';
+  if(!bsLevel){
+    h+=h_hint('Telusuri soal: pilih jenjang → kelas → mapel.','soal');
+    ['SD','SMP','SMA'].forEach(j=>{ const n=ST.bankSoal.filter(s=>s.jenjang===j).length;
+      h+='<div class="rowitem" style="cursor:pointer" onclick="bsLevel=\''+j+'\';render()"><div class="av">'+icon('school',20)+'</div><div class="grow"><div class="nm">Jenjang '+j+'</div><div class="sub">'+n+' soal</div></div><span style="color:var(--hint)">'+icon('chevron',18)+'</span></div>'; });
+    return h;
+  }
+  if(!bsKelas){
+    const kelasList=[...new Set(ST.bankSoal.filter(s=>s.jenjang===bsLevel).map(s=>s.kelas))];
+    kelasList.forEach(k=>{ const n=ST.bankSoal.filter(s=>s.jenjang===bsLevel&&s.kelas===k).length;
+      h+='<div class="rowitem" style="cursor:pointer" onclick="bsKelas=\''+k+'\';render()"><div class="av">'+icon('grid',20)+'</div><div class="grow"><div class="nm">'+esc(k)+'</div><div class="sub">'+n+' soal</div></div><span style="color:var(--hint)">'+icon('chevron',18)+'</span></div>'; });
+    return h;
+  }
+  if(!bsMapel){
+    const mapelList=[...new Set(ST.bankSoal.filter(s=>s.jenjang===bsLevel&&s.kelas===bsKelas).map(s=>s.subj))];
+    mapelList.forEach(m=>{ const n=ST.bankSoal.filter(s=>s.jenjang===bsLevel&&s.kelas===bsKelas&&s.subj===m).length;
+      h+='<div class="rowitem" style="cursor:pointer" onclick="bsMapel=\''+m.replace(/'/g,"")+'\';render()"><div class="av" style="background:var(--blue-50);color:var(--blue-tx)">'+icon('grade',20)+'</div><div class="grow"><div class="nm">'+esc(m)+'</div><div class="sub">'+n+' soal</div></div><span style="color:var(--hint)">'+icon('chevron',18)+'</span></div>'; });
+    return h;
+  }
+  // soal list
+  const list=ST.bankSoal.filter(s=>s.jenjang===bsLevel&&s.kelas===bsKelas&&s.subj===bsMapel);
+  h+='<div style="font-size:12px;color:var(--hint);margin-bottom:8px">'+list.length+' soal · '+esc(bsLevel)+' '+esc(bsKelas)+' · '+esc(bsMapel)+'</div>';
+  if(!list.length) return h+'<div class="empty">Belum ada soal. Tambahkan lewat tombol di atas.</div>';
+  h+=list.map(s=>{ const lc=s.level==='Sulit'?'late':s.level==='Sedang'?'todo':'done';
+    return '<div class="card"><div style="font-size:13.5px;line-height:1.5;margin-bottom:8px">'+esc(s.q)+'</div>'
+      +'<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center"><span class="pill lvl">'+esc(s.sem)+'</span><span class="pill lvl">'+esc(s.tipe)+'</span><span class="badge '+lc+'">'+esc(s.level)+'</span>'
+      +(can.koor()?'<button class="mini-btn chat" style="width:32px;height:32px;margin-left:auto" title="Duplikat" onclick="dupSoal('+s.id+')">'+icon('copy',16)+'</button>':'')+'</div></div>';
+  }).join('');
+  return h;
+}
+function setSoalFilter(c){ soalFilter=c; render(); }
+let soalFilter='Semua';
+function dupSoal(id){ const s=ST.bankSoal.find(x=>x.id===id); ST.bankSoal.unshift(Object.assign({},s,{id:ST.soalSeq++})); showToast('Soal diduplikasi ✓'); render(); }
+function formSoal(){
+  openModal('Tambah soal',
+    '<div class="field"><label>Pertanyaan</label><textarea id="sl_q"></textarea></div>'
+    +'<div class="field"><label>Mapel</label><input id="sl_subj" list="dlMapel"></div>'
+    +'<div class="desk-row"><div class="field"><label>Kelas</label><input id="sl_kelas" placeholder="Kelas 7"></div><div class="field"><label>Semester</label><select id="sl_sem"><option>Ganjil</option><option>Genap</option></select></div></div>'
+    +'<div class="desk-row"><div class="field"><label>Tipe</label><select id="sl_tipe"><option>Isian</option><option>Esai</option><option>Pilihan Ganda</option></select></div><div class="field"><label>Level</label><select id="sl_level"><option>Mudah</option><option>Sedang</option><option>Sulit</option></select></div></div>'
+    +'<button class="btn" onclick="saveSoal()">Simpan soal</button>'+datalists());
+}
+function saveSoal(){ const q=document.getElementById('sl_q').value.trim(); if(!q){showToast('Pertanyaan wajib');return;}
+  ST.bankSoal.unshift({id:ST.soalSeq++, q, subj:document.getElementById('sl_subj').value||'Matematika', kelas:document.getElementById('sl_kelas').value||'Kelas 7', sem:document.getElementById('sl_sem').value, tipe:document.getElementById('sl_tipe').value, level:document.getElementById('sl_level').value});
+  logAct('soal','blue','Soal baru ditambahkan ke Bank Soal'); closeModal(); showToast('Soal ditambahkan ✓'); render(); }
+
+/* ---------- TO-DO ---------- */
+function scTodo(){
+  if(!can.edit()) return '<div class="locked"><div class="em">🔒</div><div class="t">Akses Terbatas</div><div class="d">To-Do untuk Koordinator/Owner.</div></div>';
+  let h='';
+  h+='<button class="btn ghost sm" style="margin-bottom:14px" onclick="formTodo()">'+icon('plus',18)+'Tambah tugas</button>';
+  const active=ST.todos.filter(t=>!t.done), done=ST.todos.filter(t=>t.done);
+  h+=h_sec('Aktif ('+active.length+')');
+  h+= active.length? active.map(todoCard).join('') : '<div class="empty">Tidak ada tugas aktif.</div>';
+  if(done.length){ h+=h_sec('Selesai ('+done.length+')'); h+=done.map(todoCard).join(''); }
+  return h;
+}
+function todoCard(t){ const p=PRIO[t.prio]||['gray',t.prio];
+  const chk=t.checklist&&t.checklist.length?('<div style="margin-top:9px">'+t.checklist.map((c,i)=>'<div style="display:flex;align-items:center;gap:8px;padding:4px 0;cursor:pointer" onclick="toggleChk('+t.id+','+i+')"><span style="width:19px;height:19px;border-radius:6px;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;'+(c[1]?'background:var(--blue-700);border-color:var(--blue-700);color:#fff':'')+'">'+(c[1]?icon('check',12):'')+'</span><span style="font-size:12.5px;'+(c[1]?'text-decoration:line-through;color:var(--hint)':'')+'">'+esc(c[0])+'</span></div>').join('')+'</div>'):'';
+  return '<div class="card"'+(t.done?' style="opacity:.65"':'')+'><div style="display:flex;align-items:flex-start;gap:10px">'
+    +'<span onclick="toggleTodo('+t.id+')" style="width:22px;height:22px;border-radius:7px;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;margin-top:1px;'+(t.done?'background:var(--green-tx);border-color:var(--green-tx);color:#fff':'')+'">'+(t.done?icon('check',13):'')+'</span>'
+    +'<div style="flex:1"><div style="font-size:14px;font-weight:700;'+(t.done?'text-decoration:line-through':'')+'">'+esc(t.t)+'</div>'
+    +'<div style="display:flex;gap:6px;margin-top:6px;align-items:center"><span class="badge '+(p[0]==='red'?'late':p[0]==='amber'?'todo':'gray')+'">'+icon('flag',11)+' '+p[1]+'</span><span class="badge gray">'+icon('clock',11)+' '+esc(t.deadline)+'</span></div>'
+    +chk+'</div></div></div>';
+}
+function toggleTodo(id){ const t=ST.todos.find(x=>x.id===id); t.done=!t.done; if(t.done) logAct('todo','green','Tugas selesai: '+t.t); render(); }
+function toggleChk(id,i){ const t=ST.todos.find(x=>x.id===id); t.checklist[i][1]=!t.checklist[i][1]; render(); }
+function formTodo(){
+  openModal('Tambah tugas',
+    '<div class="field"><label>Judul tugas</label><input id="td_t"></div>'
+    +'<div class="field"><label>Prioritas</label><select id="td_p"><option>Tinggi</option><option>Sedang</option><option>Rendah</option></select></div>'
+    +'<div class="field"><label>Deadline</label><input id="td_d" placeholder="mis. 15 Juli"></div>'
+    +'<button class="btn" onclick="saveTodo()">Simpan tugas</button>');
+}
+function saveTodo(){ const t=document.getElementById('td_t').value.trim(); if(!t){showToast('Judul wajib');return;} ST.todos.unshift({id:ST.todoSeq++,t,prio:document.getElementById('td_p').value,deadline:document.getElementById('td_d').value||'-',done:false,checklist:[]}); closeModal(); showToast('Tugas ditambahkan ✓'); render(); }
+
+/* ---------- PENGUMUMAN ---------- */
+function scPengumuman(){
+  let h='';
+  if(can.edit()) h+='<button class="btn ghost sm" style="margin-bottom:14px" onclick="formPengumuman()">'+icon('plus',18)+'Buat pengumuman</button>';
+  const list=ST.announcements.filter(a=>a.pin).concat(ST.announcements.filter(a=>!a.pin));
+  if(!list.length) return h+'<div class="empty">Belum ada pengumuman.</div>';
+  h+=list.map(a=>'<div class="card"'+(a.pin?' style="border-left:3px solid var(--blue-500)"':'')+'><div style="display:flex;align-items:center;gap:7px">'+(a.pin?'<span style="color:var(--blue-700)">'+icon('pin',15)+'</span>':'')+'<b style="font-size:14.5px">'+esc(a.title)+'</b><span class="badge gray" style="margin-left:auto">'+esc(a.date)+'</span></div>'
+    +'<div style="font-size:13px;color:var(--muted);margin-top:7px;line-height:1.55">'+esc(a.body)+'</div>'
+    +'<div style="font-size:11px;color:var(--hint);margin-top:8px">— '+esc(a.by)+'</div></div>').join('');
+  return h;
+}
+function formPengumuman(){
+  openModal('Buat pengumuman',
+    '<div class="field"><label>Judul</label><input id="an_t"></div>'
+    +'<div class="field"><label>Isi</label><textarea id="an_b"></textarea></div>'
+    +'<label style="display:flex;gap:9px;align-items:center;margin-bottom:12px;cursor:pointer"><input type="checkbox" id="an_pin" style="width:17px;height:17px;accent-color:var(--blue-700)"><span style="font-size:13px;font-weight:600">Sematkan (pin) di atas</span></label>'
+    +'<button class="btn" onclick="savePengumuman()">Terbitkan</button>');
+}
+function savePengumuman(){ const t=document.getElementById('an_t').value.trim(); if(!t){showToast('Judul wajib');return;} ST.announcements.unshift({id:ST.annSeq++,title:t,body:document.getElementById('an_b').value||'-',by:ME.name,date:'Hari ini',pin:document.getElementById('an_pin').checked}); logAct('pin','blue','Pengumuman baru: '+t); closeModal(); showToast('Pengumuman terbit ✓'); render(); }
+
+/* ---------- AKTIVITAS ---------- */
+function scAktivitas(){
+  let h=h_hint('Linimasa seluruh aktivitas penting yang tercatat otomatis dari kegiatan di aplikasi.','activity');
+  if(!ST.activity.length) return h+'<div class="empty">Belum ada aktivitas.</div>';
+  h+='<div class="card" style="padding:6px 14px">';
+  ST.activity.forEach((a,i)=>{ h+='<div style="display:flex;gap:11px;align-items:flex-start;padding:12px 0'+(i<ST.activity.length-1?';border-bottom:1px solid var(--line)':'')+'">'
+    +'<span style="width:34px;height:34px;border-radius:10px;background:var(--'+a.color+'-bg);color:var(--'+a.color+'-tx);display:flex;align-items:center;justify-content:center;flex-shrink:0">'+icon(a.ic,17)+'</span>'
+    +'<div style="flex:1;min-width:0"><div style="font-size:13px;line-height:1.45">'+esc(a.text)+'</div><div style="font-size:10.5px;color:var(--hint);margin-top:2px">'+esc(a.when)+'</div></div></div>'; });
+  h+='</div>'; return h;
+}
+
+/* ---------- GLOBAL SEARCH ---------- */
+function scSearch(){
+  let h='<div class="field" style="margin-bottom:16px"><input id="searchInput" placeholder="Cari guru, kelas, mapel, dokumen, soal…" oninput="doSearch(this.value)" value="'+esc(searchQ)+'" autofocus></div>';
+  const q=searchQ.trim().toLowerCase();
+  if(!q) return h+'<div class="empty">Ketik untuk mencari di seluruh HSUQI.</div>';
+  let res=[];
+  ST.teachers.forEach(t=>{ if((t.name+t.subj+t.jenjang).toLowerCase().includes(q)) res.push(['users','Guru',t.name,t.subj+' · '+t.jenjang,'openPerf('+t.id+')']); });
+  ST.classes.forEach(c=>{ if((c.kelas+c.jenjang).toLowerCase().includes(q)) res.push(['school','Kelas',c.kelas,c.jenjang+' · '+c.santri+' santri','go(\'komposisi\')']); });
+  SUBJECTS.forEach(s=>{ if(s.toLowerCase().includes(q)) res.push(['grade','Mapel',s,'Mata pelajaran','openMapel(\''+s+'\')']); });
+  ST.documents.forEach(d=>{ if(d.name.toLowerCase().includes(q)) res.push(['doc2','Dokumen',d.name,d.cat+' · '+d.size,'go(\'dokumen\')']); });
+  ST.bankSoal.forEach(s=>{ if(s.q.toLowerCase().includes(q)) res.push(['soal','Soal',s.q.slice(0,50)+'…',s.subj+' · '+s.kelas,'go(\'banksoal\')']); });
+  ST.activity.forEach(a=>{ if(a.text.toLowerCase().includes(q)) res.push(['activity','Aktivitas',a.text,a.when,'go(\'aktivitas\')']); });
+  if(!res.length) return h+'<div class="empty">Tidak ditemukan hasil untuk "'+esc(searchQ)+'".</div>';
+  h+='<div style="font-size:12px;color:var(--hint);margin-bottom:10px">'+res.length+' hasil</div>';
+  h+=res.slice(0,30).map(([ic,cat,title,sub,fn])=>'<div class="rowitem" style="cursor:pointer" onclick="'+fn+'"><div class="av">'+icon(ic,18)+'</div><div class="grow"><div class="nm">'+esc(title)+'</div><div class="sub">'+esc(sub)+'</div></div><span class="badge gray">'+cat+'</span></div>').join('');
+  return h;
+}
+function doSearch(v){ searchQ=v; const c=document.getElementById('content'); const inp=document.getElementById('searchInput'); const pos=inp?inp.selectionStart:null; render(); const ni=document.getElementById('searchInput'); if(ni){ ni.focus(); if(pos!=null) try{ni.setSelectionRange(pos,pos);}catch(e){} } }
+</script>
+</body>
+</html>
