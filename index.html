@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root{
+  :root{--font-scale:1.0;--compact:12px;
     --blue-900:#0C447C; --blue-700:#185FA5; --blue-500:#378ADD; --blue-100:#B5D4F4; --blue-50:#E6F1FB;
     --ink:#122033; --muted:#5A6b7b; --hint:#8a97a5;
     --bg:#EEF3F9; --card:#FFFFFF; --line:#E3EAF2;
@@ -104,13 +104,13 @@
 
   /* Bottom nav (mobile) - TRULY FIXED */
   .bottomnav{position:fixed;left:0;right:0;bottom:0;height:calc(var(--nav-h) + env(safe-area-inset-bottom,0px));padding-bottom:env(safe-area-inset-bottom,0px);background:var(--card);border-top:1px solid var(--line);display:flex;z-index:60;box-shadow:0 -2px 14px rgba(18,40,80,.06)}
-  .bottomnav button{flex:1;background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--hint);font-size:10px;font-weight:700;padding:0}
+  .bottomnav button,.nav-tab{flex:1;background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:var(--hint);font-size:10.5px;font-weight:700;padding:0}
   .bottomnav button .ico{display:flex}
-  .bottomnav button.on{color:var(--blue-700)}
+  .bottomnav button.on,.nav-tab.on{color:var(--blue-700);border-bottom:2px solid var(--blue-700)}
 
   /* DESKTOP LAYOUT */
   @media(min-width:900px){
-    :root{--top-h:66px}
+    :root{--font-scale:1.0;--compact:12px;--top-h:66px}
     .sidebar{display:block}
     .bottomnav{display:none}
     .content{margin-left:var(--side-w);max-width:920px;padding:calc(var(--top-h) + 22px) 30px 40px;margin-right:auto}
@@ -137,6 +137,12 @@
   .stat .n{font-size:26px;font-weight:800;line-height:1}
   .stat .l{font-size:12px;color:var(--muted);margin-top:7px;font-weight:600}
   .alert-x{position:absolute;top:6px;right:6px;width:22px;height:22px;border-radius:50%;border:none;background:transparent;color:var(--hint);cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
+  #app.compact .card{margin-bottom:9px;padding:12px}
+  #app.compact .rowitem{padding:8px 0}
+  #app.compact .sec-title{margin:12px 0 7px}
+  #app.compact .slot{padding:10px 12px}
+  html[dir="rtl"] .content, html[dir="rtl"] .card{text-align:right}
+  html[dir="rtl"] .topbar .ttl{text-align:right}
   .alert-x:hover{background:var(--gray-bg);color:var(--red-tx)}
   .alert-card{touch-action:pan-y}
   .grad-blue{background:linear-gradient(135deg,#0C447C 0%,#185FA5 55%,#378ADD 115%)!important;box-shadow:0 12px 30px rgba(12,68,124,.32)}
@@ -335,7 +341,7 @@
         <button class="demo-chip" onclick="fillDemo('guru')"><span class="av">GU</span><span><div class="r">Guru Pengajar (Matematika)</div><div class="e">guruhsuqi@gmail.com</div></span></button>
       </div>
     </div>
-    <div class="login-foot">© 2026 Yayasan HSUQI · Versi 3.0</div>
+    <div class="login-foot">© 2026 Yayasan HSUQI · Versi 2.0</div>
   </div>
 </div>
 
@@ -348,8 +354,9 @@
     <div class="spacer"></div>
     <span class="role-badge" id="roleBadge">OWNER</span>
     <button class="icon-btn" id="searchBtn" onclick="go('search')"><span id="searchIcon"></span></button>
+    <button class="icon-btn" id="chatBtn" onclick="openChatPanel()" style="position:relative"><span id="chatIcon"></span><span class="chat-badge" id="chatBadge" style="display:none;width:11px;height:11px;position:absolute;top:4px;right:4px;border-radius:50%;background:#999"></span></button>
     <button class="icon-btn" id="notifBtn" onclick="go('notifikasi')"><span id="notifIcon"></span><span class="notif-dot" id="notifDot" style="display:none">0</span></button>
-    <div class="avatar" id="appAvatar" onclick="toggleMenu()">PJ</div>
+    <div class="avatar" id="appAvatar" onclick="go('profil')" style="cursor:pointer">PJ</div>
   </div>
 
   <aside class="sidebar" id="sidebar"></aside>
@@ -407,6 +414,8 @@ const IC = {
   chevron:'<path d="M9 6l6 6-6 6"/>',
   info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>',
   video:'<rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3"/>',
+  book:'<path d="M5 3h11a2 2 0 012 2v15H7a2 2 0 01-2-2V3z"/><path d="M5 17a2 2 0 012-2h11"/><path d="M9 7h6M9 10h4"/>',
+  briefcase:'<rect x="3" y="7" width="18" height="12" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"/><path d="M3 12h18"/>',
   grade:'<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1"/><path d="M8.5 13l2 2 4-4"/>',
   logout:'<path d="M15 4h3a2 2 0 012 2v12a2 2 0 01-2 2h-3"/><path d="M10 12h9M16 8l4 4-4 4"/>',
   lock:'<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/>',
@@ -599,6 +608,7 @@ const can = {
 };
 function myTeacher(){ return ST.teachers.find(t=>t.email===ME.email) || ST.teachers[0]; }
 function logAct(ic,color,text){ ST.activity.unshift({id:ST.actSeq++, ic, color, text, when:'baru saja'}); }
+function openChatPanel(){ go('chat'); }
 function pushNotif(type,ic,color,title,desc,when){ ST.notifs.unshift({id:ST.notifSeq++,type,ic,color,title,desc,when:when||'baru saja',read:false,done:false}); updateNotifDot&&updateNotifDot(); }
 function pushNotifRole(role,type,ic,color,title,desc,target){
   ST.roleNotifs=ST.roleNotifs||{owner:[],koor:[],guru:[]};
@@ -646,34 +656,49 @@ function startApp(key){
   document.getElementById('app').classList.add('show');
   document.getElementById('notifIcon').innerHTML=icon('bell',20);
   var si=document.getElementById('searchIcon'); if(si) si.innerHTML=icon('search',20);
+  var ci=document.getElementById('chatIcon'); if(ci) ci.innerHTML=icon('chat',20);
   buildNav(); buildSidebar(); NAV=[]; go('dashboard');
   showToast('Masuk sebagai '+ME.jab+' ✓');
 }
 function logout(){ closeAllPop(); document.getElementById('app').classList.remove('show'); document.getElementById('loginWrap').style.display='flex'; document.getElementById('loginPass').value=''; }
 
 /* ================= NAV / SIDEBAR ================= */
-const NAV_ITEMS=[['dashboard','home','Beranda'],['refleksi','refleksi','Refleksi'],['kehadiran','check','Kehadiran'],['jadwal','calendar','Jadwal'],['chat','chat','Chat']];
-function buildNav(){
-  document.getElementById('bottomnav').innerHTML = NAV_ITEMS.map(([sc,ic,l])=>
-    '<button data-sc="'+sc+'" onclick="go(\''+sc+'\')"><span class="ico">'+icon(ic,22)+'</span>'+l+'</button>').join('');
+let CURRENT_TAB='beranda';
+let FONT_SCALE=100;   // 90=kecil, 100=sedang, 115=besar
+let LANG='id';        // id, en, ar
+let COMPACT=false;    // tampilan padat
+let CHAT_MODE='modal';// modal(float) / geser
+const MAIN_TABS=[['beranda','home','Beranda'],['akademik','book','Akademik'],['kerja','briefcase','Ruang Kerja']];
+const TAB_CONTENT={
+  beranda:['dashboard'],
+  akademik:['akademik','rapor','kehadiran','monitor','refleksi','refleksiMapel','jadwal','data','komposisi','guruPerf','kelasIsi','raporSantri','detail','tambahRefleksi'],
+  kerja:['kerja','todo','kalender','dokumen','banksoal','aktivitas']
+};
+function renderMainTabs(){ 
+  document.getElementById('bottomnav').innerHTML = MAIN_TABS.map(([id,ic,l])=>'<button data-tab="'+id+'" onclick="goMainTab(\''+id+'\')" class="nav-tab'+(CURRENT_TAB===id?' on':'')+'" style="flex:1"><span class="ico">'+icon(ic,22)+'</span><span class="lbl">'+l+'</span></button>').join(''); 
 }
+function goMainTab(tab){ CURRENT_TAB=tab; go(TAB_CONTENT[tab][0]); }
+function updateMainTabFromScreen(sc){ for(const [tab,screens] of Object.entries(TAB_CONTENT)) if(screens.includes(sc)) CURRENT_TAB=tab; renderMainTabs(); }
+function buildNav(){ renderMainTabs(); }
 function sideGroups(){
-  const g=[['Utama',[['dashboard','grid','Beranda'],['kehadiran','check','Kehadiran'],['jadwal','calendar','Jadwal'],['refleksi','refleksi','Refleksi'],['chat','chat','Chat & Grup']]]];
-  const akademik=[['rapor','grade','Rapor'],['data','chart','Data & Rekap'],['komposisi','school','Komposisi Kelas']];
-  if(can.monitor()) akademik.unshift(['monitor','eye','Pemantauan Kelas']);
-  g.push(['Akademik',akademik]);
-  const kerja=[['kalender','calendar','Kalender Akademik'],['dokumen','folder','Document Center'],['banksoal','soal','Bank Soal'],['aktivitas','activity','Aktivitas']];
-  if(can.koor()) kerja.unshift(['todo','todo','To-Do (Proker)']);
-  g.push(['Ruang Kerja',kerja]);
+  // Hanya untuk menu modal (tidak untuk bottom-nav)
   const lain=[['guru','users','Data Guru'],['pengumuman','pin','Pengumuman'],['pengingat','bell','Pengingat'],['rapat','video','Rapat (Meet)'],['laporan','document','Laporan'],['notifikasi','bell','Notifikasi']];
   if(can.sync()) lain.push(['datasync','sync','Sinkronisasi Data']);
-  g.push(['Lainnya',lain]);
-  g.push(['Akun',[['profil','user','Profil'],['akun','gear','Pengaturan']]]);
+  const g=[['Lainnya',lain],['Akun',[['profil','user','Profil'],['akun','gear','Pengaturan']]]];
   return g;
+}
+function desktopGroups(){
+  const ak=[['rapor','grade','Rapor'],['kehadiran','check','Kehadiran'],['refleksi','refleksi','Refleksi'],['jadwal','calendar','Jadwal'],['data','chart','Data & Rekap'],['komposisi','school','Komposisi']];
+  if(can.monitor()) ak.splice(1,0,['monitor','eye','Pemantauan']);
+  const kj=[['kalender','calendar','Kalender'],['dokumen','folder','Dokumen'],['banksoal','soal','Bank Soal'],['aktivitas','activity','Aktivitas']];
+  if(can.koor()) kj.unshift(['todo','todo','To-Do (Proker)']);
+  const ln=[['guru','users','Data Guru'],['chat','chat','Chat & Grup'],['pengumuman','pin','Pengumuman'],['pengingat','bell','Pengingat'],['rapat','video','Rapat (Meet)'],['laporan','document','Laporan'],['notifikasi','bell','Notifikasi']];
+  if(can.sync()) ln.push(['datasync','sync','Sinkronisasi Data']);
+  return [['Utama',[['dashboard','home','Beranda']]],['Akademik',ak],['Ruang Kerja',kj],['Lainnya',ln],['Akun',[['profil','user','Profil'],['akun','gear','Pengaturan']]]];
 }
 function buildSidebar(){
   let h='';
-  sideGroups().forEach(([sec,items])=>{ h+='<div class="side-sec">'+sec+'</div>';
+  desktopGroups().forEach(([sec,items])=>{ h+='<div class="side-sec">'+sec+'</div>';
     items.forEach(([sc,ic,l])=>{ h+='<div class="side-link" data-sc="'+sc+'" onclick="go(\''+sc+'\')"><span class="ico">'+icon(ic,20)+'</span>'+l+'</div>'; }); });
   document.getElementById('sidebar').innerHTML=h;
 }
@@ -693,6 +718,8 @@ const TITLES={
   monitor:['Pemantauan Kelas','Realtime kehadiran per kelas'],
   jadwal:['Jadwal Pelajaran','Jadwal per kelas & kaldik'],
   data:['Data & Rekap','Ringkasan akademik'],
+  akademik:['Akademik','Pilih fitur akademik'],
+  kerja:['Ruang Kerja','Fitur produktivitas'],
   komposisi:['Komposisi Kelas','Jumlah santri per kelas'],
   guru:['Data Guru','Kontak & chat guru'],
   pengingat:['Pengingat','Agenda & kelas penuh'],
@@ -718,7 +745,7 @@ const TITLES={
   raporSantri:['Rapor Santri',()=>{const r=ST&&ST.rapor&&ST.rapor.find(x=>x.id===curRapor);return r?r.santri:'';}],
 };
 let curMapel='', curDetail=null, curRaporClass=null;
-function go(sc){
+function go(sc){updateMainTabFromScreen(sc);
   if(sc!==SCREEN){ NAV.push(SCREEN); }
   SCREEN=sc; closeAllPop();
   const t=TITLES[sc]||['',''];
@@ -809,6 +836,7 @@ function render(){
     guruPerf:scGuruPerf, kalender:scKalender, dokumen:scDokumen, banksoal:scBankSoal,
     todo:scTodo, pengumuman:scPengumuman, aktivitas:scAktivitas, search:scSearch,
     kelasIsi:scKelasIsi, raporSantri:scRaporSantri,
+    akademik:()=>scTabGrid('akademik'), kerja:()=>scTabGrid('kerja'),
   };
   const fn=map[SCREEN]||scDashboard;
   document.getElementById('content').innerHTML=fn();
@@ -1208,13 +1236,66 @@ function saveSchedule(){
 <script>
 /* ================= DATA & REKAP ================= */
 function scData(){
-  const byJ=['SD','SMP','SMA'].map(j=>[j,ST.refleksi.filter(r=>r.jenjang===j).length]);
-  const byM=SUBJECTS.map(m=>[m,ST.refleksi.filter(r=>r.subj===m).length]);
-  const byK=ST.classes.slice(0,12).map(c=>[c.kelas,ST.refleksi.filter(r=>r.kelas===c.kelas).length]);
-  const rows=F.dseg==='jenjang'?byJ:F.dseg==='mapel'?byM:byK;
-  const max=Math.max(1,...rows.map(r=>r[1]));
-  let h='<div class="seg">'+[['jenjang','Jenjang'],['mapel','Mapel'],['kelas','Kelas']].map(([k,l])=>'<button class="'+(F.dseg===k?'on':'')+'" onclick="setDseg(\''+k+'\')">'+l+'</button>').join('')+'</div>';
-  h+=rows.map(([k,v])=>'<div class="card"><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:8px"><b>'+esc(k)+'</b><span style="color:var(--muted)">'+v+' refleksi</span></div><div class="bar"><span style="width:'+(v/max*100)+'%"></span></div></div>').join('');
+  // 4 kartu: Kehadiran Guru %, Kehadiran Santri %, Kapasitas Kelas, Aktivitas Bulan Ini
+  const totalGuru=ST.teachers.length;
+  const hadirGuru=ST.schedule.filter(s=>ST.attend[s.id]&&ST.attend[s.id].status==='confirmed').length;
+  const totalSlot=ST.schedule.length;
+  const pctGuruHadir=totalSlot?Math.round(hadirGuru/totalSlot*100):0;
+  
+  const totalSantri=ST.santri.length;
+  const santriHadir=ST.attend? Object.values(ST.attend).filter(a=>a.status==='confirmed').length : 0;
+  const pctSantriHadir=totalSantri?Math.round(santriHadir/totalSantri*100):0;
+  
+  const totalKap=ST.classes.reduce((a,c)=>a+c.cap,0);
+  const totalIsi=ST.classes.reduce((a,c)=>a+c.santri,0);
+  const pctKapasitas=totalKap?Math.round(totalIsi/totalKap*100):0;
+  
+  const actMonth=ST.activity.length;
+  
+  let h='<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">';
+  h+='<div class="card stat-card" style="padding:18px"><div style="font-size:13px;color:var(--muted);font-weight:700;margin-bottom:8px">Kehadiran Guru</div><div style="font-size:28px;font-weight:800;color:var(--blue-700)">'+pctGuruHadir+'%</div><div class="bar" style="margin-top:10px"><span style="width:'+pctGuruHadir+'%;background:var(--blue-700)"></span></div><div style="font-size:11px;color:var(--hint);margin-top:6px">'+hadirGuru+'/'+totalSlot+' slot konfirmasi</div></div>';
+  h+='<div class="card stat-card" style="padding:18px"><div style="font-size:13px;color:var(--muted);font-weight:700;margin-bottom:8px">Kehadiran Santri</div><div style="font-size:28px;font-weight:800;color:var(--green-tx)">'+pctSantriHadir+'%</div><div class="bar" style="margin-top:10px"><span style="width:'+pctSantriHadir+'%;background:var(--green-solid)"></span></div><div style="font-size:11px;color:var(--hint);margin-top:6px">'+santriHadir+'/'+totalSantri+' santri hadir</div></div>';
+  h+='<div class="card stat-card" style="padding:18px"><div style="font-size:13px;color:var(--muted);font-weight:700;margin-bottom:8px">Kapasitas Kelas</div><div style="font-size:28px;font-weight:800;color:var(--amber-tx)">'+pctKapasitas+'%</div><div class="bar" style="margin-top:10px"><span style="width:'+pctKapasitas+'%;background:var(--amber-solid)"></span></div><div style="font-size:11px;color:var(--hint);margin-top:6px">'+totalIsi+'/'+totalKap+' kapasitas terpakai</div></div>';
+  h+='<div class="card stat-card" style="padding:18px"><div style="font-size:13px;color:var(--muted);font-weight:700;margin-bottom:8px">Aktivitas Bulan Ini</div><div style="font-size:28px;font-weight:800;color:var(--blue-900)">'+actMonth+'</div><div style="background:var(--blue-50);border-radius:8px;padding:8px;margin-top:10px;font-size:11px;color:var(--blue-tx)">Catatan tercatat</div></div>';
+  h+='</div>';
+  
+  // 3 tabel: detail guru, detail santri/kelas, komposisi
+  h+=h_sec('Rekap per Guru');
+  const tblGuru=ST.teachers.slice(0,10).map(t=>{
+    const slots=ST.schedule.filter(s=>s.guruId===t.id);
+    const hadirT=slots.filter(s=>ST.attend[s.id]&&ST.attend[s.id].status==='confirmed').length;
+    const lateT=slots.filter(s=>ST.attend[s.id]&&ST.attend[s.id].late).length;
+    const pctT=slots.length?Math.round(hadirT/slots.length*100):0;
+    return '<div style="display:flex;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);font-size:12.5px">'
+      +'<div style="flex:1"><b>'+esc(t.name)+'</b><div style="font-size:10.5px;color:var(--hint)">'+t.subj+'</div></div>'
+      +'<div style="text-align:right;margin-right:12px"><div><b>'+pctT+'%</b></div><div style="font-size:10.5px;color:var(--hint)">'+hadirT+'/'+slots.length+'</div></div>'
+      +'<div style="font-size:10.5px;padding:4px 8px;background:var(--red-bg);color:var(--red-tx);border-radius:6px">'+lateT+' telat</div></div>';
+  }).join('');
+  h+=tblGuru||'<div style="font-size:12.5px;color:var(--hint);padding:10px 0">Belum ada data.</div>';
+  
+  h+=h_sec('Rekap per Kelas');
+  const tblKelas=ST.classes.slice(0,8).map(c=>{
+    const santriC=ST.santri.filter(s=>s.classId===c.id);
+    const pctKap=Math.round(c.santri/c.cap*100);
+    const full=c.santri>=c.cap;
+    return '<div style="display:flex;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);font-size:12.5px">'
+      +'<div style="flex:1"><b>'+esc(c.kelas)+'</b><div style="font-size:10.5px;color:var(--hint)">'+c.jenjang+'</div></div>'
+      +'<div style="text-align:right;margin-right:12px"><div><b>'+c.santri+'/'+c.cap+'</b></div><div style="font-size:10.5px;color:var(--hint)">'+pctKap+'%</div></div>'
+      +'<div style="font-size:10.5px;padding:4px 8px;background:var('+(full?'--red':'--green')+'-bg);color:var('+(full?'--red':'--green')+'-tx);border-radius:6px">'+(full?'Penuh':'Tersedia')+'</div></div>';
+  }).join('');
+  h+=tblKelas||'<div style="font-size:12.5px;color:var(--hint);padding:10px 0">Belum ada data.</div>';
+  
+  h+=h_sec('Komposisi Santri');
+  const komposisi=SUBJECTS.map(s=>({ subj:s, count: ST.rapor.filter(r=>r.sections.nilai.some(n=>n.mapel===s)).length })).sort((a,b)=>b.count-a.count);
+  const tblKompo=komposisi.map(k=>{
+    const pct=ST.rapor.length?Math.round(k.count/ST.rapor.length*100):0;
+    return '<div style="display:flex;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);font-size:12.5px">'
+      +'<div style="flex:1"><b>'+esc(k.subj)+'</b></div>'
+      +'<div style="flex:2;margin:0 12px"><div class="bar" style="height:6px"><span style="width:'+pct+'%;background:var(--blue-700)"></span></div></div>'
+      +'<div style="text-align:right"><b>'+k.count+'</b> <span style="color:var(--hint)">'+pct+'%</span></div></div>';
+  }).join('');
+  h+=tblKompo||'<div style="font-size:12.5px;color:var(--hint);padding:10px 0">Belum ada data.</div>';
+  
   return h;
 }
 
@@ -1670,16 +1751,39 @@ function scAkun(){
   if(can.sync()) h+=settingRow('sync','Sinkronisasi Data','Impor Excel/CSV','go(\'datasync\')');
   h+='</div>';
   h+='<div class="sec-title">Tampilan</div>';
-  h+='<div class="card"><div style="font-size:13px;font-weight:700;margin-bottom:4px">Tema</div><div style="font-size:11.5px;color:var(--muted);margin-bottom:11px">Pilih tampilan terang, gelap, atau ikuti perangkat.</div>'
-    +'<div class="seg">'
+  h+='<div class="card">'
+    +'<div style="font-size:13px;font-weight:700;margin-bottom:4px">Tema</div><div style="font-size:11.5px;color:var(--muted);margin-bottom:11px">Pilih tampilan terang, gelap, atau ikuti perangkat.</div>'
+    +'<div class="seg" style="margin-bottom:16px">'
     +'<button class="'+(THEME==='light'?'on':'')+'" onclick="setTheme(\'light\')">Terang</button>'
     +'<button class="'+(THEME==='dark'?'on':'')+'" onclick="setTheme(\'dark\')">Gelap</button>'
     +'<button class="'+(THEME==='system'?'on':'')+'" onclick="setTheme(\'system\')">Perangkat</button>'
-    +'</div></div>';
+    +'</div>'
+    +'<div style="font-size:13px;font-weight:700;margin-bottom:4px">Ukuran Teks</div><div style="font-size:11.5px;color:var(--muted);margin-bottom:11px">Sesuaikan ukuran teks untuk kenyamanan membaca.</div>'
+    +'<div class="seg" style="margin-bottom:16px">'
+    +'<button class="'+(FONT_SCALE===90?'on':'')+'" onclick="setFontScale(90)">Kecil</button>'
+    +'<button class="'+(FONT_SCALE===100?'on':'')+'" onclick="setFontScale(100)">Sedang</button>'
+    +'<button class="'+(FONT_SCALE===115?'on':'')+'" onclick="setFontScale(115)">Besar</button>'
+    +'</div>'
+    +'<div style="font-size:13px;font-weight:700;margin-bottom:4px">Bahasa</div><div style="font-size:11.5px;color:var(--muted);margin-bottom:11px">Pilih bahasa aplikasi.</div>'
+    +'<div class="seg" style="margin-bottom:16px">'
+    +'<button class="'+(LANG==='id'?'on':'')+'" onclick="setLang(\'id\')">Indonesia</button>'
+    +'<button class="'+(LANG==='en'?'on':'')+'" onclick="setLang(\'en\')">English</button>'
+    +'<button class="'+(LANG==='ar'?'on':'')+'" onclick="setLang(\'ar\')">العربية</button>'
+    +'</div>'
+    +'<div style="font-size:13px;font-weight:700;margin-bottom:4px">Chat</div><div style="font-size:11.5px;color:var(--muted);margin-bottom:11px">Tampilkan chat sebagai modal atau sidebar geser.</div>'
+    +'<div class="seg" style="margin-bottom:16px">'
+    +'<button class="'+(CHAT_MODE==='modal'?'on':'')+'" onclick="setChatMode(\'modal\')">Float</button>'
+    +'<button class="'+(CHAT_MODE==='geser'?'on':'')+'" onclick="setChatMode(\'geser\')">Geser</button>'
+    +'</div>'
+    +'<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-top:1px solid var(--line)">'
+    +'<div><div style="font-size:13px;font-weight:700">Tampilan Kompak</div><div style="font-size:11.5px;color:var(--muted)">Kurangi spasi antar elemen</div></div>'
+    +'<button class="btn '+(COMPACT?'on':'ghost')+'" style="width:50px;padding:6px 8px;font-size:11px" onclick="setCompact(!COMPACT)">'+icon(COMPACT?'check':'close',14)+'</button>'
+    +'</div>'
+    +'</div>';
   h+='<div class="sec-title">Keamanan</div>';
   h+='<div class="card" style="padding:4px 14px">'
     +settingRow('lock','Ubah Kata Sandi','Perbarui kata sandi akun','showToast(\'Ubah sandi: versi produksi\')')
-    +settingRow('info','Tentang Aplikasi','Akademik HSUQI v3.0','showToast(\'Akademik HSUQI · v3.0\')');
+    +settingRow('info','Tentang Aplikasi','Akademik HSUQI v2.0','showToast(\'Akademik HSUQI · v2.0\')');
   h+='</div>';
   h+='<div style="height:14px"></div><button class="btn red" onclick="logout()">'+icon('logout',17)+'Keluar</button>';
   return h;
@@ -1691,14 +1795,64 @@ function settingRow(ic,t,d,fn,last){
     +'<span style="color:var(--hint)">'+icon('chevron',18)+'</span></div>';
 }
 
+
+/* --- CUSTOMISASI TAMPILAN --- */
+function setFontScale(n){ FONT_SCALE=n; applyFontScale(n); try{localStorage.setItem('hsuqi_fontscale',n);}catch(e){} render(); }
+function applyFontScale(n){ var c=document.getElementById('content'); if(c) c.style.zoom=(n/100); }
+function applyLang(lang){ document.documentElement.setAttribute('lang',lang); document.documentElement.setAttribute('dir', lang==='ar'?'rtl':'ltr'); }
+function setLang(lang){ LANG=lang; applyLang(lang); try{localStorage.setItem('hsuqi_lang',lang);}catch(e){} showToast(lang==='ar'?'وضع اللغة العربية (تخطيط RTL)':(lang==='en'?'Language set (labels full translation coming)':'Bahasa Indonesia')); render(); }
+function setChatMode(mode){ CHAT_MODE=mode; try{localStorage.setItem('hsuqi_chatmode',mode);}catch(e){} showToast('Chat: '+(mode==='modal'?'Float':'Geser')); render(); }
+function setCompact(on){ COMPACT=on; var a=document.getElementById('app'); if(a) a.classList.toggle('compact',on); try{localStorage.setItem('hsuqi_compact',on);}catch(e){} render(); }
+function initCustomization(){
+  try{
+    FONT_SCALE=parseInt(localStorage.getItem('hsuqi_fontscale'))||100;
+    LANG=localStorage.getItem('hsuqi_lang')||'id';
+    CHAT_MODE=localStorage.getItem('hsuqi_chatmode')||'modal';
+    COMPACT=localStorage.getItem('hsuqi_compact')==='true'||false;
+    applyFontScale(FONT_SCALE);
+    setCompact(COMPACT);
+    applyLang(LANG);
+  }catch(e){}
+}
+
 /* ================= INIT ================= */
 window.addEventListener('DOMContentLoaded',function(){
   try{ if(typeof selRole!=='undefined' && !selRole) fillDemo('koor'); }catch(e){}
   var bb=document.getElementById('backBtn'); if(bb) bb.innerHTML=icon('back',20);
-  try{ initTheme(); }catch(e){}
+  try{ initTheme(); initCustomization(); }catch(e){}
 });
 </script>
 <script>
+
+function scTabGrid(tab){
+  let items;
+  if(tab==='akademik'){
+    items=[['rapor','grade','Rapor Santri','Isi & review rapor per anak',true],
+     ['kehadiran','check','Kehadiran','Konfirmasi & pantau kehadiran',true],
+     ['monitor','eye','Pemantauan','Monitor kehadiran realtime',can.monitor()],
+     ['refleksi','refleksi','Refleksi',ROLE==='guru'?'Isi refleksi harian':'Pantau refleksi guru',true],
+     ['jadwal','calendar','Jadwal','Jadwal pelajaran per kelas',true],
+     ['data','chart','Data & Rekap','Dashboard rekap mendalam',can.staff()],
+     ['komposisi','school','Komposisi','Jumlah santri per kelas',true]];
+  } else {
+    items=[['todo','todo','To-Do (Proker)','Pekerjaan & checklist',can.koor()],
+     ['kalender','calendar','Kalender','Agenda & tenggat penting',true],
+     ['dokumen','folder','Document Center','Pusat dokumen akademik',true],
+     ['banksoal','soal','Bank Soal','Jenjang › Kelas › Mapel',true],
+     ['aktivitas','activity','Aktivitas','Timeline seluruh kegiatan',true]];
+  }
+  items=items.filter(it=>it[4]!==false);
+  let h='<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">';
+  items.forEach(([sc,ic,t,d])=>{
+    h+='<div class="card" style="padding:16px;cursor:pointer;text-align:center" onclick="go(\''+sc+'\')">'
+      +'<div style="width:46px;height:46px;border-radius:13px;background:var(--blue-50);color:var(--blue-700);display:flex;align-items:center;justify-content:center;margin:0 auto 10px">'+icon(ic,24)+'</div>'
+      +'<div style="font-size:13.5px;font-weight:700;margin-bottom:5px">'+t+'</div>'
+      +'<div style="font-size:11px;color:var(--muted);line-height:1.4">'+d+'</div></div>';
+  });
+  h+='</div>';
+  return h;
+}
+
 /* ================= MODUL BARU (v4) ================= */
 let curPerf=null, searchQ='';
 /* --- dismiss alert "perlu perhatian" --- */
